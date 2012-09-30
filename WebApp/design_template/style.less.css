@@ -1,0 +1,52 @@
+@background_color:			#5B83AD;
+@header_footer_color:		#123456;
+@header_footer_radius:		15px;
+
+/* parametric css classes */
+
+.generate-00-shadow(@blur, @size, @color) {
+	box-shadow: 0px 0px @blur @size @color;
+}
+
+.generate-rounded-corners(@r) {
+	border-radius: @r;
+}
+
+/* css classes */
+
+.main-header-or-footer {
+	background: @header_footer_color;
+	padding: 10px;
+	.generate-rounded-corners(@header_footer_radius);
+}
+
+/* html5 tags */
+
+body {
+	width: 1000px;
+	background: @background_color;
+	margin:0 auto;
+	display: box;
+	.generate-rounded-corners(@header_footer_radius);
+	.generate-00-shadow(5px, 1px, #000000);
+}
+
+header {
+	.main-header-or-footer;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+footer {
+	.main-header-or-footer;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+/* css ids */
+
+#page-body {
+	background: white;
+}
+
+/* specials */
