@@ -1,91 +1,133 @@
+N√©mi inf√≥:
+==========
+
+ASP.NET MVC URL √©rtelmez√©s:
+---------------------------
+
+/Controller/Function/
+
+vagy
+
 /Controller/Function/Id
 
+A mi controller√ºnk:
+-------------------
 
-/API
+/api
 
-Pl.: http://192.168.0.1:1234/API/GetLenders
+P√©lda URL-ek:
+-------------
 
-Kˆlcsˆnzık list·ja:
-===================
+* http://192.168.0.1:1234/api/Lenders
+* http://192.168.0.1:1234/api/Report/54
 
-HTTP GET /API/GetLenders
+P√©lda HTTP fejl√©cek:
+--------------------
 
-V¡LASZ
-------
+1. POST: /* K√ºld√∂k valamit, Kapok valamit */
 
+POST /api/Products HTTP/1.1
+Accept: application/json
+Content-Type: application/json; charset=utf-8
+Host: localhost:9000
+Content-Length: 50
+
+{"Name":"Gizmo","Price":100.0,"Category":"Widget"}
+
+2. GET: /* Csak kapok valamit */
+
+GET /api/Products HTTP/1.1
+Accept: application/json
+Host: localhost:9000
+
+3. PUT: /* Csak k√ºld√∂k valamit */
+
+PUT /api/Products HTTP/1.1
+Content-Type: application/json; charset=utf-8
+Host: localhost:9000
+Content-Length: 50
+
+{"Name":"Gizmo","Price":100.0,"Category":"Widget"}
+
+4. DELETE: /* T√∂rl√∂k valamit */
+
+DELETE /api/Products/54 HTTP/1.1
+Host: localhost:9000
+
+Protokoll defin√≠ci√≥:
+====================
+
+K√∂lcs√∂nz≈ëk list√°ja:
+-------------------
+
+HTTP GET /api/Lenders
+
+V√ÅLASZ:
 {
-	"name" : string
-	"address" : string
-	"description" : string
+	"lenders" : array of [
+		{
+			"name" : string,
+			"address" : string,
+			"description" : string
+		}
+	]
 }
 
-JelentÈs:
-=========
+Jelent√©s:
+---------
 
-HTTP POST /API/Report
+HTTP POST /api/Report
 
-K…R…S
------
-
+K√âR√âS:
 {
-	"session_id" : int
-	"longitude" : float
-	"latitude" : float
+	"id" : int,
+	"longitude" : float,
+	"latitude" : float,
 }
 
-V¡LASZ
-------
-
+V√ÅLASZ:
 {
-	"status" : [ ok_normal | ok_danger | error | end_of_session ]
-	"normal_time" : int
-	"danger_time" : int
+	"status" : [ OK_NORMAL | OK_DANGER | ERROR | END_OF_SESSION ],
+	"normal_time" : int,
+	"danger_time" : int,
 	"total_balance" : int
 }
 
-Feliratkoz·s nyomtat·sra:
-=========================
+Feliratkoz√°s nyomtat√°sra:
+-------------------------
 
-HTTP POST /API/SubscribePrinting
+HTTP PUT /api/PrintingSubscription
 
-K…R…S
------
-
+K√âR√âS:
 {
-	"id" : int
-	"ip" : string
+	"id" : int,
+	"ip" : string,
+	"port" : int
 }
 
-Leiratkoz·s nyomtat·srÛl:
-=========================
+Leiratkoz√°s nyomtat√°sr√≥l:
+-------------------------
 
-HTTP POST /API/UnsubscribePrinting
+HTTP DELETE /api/Printing/{id: int}
 
-K…R…S
------
+Nyomtat√°si parancs:
+-------------------
 
+Ezt a szerver k√ºldi a megadott IP-re. TCP csomagk√©nt, json form√°tumban.
+
+√úZENET:
 {
-	"id" : int
-	"ip" : string
-}
-
-Nyomtass:
-=========
-
-Ezt a szerver k¸ldi a megadott IP-re.
-
-{
-	"lender_name" : string
-	"lender_address" : string
-	"name" : string
-	"address": string
-	"items" : [
+	"lender_name" : string,
+	"lender_address" : string,
+	"name" : string,
+	"address": string,
+	"items" : array of [
 		{
 			"title" : string
 			"amount" : int
 			"base_price" : int
 			"vat" : float
 		}
-	]
+	],
 	"total_balance" : int
 }
