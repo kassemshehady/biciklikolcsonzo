@@ -1,0 +1,165 @@
+/* constants */
+
+@background_color:			#5B83AD;
+@header_footer_color:		#123456;
+@corner_radius:				15px;
+
+/* imports */
+
+@import "elements.less";
+@import "bootstrap_less/bootstrap.less";
+
+/* parametric css classes */
+
+.generate-00-shadow(@blur, @size, @color) {
+	box-shadow: 0px 0px @blur @size @color;
+}
+
+/* css classes */
+
+.main-header-or-footer {
+	background: @header_footer_color;
+	padding: 10px;
+	.border-radius(@corner_radius, @corner_radius, @corner_radius, @corner_radius);
+}
+
+.cool-block {
+	.gradient(black, black, gray);
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border: 1px solid black;
+	color: white;
+	margin: 0px;
+	font-size: 14px;
+	display: inline-block;
+	
+	&:first-child {
+		.border-radius(0, 0, 5px, 5px);
+	}
+	
+	&:last-child {
+		.border-radius(5px, 5px, 0px, 0px);
+	}
+}
+
+.cool-button-group {
+	font-size: 0;	/* to remove spaces between menu elements */
+	
+	p {
+		.cool-block;
+		
+		a, a:hover {
+			color:white;
+		}
+	}
+
+	button {
+		.cool-block;
+		
+		&:hover {
+			.gradient(red, red, gray);
+			.drop-shadow(0, 0, 5px, 0.7);
+		}
+		
+		&.active {
+			.gradient(orange, orange, gray);
+		}
+		
+		&.pressed {
+			.drop-shadow(0, 0, 12px, 1.0);
+			.gradient(red, red, black);
+			
+			&.active {
+				.gradient(orange, orange, black);
+			}
+		}
+		
+		.caret {
+			margin-top: 7px;
+			margin-left: 7px;
+		}
+	}
+}
+
+/* html5 tags */
+
+body {
+	width: 1000px;
+	background: @background_color;
+	margin:0 auto;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	display: box;
+	.rounded(@corner_radius);
+	.drop-shadow(0, 0, 5px, 0.7);
+}
+
+header {
+	.main-header-or-footer;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	margin: 0px;
+	color: white;
+}
+
+footer {
+	.main-header-or-footer;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	margin: 0px;
+	color: white;
+}
+
+table {
+	.table;
+	.table-bordered;
+	.table-hover;
+	.table-condensed;
+	width: 90%;
+	margin-left:auto; 
+    margin-right:auto;
+	text-align: center;
+	
+	th, td {
+		text-align: center;
+	}
+	
+	thead {
+		background: gray;
+		color: white;
+	}
+}
+
+/* css ids */
+
+#page-body {
+	background: white;
+	margin: 0px;
+	padding: 15px;
+}
+
+#login-status {
+	display: box;
+	float: right;
+	
+	.cool-button-group;
+	
+	button {
+		margin-bottom: 10px;
+	}
+}
+
+#menubar {
+	padding: 10px;
+	color: white;
+	.gradient(gray, gray, @header_footer_color);
+	.inner-shadow(0, 0, 2px, 0.7);
+}
+
+nav#site-menu {
+	.cool-button-group;
+}
+
+/* specials */
