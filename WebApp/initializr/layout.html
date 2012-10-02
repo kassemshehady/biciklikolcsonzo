@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		
+		<meta charset="utf-8">		
 		<title>Bicikli-Admin v1.0</title>
-		
         <link rel="stylesheet" href="stylesheets/css/main.css">
 	</head>
 	<body>
@@ -16,14 +13,49 @@
 		<div id="menubar">
 			<div id="login-status">
 				<p>Bejelentkezve, mint <strong><a href="#">TakRaj</a></strong>.</p>
-				<button href="#">Kijelentkezés</button>
+				<button href="#">Kijelentkezés</button>				    
 			</div>
 			<nav id="site-menu">
-				<button href="#">Kölcsönzők<span class="caret"></span></button>
-				<button href="#">Felhasználók<span class="caret"></span></button>
-				<button class="pressed" href="#">Veszélyes zónák<span class="caret"></span></button>
-				<button class="active" href="#">Kerékpárok<span class="caret"></span></button>
-				<button href="#">Számlák<span class="caret"></span></button>
+				<div class="btn-group">
+					<button class="dropdown-toggle" data-toggle="dropdown" href="#">Kölcsönzők<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button class="dropdown-toggle" data-toggle="dropdown" href="#">Felhasználók<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button class="dropdown-toggle" data-toggle="dropdown" href="#">Veszélyes zónák<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button class="dropdown-toggle active" data-toggle="dropdown" href="#">Kerékpárok<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button class="dropdown-toggle" data-toggle="dropdown" href="#">Számlák<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+						<li>TakRaj</li>
+					</ul>
+				</div>
 			</nav>
 		</div>
 		
@@ -32,45 +64,45 @@
 			<div class="content-block">
 				<table>
 					<thead>
-						<th>ID</th>
-						<th>Név</th>
-						<th>Fénykép</th>
-						<th></th>
+						<th class="id">ID</th>
+						<th class="name">Név</th>
+						<th class="picture">Fénykép</th>
+						<th class="edit-tools"></th>
 					</thead>
 					<tbody>
 						<tr>
 							<td>37</td>
-							<td>Schwinn-MTB-007</td>
+							<td class="name">Schwinn-MTB-007</td>
 							<td><a href="#">Katt</a></td>
 							<td>Szerk. mezők</td>
 						</tr>
 						<tr>
 							<td>37</td>
-							<td>Schwinn-MTB-007</td>
+							<td class="name">Schwinn-MTB-007</td>
 							<td><a href="#">Katt</a></td>
 							<td>Szerk. mezők</td>
 						</tr>
 						<tr>
 							<td>37</td>
-							<td>Schwinn-MTB-007</td>
+							<td class="name">Schwinn-MTB-007</td>
 							<td><a href="#">Katt</a></td>
 							<td>Szerk. mezők</td>
 						</tr>
 						<tr>
 							<td>37</td>
-							<td>Schwinn-MTB-007</td>
+							<td class="name">Schwinn-MTB-007</td>
 							<td><a href="#">Katt</a></td>
 							<td>Szerk. mezők</td>
 						</tr>
 						<tr>
 							<td>37</td>
-							<td>Schwinn-MTB-007</td>
+							<td class="name">Schwinn-MTB-007</td>
 							<td><a href="#">Katt</a></td>
 							<td>Szerk. mezők</td>
 						</tr>
 						<tr>
 							<td>37</td>
-							<td>Schwinn-MTB-007</td>
+							<td class="name">Schwinn-MTB-007</td>
 							<td><a href="#">Katt</a></td>
 							<td>Szerk. mezők</td>
 						</tr>

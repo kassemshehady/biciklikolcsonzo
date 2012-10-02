@@ -9,22 +9,17 @@
 @import "elements.less";
 @import "bootstrap_less/bootstrap.less";
 
-/* parametric css classes */
-
-.generate-00-shadow(@blur, @size, @color) {
-	box-shadow: 0px 0px @blur @size @color;
-}
-
 /* css classes */
 
 .main-header-or-footer {
 	background: @header_footer_color;
 	padding: 10px;
-	.border-radius(@corner_radius, @corner_radius, @corner_radius, @corner_radius);
+	.rounded(@corner_radius);
 }
 
-.cool-block {
+.cool-element-common {
 	.gradient(black, black, gray);
+	.rounded(0);
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 3px;
@@ -34,6 +29,10 @@
 	margin: 0px;
 	font-size: 14px;
 	display: inline-block;
+}
+
+.cool-element {
+	.cool-element-common;
 	
 	&:first-child {
 		.border-radius(0, 0, 5px, 5px);
@@ -44,41 +43,84 @@
 	}
 }
 
+.last-cool-element {
+	.cool-element-common;
+	.border-radius(5px, 5px, 0px, 0px);
+}
+
+.first-cool-element {
+	.cool-element-common;
+	.border-radius(0px, 0px, 5px, 5px);
+}
+
+.middle-cool-element {
+	.cool-element-common;
+	.rounded(0);
+}
+
+.cool-button {
+	&:hover {
+		.gradient(red, red, gray);
+		.drop-shadow(0, 0, 5px, 0.7);
+	}
+	
+	&.active {
+		.gradient(orange, orange, gray);
+	}
+	
+	&.pressed {
+		.drop-shadow(0, 0, 12px, 1.0);
+		.gradient(red, red, black);
+		
+		&.active {
+			.gradient(orange, orange, black);
+		}
+	}
+	
+	.caret {
+		margin-top: 7px;
+		margin-left: 7px;
+	}
+}
+
 .cool-button-group {
 	font-size: 0;	/* to remove spaces between menu elements */
 	
 	p {
-		.cool-block;
-		
+		.cool-element;
+	
 		a, a:hover {
 			color:white;
 		}
 	}
 
 	button {
-		.cool-block;
-		
-		&:hover {
-			.gradient(red, red, gray);
-			.drop-shadow(0, 0, 5px, 0.7);
+		.cool-element;
+		.cool-button;
+		margin-bottom: 0px;
+	}
+	
+	.btn-group {
+		button {
+			.middle-cool-element;
+			.cool-button;
+			margin-bottom: 0px;
 		}
-		
-		&.active {
-			.gradient(orange, orange, gray);
-		}
-		
-		&.pressed {
-			.drop-shadow(0, 0, 12px, 1.0);
-			.gradient(red, red, black);
-			
-			&.active {
-				.gradient(orange, orange, black);
+	
+		&:first-child {
+			button {
+				.first-cool-element;
+				.cool-button;
+				margin-bottom: 0px;
 			}
 		}
 		
-		.caret {
-			margin-top: 7px;
-			margin-left: 7px;
+		&:last-child {
+			button {
+				.last-cool-element;
+				.cool-button;
+				margin-bottom: 0px;
+			}
 		}
 	}
 }
@@ -102,6 +144,11 @@ header {
 	border-bottom-right-radius: 0px;
 	margin: 0px;
 	color: white;
+	
+	h1 {
+		margin-left: 30px;
+		text-shadow: 0px 0px 5px black;
+	}
 }
 
 footer {
@@ -109,7 +156,9 @@ footer {
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
 	margin: 0px;
-	color: white;
+	color: gray;
+	text-align: center;
+	text-shadow: 0px 1px 0px black;
 }
 
 table {
@@ -129,6 +178,26 @@ table {
 	thead {
 		background: gray;
 		color: white;
+		
+		th.id {
+			width: 25px;
+		}
+
+		th.picture {
+			width: 50px;
+		}
+
+		th.edit-tools {
+			width: 100px;
+		}
+	}
+	
+	.name {
+		&th {
+			width: auto;
+		}
+		
+		text-align: left;
 	}
 }
 
@@ -156,10 +225,45 @@ table {
 	color: white;
 	.gradient(gray, gray, @header_footer_color);
 	.inner-shadow(0, 0, 2px, 0.7);
+	
+	ul.dropdown-menu {
+		top: 30px;
+	}
+	
+	.btn-group, .btn-group:first-child, .btn-group:last-child {
+		display: inline-block;
+		margin-left: 0px;
+		
+		&.open {
+			button {
+				.cool-button.pressed;
+				
+				&:hover {
+					.cool-button.pressed;
+				}
+			}
+		}
+	}
+	
+	.dropdown-menu {
+		border: 1px solid black;
+		
+		li {
+			color: black;
+			padding: 5px;
+			padding-left: 15px;
+			padding-right: 15px;
+			border: 1px solid white;
+			
+			&:hover {
+				background-color: blue;
+				color: white;
+				border: 1px solid black;
+			}
+		}
+	}
 }
 
 nav#site-menu {
 	.cool-button-group;
 }
-
-/* specials */
