@@ -1,0 +1,91 @@
+/Controller/Function/Id
+
+
+/API
+
+Pl.: http://192.168.0.1:1234/API/GetLenders
+
+Kölcsönzõk listája:
+===================
+
+HTTP GET /API/GetLenders
+
+VÁLASZ
+------
+
+{
+	"name" : string
+	"address" : string
+	"description" : string
+}
+
+Jelentés:
+=========
+
+HTTP POST /API/Report
+
+KÉRÉS
+-----
+
+{
+	"session_id" : int
+	"longitude" : float
+	"latitude" : float
+}
+
+VÁLASZ
+------
+
+{
+	"status" : [ ok_normal | ok_danger | error | end_of_session ]
+	"normal_time" : int
+	"danger_time" : int
+	"total_balance" : int
+}
+
+Feliratkozás nyomtatásra:
+=========================
+
+HTTP POST /API/SubscribePrinting
+
+KÉRÉS
+-----
+
+{
+	"id" : int
+	"ip" : string
+}
+
+Leiratkozás nyomtatásról:
+=========================
+
+HTTP POST /API/UnsubscribePrinting
+
+KÉRÉS
+-----
+
+{
+	"id" : int
+	"ip" : string
+}
+
+Nyomtass:
+=========
+
+Ezt a szerver küldi a megadott IP-re.
+
+{
+	"lender_name" : string
+	"lender_address" : string
+	"name" : string
+	"address": string
+	"items" : [
+		{
+			"title" : string
+			"amount" : int
+			"base_price" : int
+			"vat" : float
+		}
+	]
+	"total_balance" : int
+}

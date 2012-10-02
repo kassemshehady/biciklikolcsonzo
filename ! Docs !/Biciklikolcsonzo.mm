@@ -25,7 +25,7 @@
 <cloud/>
 <font ITALIC="true" NAME="SansSerif" SIZE="12"/>
 </node>
-<node CREATED="1349012396464" ID="ID_788155323" MODIFIED="1349012527813" TEXT="Ha az utols&#xf3; bejelent&#xe9;s vesz&#xe9;lyes z&#xf3;na volt, akkor a k&#xf6;vetkez&#x151; bejelent&#xe9;sig vesz&#xe9;lyes z&#xf3;n&#xe1;hoz tartozik a tarifa">
+<node CREATED="1349012396464" ID="ID_788155323" MODIFIED="1349183527319" TEXT="Ha az utols&#xf3; bejelent&#xe9;s vesz&#xe9;lyes z&#xf3;na volt, akkor a k&#xf6;vetkez&#x151; bejelent&#xe9;sig vesz&#xe9;lyes z&#xf3;n&#xe1;hoz tartozik a tarifa">
 <cloud/>
 <font ITALIC="true" NAME="SansSerif" SIZE="12"/>
 </node>
@@ -49,9 +49,27 @@
 </node>
 </node>
 </node>
-<node CREATED="1349010895316" ID="ID_1283784387" MODIFIED="1349010919783" POSITION="right" TEXT="Print szerver">
+<node CREATED="1349010843184" ID="ID_726300660" MODIFIED="1349010918338" POSITION="left" TEXT="Android &#xfc;gyn&#xf6;k">
 <font BOLD="true" NAME="SansSerif" SIZE="12"/>
-<node CREATED="1349010923202" ID="ID_797332020" MODIFIED="1349011309590" TEXT="C# Tray App">
+<node CREATED="1349011442849" ID="ID_847873962" MODIFIED="1349011469225" TEXT="Periodikusan bejelenti a poz&#xed;ci&#xf3;t"/>
+<node CREATED="1349012824287" ID="ID_1972001320" MODIFIED="1349012838783" TEXT="K&#xf6;lcs&#xf6;nz&#x151;k adatai lek&#xe9;rdezhet&#x151;ek"/>
+<node CREATED="1349012839138" ID="ID_1859487745" MODIFIED="1349012854132" TEXT="Session k&#xf3;dot indul&#xe1;skor be kell &#xed;rni"/>
+<node CREATED="1349013138771" ID="ID_1339398554" MODIFIED="1349013148460" TEXT="Bejelent&#xe9;si URL megv&#xe1;ltoztathat&#xf3;"/>
+<node CREATED="1349012869151" ID="ID_1458742646" MODIFIED="1349012895372" TEXT="Session k&#xf3;dot minden Webservice API h&#xed;v&#xe1;shoz mell&#xe9;kelni kell">
+<node CREATED="1349012897451" ID="ID_1703681661" MODIFIED="1349012904587" TEXT="K&#xfc;ld&#xe9;s HTTP POST"/>
+<node CREATED="1349012904916" ID="ID_1370625280" MODIFIED="1349012909825" TEXT="Fogad&#xe1;s HTTP GET"/>
+<node CREATED="1349012948065" ID="ID_462143773" MODIFIED="1349012951016" TEXT="Json form&#xe1;tum"/>
+</node>
+<node CREATED="1349013060701" ID="ID_1401786814" MODIFIED="1349013068166" TEXT="Widget">
+<icon BUILTIN="help"/>
+<node CREATED="1349180596602" ID="ID_1840352316" MODIFIED="1349180601110" TEXT="Norm&#xe1;l id&#x151;"/>
+<node CREATED="1349180601879" ID="ID_64007523" MODIFIED="1349180605833" TEXT="Vesz&#xe9;lyes id&#x151;"/>
+<node CREATED="1349180606344" ID="ID_1133845379" MODIFIED="1349180608409" TEXT="Egyenleg"/>
+</node>
+</node>
+<node CREATED="1349010895316" ID="ID_1283784387" MODIFIED="1349010919783" POSITION="left" TEXT="Print szerver">
+<font BOLD="true" NAME="SansSerif" SIZE="12"/>
+<node CREATED="1349010923202" ID="ID_797332020" MODIFIED="1349180952900" TEXT="C# Tray App / Java">
 <icon BUILTIN="idea"/>
 </node>
 <node CREATED="1349010955548" ID="ID_1592720999" MODIFIED="1349011026432" TEXT="Feliratkozik nyomtat&#xe1;si esem&#xe9;nyre">
@@ -67,21 +85,6 @@
 <node CREATED="1349011110518" ID="ID_236253709" MODIFIED="1349011124964" TEXT="Minden boltban pontosan egy g&#xe9;pre van feltelep&#xed;tve"/>
 <node CREATED="1349011644876" ID="ID_1624726987" MODIFIED="1349011660882" TEXT="Ki kell tudni v&#xe1;lasztani a haszn&#xe1;land&#xf3; nyomtat&#xf3;t">
 <icon BUILTIN="messagebox_warning"/>
-</node>
-</node>
-<node CREATED="1349010843184" ID="ID_726300660" MODIFIED="1349010918338" POSITION="left" TEXT="Android &#xfc;gyn&#xf6;k">
-<font BOLD="true" NAME="SansSerif" SIZE="12"/>
-<node CREATED="1349011442849" ID="ID_847873962" MODIFIED="1349011469225" TEXT="Periodikusan bejelenti a poz&#xed;ci&#xf3;t"/>
-<node CREATED="1349012824287" ID="ID_1972001320" MODIFIED="1349012838783" TEXT="K&#xf6;lcs&#xf6;nz&#x151;k adatai lek&#xe9;rdezhet&#x151;ek"/>
-<node CREATED="1349012839138" ID="ID_1859487745" MODIFIED="1349012854132" TEXT="Session k&#xf3;dot indul&#xe1;skor be kell &#xed;rni"/>
-<node CREATED="1349013138771" ID="ID_1339398554" MODIFIED="1349013148460" TEXT="Bejelent&#xe9;si URL megv&#xe1;ltoztathat&#xf3;"/>
-<node CREATED="1349012869151" ID="ID_1458742646" MODIFIED="1349012895372" TEXT="Session k&#xf3;dot minden Webservice API h&#xed;v&#xe1;shoz mell&#xe9;kelni kell">
-<node CREATED="1349012897451" ID="ID_1703681661" MODIFIED="1349012904587" TEXT="K&#xfc;ld&#xe9;s HTTP POST"/>
-<node CREATED="1349012904916" ID="ID_1370625280" MODIFIED="1349012909825" TEXT="Fogad&#xe1;s HTTP GET"/>
-<node CREATED="1349012948065" ID="ID_462143773" MODIFIED="1349012951016" TEXT="Json form&#xe1;tum"/>
-</node>
-<node CREATED="1349013060701" ID="ID_1401786814" MODIFIED="1349013068166" TEXT="Widget">
-<icon BUILTIN="help"/>
 </node>
 </node>
 </node>
