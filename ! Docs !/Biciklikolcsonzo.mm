@@ -1,8 +1,16 @@
 <map version="0.9.0">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
-<node CREATED="1349010774347" ID="ID_996925232" MODIFIED="1349010796775" TEXT="Biciklik&#xf6;lcs&#xf6;nz&#x151;">
+<node CREATED="1349010774347" ID="ID_996925232" MODIFIED="1349300713539" TEXT="Biciklik&#xf6;lcs&#xf6;nz&#x151;">
+<node CREATED="1349300863232" ID="ID_1697998955" MODIFIED="1349300948641" POSITION="right" TEXT="Az eg&#xe9;sz cucc neve: Bicikli-Suite">
+<cloud/>
+<icon BUILTIN="idea"/>
+</node>
 <node CREATED="1349010874669" ID="ID_30157514" MODIFIED="1349010919152" POSITION="right" TEXT="Adminisztr&#xe1;ci&#xf3;s fel&#xfc;let">
 <font BOLD="true" NAME="SansSerif" SIZE="12"/>
+<node CREATED="1349300718981" ID="ID_777755564" MODIFIED="1349300961200" TEXT="N&#xe9;v: Bicikli-Admin">
+<cloud/>
+<icon BUILTIN="idea"/>
+</node>
 <node CREATED="1349011747925" ID="ID_642792591" MODIFIED="1349011758639" TEXT="F&#x151;bb tulajdons&#xe1;gok">
 <node CREATED="1349011311120" ID="ID_127403472" MODIFIED="1349011322281" TEXT="ASP.NET MVC4"/>
 <node CREATED="1349011328024" ID="ID_1422284960" MODIFIED="1349011330794" TEXT="HTML5"/>
@@ -51,6 +59,10 @@
 </node>
 <node CREATED="1349010843184" ID="ID_726300660" MODIFIED="1349010918338" POSITION="left" TEXT="Android &#xfc;gyn&#xf6;k">
 <font BOLD="true" NAME="SansSerif" SIZE="12"/>
+<node CREATED="1349300769894" ID="ID_1283192902" MODIFIED="1349300954650" TEXT="N&#xe9;v: Bicikli-Reporter">
+<cloud/>
+<icon BUILTIN="idea"/>
+</node>
 <node CREATED="1349011442849" ID="ID_847873962" MODIFIED="1349011469225" TEXT="Periodikusan bejelenti a poz&#xed;ci&#xf3;t"/>
 <node CREATED="1349012824287" ID="ID_1972001320" MODIFIED="1349012838783" TEXT="K&#xf6;lcs&#xf6;nz&#x151;k adatai lek&#xe9;rdezhet&#x151;ek"/>
 <node CREATED="1349012839138" ID="ID_1859487745" MODIFIED="1349012854132" TEXT="Session k&#xf3;dot indul&#xe1;skor be kell &#xed;rni"/>
@@ -67,8 +79,12 @@
 <node CREATED="1349180606344" ID="ID_1133845379" MODIFIED="1349180608409" TEXT="Egyenleg"/>
 </node>
 </node>
-<node CREATED="1349010895316" ID="ID_1283784387" MODIFIED="1349010919783" POSITION="left" TEXT="Print szerver">
+<node CREATED="1349010895316" ID="ID_1283784387" MODIFIED="1349300802711" POSITION="left" TEXT="Print szerver">
 <font BOLD="true" NAME="SansSerif" SIZE="12"/>
+<node CREATED="1349300805862" ID="ID_114851532" MODIFIED="1349300958610" TEXT="N&#xe9;v: Bicikli-Printer">
+<cloud/>
+<icon BUILTIN="idea"/>
+</node>
 <node CREATED="1349010923202" ID="ID_797332020" MODIFIED="1349187603496" TEXT="Java Tray App">
 <icon BUILTIN="idea"/>
 </node>
