@@ -1,4 +1,4 @@
-Némi infó:
+﻿Némi infó:
 ==========
 
 ASP.NET MVC URL értelmezés:
@@ -63,14 +63,28 @@ Kölcsönzők listája:
 HTTP GET /api/Lenders
 
 VÁLASZ:
+array of [
+	{
+		"id" : int,
+		"latitude" : float,
+		"longitude" : float,
+		"name" : string,
+		"address" : string
+	}
+]
+
+Kölcsönző adatai:
+-----------------
+
+HTTP GET /api/Lenders/{id: int}
+
+VÁLASZ:
 {
-	"lenders" : array of [
-		{
-			"name" : string,
-			"address" : string,
-			"description" : string
-		}
-	]
+	"latitude" : float,
+	"longitude" : float,
+	"name" : string,
+	"address" : string,
+	"description" : string
 }
 
 Jelentés:
@@ -80,9 +94,9 @@ HTTP POST /api/Report
 
 KÉRÉS:
 {
-	"id" : int,
-	"longitude" : float,
+	"session_id" : int,
 	"latitude" : float,
+	"longitude" : float,
 }
 
 VÁLASZ:
@@ -96,19 +110,18 @@ VÁLASZ:
 Feliratkozás nyomtatásra:
 -------------------------
 
-HTTP PUT /api/PrintingSubscription
+HTTP PUT /api/PrintingSubscription/{id: int}
 
 KÉRÉS:
 {
-	"id" : int,
-	"ip" : string,
-	"port" : int
+	"lender_id" : int,
+	"printer_ip" : string
 }
 
 Leiratkozás nyomtatásról:
 -------------------------
 
-HTTP DELETE /api/Printing/{id: int}
+HTTP DELETE /api/PrintingSubscription/{id: int}
 
 Nyomtatási parancs:
 -------------------
@@ -119,13 +132,14 @@ Ezt a szerver küldi a megadott IP-re. TCP csomagként, json formátumban.
 {
 	"lender_name" : string,
 	"lender_address" : string,
+	"bike_name" : string,
 	"name" : string,
 	"address": string,
 	"items" : array of [
 		{
 			"title" : string
 			"amount" : int
-			"base_price" : int
+			"base_unit_price" : int
 			"vat" : float
 		}
 	],

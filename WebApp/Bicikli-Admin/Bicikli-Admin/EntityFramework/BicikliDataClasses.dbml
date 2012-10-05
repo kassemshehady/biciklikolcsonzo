@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BicikliData" Class="BicikliDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\BicikliData.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Bike" Member="Bikes">
+    <Type Name="Bike">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="image_url" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="current_lender_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="is_active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Bike_Session" Member="Sessions" ThisKey="id" OtherKey="bike_id" Type="Session" />
+      <Association Name="Lender_Bike" Member="Lender" ThisKey="current_lender_id" OtherKey="id" Type="Lender" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Lender" Member="Lenders">
+    <Type Name="Lender">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="printer_ip" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Lender_Bike" Member="Bikes" ThisKey="id" OtherKey="current_lender_id" Type="Bike" />
+      <Association Name="Lender_LenderUser" Member="LenderUsers" ThisKey="id" OtherKey="lender_id" Type="LenderUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LenderUser" Member="LenderUsers">
+    <Type Name="LenderUser">
+      <Column Name="user_id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lender_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Lender_LenderUser" Member="Lender" ThisKey="lender_id" OtherKey="id" Type="Lender" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="User_LenderUser" Member="User" ThisKey="user_id" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="User_LenderUser" Member="LenderUsers" ThisKey="UserId" OtherKey="user_id" Type="LenderUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Session" Member="Sessions">
+    <Type Name="Session">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="start_time" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="end_time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="bike_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="last_report" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="dz_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dz_total_time" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="Bike_Session" Member="Bike" ThisKey="bike_id" OtherKey="id" Type="Bike" IsForeignKey="true" />
+      <Association Name="DangerousZone_Session" Member="DangerousZone" ThisKey="dz_id" OtherKey="id" Type="DangerousZone" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DangerousZones" Member="DangerousZones">
+    <Type Name="DangerousZone">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="radius" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="DangerousZone_Session" Member="Sessions" ThisKey="id" OtherKey="dz_id" Type="Session" />
+    </Type>
+  </Table>
+  <Function Name="dbo.GetLenderDetails" Method="GetLenderDetails">
+    <Parameter Name="param_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetLenderDetailsResult">
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetLendersList" Method="GetLendersList">
+    <ElementType Name="GetLendersListResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SetPrinter" Method="SetPrinter">
+    <Parameter Name="param_lender_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="param_printer_ip" Type="System.String" DbType="NVarChar(1)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetDangerousZonesByDistance" Method="GetDangerousZonesByDistance">
+    <Parameter Name="param_lat" Type="System.Double" DbType="Float" />
+    <Parameter Name="param_long" Type="System.Double" DbType="Float" />
+    <ElementType Name="GetDangerousZonesByDistanceResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="distance" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetLendersByDistance" Method="GetLendersByDistance">
+    <Parameter Name="param_lat" Type="System.Double" DbType="Float" />
+    <Parameter Name="param_long" Type="System.Double" DbType="Float" />
+    <Parameter Name="param_radius" Type="System.Double" DbType="Float" />
+    <ElementType Name="GetLendersByDistanceResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="distance" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.fnGetDistanceLatLong" Method="fnGetDistanceLatLong" IsComposable="true">
+    <Parameter Name="Lat1" Parameter="lat1" Type="System.Single" DbType="Real" />
+    <Parameter Name="Long1" Parameter="long1" Type="System.Single" DbType="Real" />
+    <Parameter Name="Lat2" Parameter="lat2" Type="System.Single" DbType="Real" />
+    <Parameter Name="Long2" Parameter="long2" Type="System.Single" DbType="Real" />
+    <Parameter Name="ReturnType" Parameter="returnType" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Double" />
+  </Function>
+</Database>
