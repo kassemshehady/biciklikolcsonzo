@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">		
+		<title>Bicikli-Admin v1.0</title>
+		<link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+	</head>
+	<body>
+		<header>
+			<h1>Bicikli-Admin v1.0</h1>
+		</header>
+		
+		<div id="menubar">
+			<div id="login-status">
+				<p>Bejelentkezve, mint <strong><a href="#">TakRaj</a></strong>.</p>
+				<button href="#">Kijelentkezés</button>				    
+			</div>
+			<nav>
+				<div class="dropdown-group">
+					<button class="dropdown-toggle">Kölcsönzők<span class="triangle-down"></span></button>
+					<div class="dropdown-menu">
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+					</div>
+				</div>
+				<div class="dropdown-group">
+					<button class="dropdown-toggle">Felhasználók<span class="triangle-down"></span></button>
+					<div class="dropdown-menu">
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+					</div>
+				</div>
+				<div class="dropdown-group">
+					<button class="dropdown-toggle">Veszélyes zónák<span class="triangle-down"></span></button>
+					<div class="dropdown-menu">
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+					</div>
+				</div>
+				<div class="dropdown-group">
+					<button class="dropdown-toggle active">Kerékpárok<span class="triangle-down"></span></button>
+					<div class="dropdown-menu">
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+					</div>
+				</div>
+				<div class="dropdown-group">
+					<button class="dropdown-toggle">Számlák<span class="triangle-down"></span></button>
+					<div class="dropdown-menu">
+						<a href="#">TakRaj</a>
+						<a href="#">TakRaj</a>
+						<a href="#">Schwinn-MTB-007</a>
+					</div>
+				</div>
+			</nav>
+		</div>
+		
+		<div id="page-body">
+			<h2>Elérhető kerékpárok</h2>
+			<div class="content-block">
+				<table>
+					<thead>
+						<th class="id">#</th>
+						<th class="name">Név</th>
+						<th class="picture">Fénykép</th>
+						<th class="edit-tools"></th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>37</td>
+							<td class="name">
+								<a href="#">Schwinn-MTB-007</a>
+							</td>
+							<td>
+								<a href="#">Katt</a>
+							</td>
+							<td>Szerk. mezők</td>
+						</tr>
+						<tr>
+							<td>37</td>
+							<td class="name">
+								<a href="#">Schwinn-MTB-007</a>
+							</td>
+							<td>
+								<a href="#">Katt</a>
+							</td>
+							<td>Szerk. mezők</td>
+						</tr>
+						<tr>
+							<td>37</td>
+							<td class="name">
+								<a href="#">Schwinn-MTB-007</a>
+							</td>
+							<td>
+								<a href="#">Katt</a>
+							</td>
+							<td>Szerk. mezők</td>
+						</tr>
+						<tr>
+							<td>37</td>
+							<td class="name">
+								<a href="#">Schwinn-MTB-007</a>
+							</td>
+							<td>
+								<a href="#">Katt</a>
+							</td>
+							<td>Szerk. mezők</td>
+						</tr>
+						<tr>
+							<td>37</td>
+							<td class="name">
+								<a href="#">Schwinn-MTB-007</a>
+							</td>
+							<td>
+								<a href="#">Katt</a>
+							</td>
+							<td>Szerk. mezők</td>
+						</tr>
+						<tr>
+							<td>37</td>
+							<td class="name">
+								<a href="#">Schwinn-MTB-007</a>
+							</td>
+							<td>
+								<a href="#">Katt</a>
+							</td>
+							<td>Szerk. mezők</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="content-block">
+				<h2>Form címe</h2>
+				<form>
+					<fieldset>
+						<legend>Csoport címe</legend>
+						
+						<table class="invisible">
+							<tr>
+								<td class="label-col"><label for="proba1">Egy próba szöveg:</label></td>
+								<td><input type="text" name="proba1" /></td>
+								<td class="validation-col"><label>(!)</label></td>
+							</tr>
+							<tr>
+								<td class="label-col"><label for="proba2">Egy próba szöveg:</label></td>
+								<td><input type="text" name="proba2" /></td>
+								<td class="validation-col"><label>(!)</label></td>
+							</tr>
+							<tr>
+								<td class="label-col"><label for="proba3">Egy próba szöveg:</label></td>
+								<td><input type="text" name="proba3" /></td>
+								<td class="validation-col"><label>(!)</label></td>
+							</tr>
+							<tr>
+								<td class="label-col"><label for="proba4">Egy próba szöveg:</label></td>
+								<td><input type="text" name="proba4" /></td>
+								<td class="validation-col"><label>(!)</label></td>
+							</tr>
+						</table>
+					</fieldset>
+					<fieldset>
+						<legend>Írj még valamit!</legend>
+						<textarea>Valami...</textarea>
+					</fieldset>
+					<div class="form-buttons">
+						<button type="submit">OK, mehet</button>
+						<button type="submit">OK, mehet</button>
+						<button type="submit">OK, mehet</button>
+					</div>
+				</form>
+			</div>
+		
+		</div>
+		
+		<footer>
+			<p>
+				Design & Code by TakRaj
+			</p>
+		</footer>
+		
+		<!-- SCRIPTS -->
+		<script src="js/jquery.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>

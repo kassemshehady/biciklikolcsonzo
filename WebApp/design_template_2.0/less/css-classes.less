@@ -1,0 +1,164 @@
+/* css classes */
+
+.cool-element-common {
+	.gradient(black, black, gray);
+	.rounded(0);
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border: 1px solid black;
+	color: white;
+	margin: 0px;
+	font-size: 14px;
+	display: inline-block;
+}
+
+.cool-element {
+	.cool-element-common;
+	
+	&:first-child {
+		.border-radius(0, 0, 5px, 5px);
+	}
+	
+	&:last-child {
+		.border-radius(5px, 5px, 0px, 0px);
+	}
+}
+
+.last-cool-element {
+	.cool-element-common;
+	.border-radius(5px, 5px, 0px, 0px);
+}
+
+.first-cool-element {
+	.cool-element-common;
+	.border-radius(0px, 0px, 5px, 5px);
+}
+
+.middle-cool-element {
+	.cool-element-common;
+	.rounded(0);
+}
+
+.cool-button {
+	&:hover {
+		.gradient(red, red, gray);
+		.drop-shadow(0, 0, 5px, 0.7);
+	}
+	
+	&.active {
+		.gradient(orange, orange, gray);
+	}
+	
+	&.pressed {
+		.drop-shadow(0, 0, 12px, 1.0);
+		.gradient(red, red, black);
+		
+		&.active {
+			.gradient(orange, orange, black);
+		}
+	}
+	
+	span {
+		&.triangle-down {
+			display: inline-block;
+			margin-left: 7px;
+			margin-bottom: 1px;
+			width: 0;
+			height: 0;
+			border-top: 6px solid white;
+			border-left: 3px solid transparent;
+			border-right: 3px solid transparent;
+		}
+	}
+}
+
+.cool-button-group {
+	font-size: 0;	/* to remove spaces between menu elements */
+	
+	p {
+		.cool-element;
+	
+		a, a:hover {
+			color:white;
+		}
+	}
+
+	button {
+		.cool-element;
+		.cool-button;
+		margin-bottom: 0px;
+	}
+	
+	div.dropdown-menu {
+		border: 1px solid black;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		background: white;
+		position: relative;
+		display: none;
+		.drop-shadow(0, 0, 2px, 0.7);
+		
+		a {
+			color: black;
+			padding: 5px;
+			padding-left: 15px;
+			padding-right: 15px;
+			border: 1px solid white;
+			font-size: 14px;
+			display: block;
+			text-decoration: none;
+			
+			&:hover {
+				background-color: blue;
+				color: white;
+				border: 1px solid black;
+			}
+		}
+	}
+	
+	.dropdown-group {
+		display: inline-block;
+	
+		button {
+			.middle-cool-element;
+			.cool-button;
+			margin-bottom: 0px;
+		}
+		
+		&.open, &.open:first-child, &.open:last-child {
+			button {
+				.cool-button.pressed;
+				
+				&:hover {
+					.cool-button.pressed;
+				}
+			}
+			
+			.dropdown-menu {
+				display: block;
+				position: absolute;
+				min-width: 150px;
+				height: auto;
+			}
+		}
+	
+		&:first-child {
+			button {
+				.first-cool-element;
+				.cool-button;
+				margin-bottom: 0px;
+			}
+		}
+		
+		&:last-child {
+			button {
+				.last-cool-element;
+				.cool-button;
+				margin-bottom: 0px;
+			}
+		}
+	}
+}

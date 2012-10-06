@@ -1,0 +1,1463 @@
+/* constants */
+/* imports */
+/*---------------------------------------------------
+    LESS Elements 0.6
+  ---------------------------------------------------
+    A set of useful LESS mixins by Dmitry Fadeyev
+    Special thanks for mixin suggestions to:
+      Kris Van Herzeele,
+      Benoit Adam,
+      Portenart Emile-Victor,
+      Ryan Faerman
+
+    More info at: http://lesselements.com
+-----------------------------------------------------*/
+/* css classes */
+.cool-element-common {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+}
+.cool-element {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+}
+.cool-element:first-child {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.cool-element:last-child {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.last-cool-element {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.first-cool-element {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.middle-cool-element {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.cool-button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+.cool-button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+.cool-button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+.cool-button-group {
+  font-size: 0;
+  /* to remove spaces between menu elements */
+
+}
+.cool-button-group p {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+}
+.cool-button-group p:first-child {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.cool-button-group p:last-child {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.cool-button-group p a,
+.cool-button-group p a:hover {
+  color: white;
+}
+.cool-button-group button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 0px;
+}
+.cool-button-group button:first-child {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.cool-button-group button:last-child {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.cool-button-group button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+.cool-button-group button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+.cool-button-group button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button-group button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button-group button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+.cool-button-group div.dropdown-menu {
+  border: 1px solid black;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  position: relative;
+  display: none;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+}
+.cool-button-group div.dropdown-menu a {
+  color: black;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: 1px solid white;
+  font-size: 14px;
+  display: block;
+  text-decoration: none;
+}
+.cool-button-group div.dropdown-menu a:hover {
+  background-color: blue;
+  color: white;
+  border: 1px solid black;
+}
+.cool-button-group .dropdown-group {
+  display: inline-block;
+}
+.cool-button-group .dropdown-group button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 0px;
+}
+.cool-button-group .dropdown-group button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+.cool-button-group .dropdown-group button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+.cool-button-group .dropdown-group button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+.cool-button-group .dropdown-group.open button,
+.cool-button-group .dropdown-group.open:first-child button,
+.cool-button-group .dropdown-group.open:last-child button {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group.open button.active,
+.cool-button-group .dropdown-group.open:first-child button.active,
+.cool-button-group .dropdown-group.open:last-child button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group.open button:hover,
+.cool-button-group .dropdown-group.open:first-child button:hover,
+.cool-button-group .dropdown-group.open:last-child button:hover {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group.open button:hover.active,
+.cool-button-group .dropdown-group.open:first-child button:hover.active,
+.cool-button-group .dropdown-group.open:last-child button:hover.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group.open .dropdown-menu,
+.cool-button-group .dropdown-group.open:first-child .dropdown-menu,
+.cool-button-group .dropdown-group.open:last-child .dropdown-menu {
+  display: block;
+  position: absolute;
+  min-width: 150px;
+  height: auto;
+}
+.cool-button-group .dropdown-group:first-child button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 0px;
+}
+.cool-button-group .dropdown-group:first-child button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+.cool-button-group .dropdown-group:first-child button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+.cool-button-group .dropdown-group:first-child button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group:first-child button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group:first-child button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+.cool-button-group .dropdown-group:last-child button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 0px;
+}
+.cool-button-group .dropdown-group:last-child button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+.cool-button-group .dropdown-group:last-child button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+.cool-button-group .dropdown-group:last-child button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group:last-child button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+.cool-button-group .dropdown-group:last-child button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+/* css ids */
+#page-body {
+  background: white;
+  margin: 0px;
+  padding: 15px;
+}
+#page-body h1,
+#page-body h2,
+#page-body h3,
+#page-body h4,
+#page-body h5,
+#page-body h6 {
+  text-shadow: 0px 0px 15px gray;
+  color: black;
+}
+#menubar {
+  padding: 10px;
+  color: white;
+  background: #808080;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #808080), color-stop(1, #123456));
+  background: -ms-linear-gradient(bottom, #808080, #123456);
+  background: -moz-linear-gradient(center bottom, #808080 0%, #123456 100%);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.7);
+  font-size: 0;
+  /* to remove spaces between menu elements */
+
+}
+#menubar p {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+}
+#menubar p:first-child {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#menubar p:last-child {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#menubar p a,
+#menubar p a:hover {
+  color: white;
+}
+#menubar button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 0px;
+}
+#menubar button:first-child {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#menubar button:last-child {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#menubar button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+#menubar button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+#menubar button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+#menubar button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+#menubar button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+#menubar div.dropdown-menu {
+  border: 1px solid black;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  position: relative;
+  display: none;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+}
+#menubar div.dropdown-menu a {
+  color: black;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: 1px solid white;
+  font-size: 14px;
+  display: block;
+  text-decoration: none;
+}
+#menubar div.dropdown-menu a:hover {
+  background-color: blue;
+  color: white;
+  border: 1px solid black;
+}
+#menubar .dropdown-group {
+  display: inline-block;
+}
+#menubar .dropdown-group button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 0px;
+}
+#menubar .dropdown-group button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+#menubar .dropdown-group button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+#menubar .dropdown-group button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+#menubar .dropdown-group button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+#menubar .dropdown-group button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+#menubar .dropdown-group.open button,
+#menubar .dropdown-group.open:first-child button,
+#menubar .dropdown-group.open:last-child button {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+#menubar .dropdown-group.open button.active,
+#menubar .dropdown-group.open:first-child button.active,
+#menubar .dropdown-group.open:last-child button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+#menubar .dropdown-group.open button:hover,
+#menubar .dropdown-group.open:first-child button:hover,
+#menubar .dropdown-group.open:last-child button:hover {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+#menubar .dropdown-group.open button:hover.active,
+#menubar .dropdown-group.open:first-child button:hover.active,
+#menubar .dropdown-group.open:last-child button:hover.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+#menubar .dropdown-group.open .dropdown-menu,
+#menubar .dropdown-group.open:first-child .dropdown-menu,
+#menubar .dropdown-group.open:last-child .dropdown-menu {
+  display: block;
+  position: absolute;
+  min-width: 150px;
+  height: auto;
+}
+#menubar .dropdown-group:first-child button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 0px;
+}
+#menubar .dropdown-group:first-child button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+#menubar .dropdown-group:first-child button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+#menubar .dropdown-group:first-child button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+#menubar .dropdown-group:first-child button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+#menubar .dropdown-group:first-child button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+#menubar .dropdown-group:last-child button {
+  background: #000000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #000000, #808080);
+  background: -moz-linear-gradient(center bottom, #000000 0%, #808080 100%);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: 1px solid black;
+  color: white;
+  margin: 0px;
+  font-size: 14px;
+  display: inline-block;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 0px;
+}
+#menubar .dropdown-group:last-child button:hover {
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ff0000, #808080);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #808080 100%);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+#menubar .dropdown-group:last-child button.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #808080));
+  background: -ms-linear-gradient(bottom, #ffa500, #808080);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #808080 100%);
+}
+#menubar .dropdown-group:last-child button.pressed {
+  -webkit-box-shadow: 0 0 12px #000000;
+  -moz-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  background: #ff0000;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ff0000), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ff0000, #000000);
+  background: -moz-linear-gradient(center bottom, #ff0000 0%, #000000 100%);
+}
+#menubar .dropdown-group:last-child button.pressed.active {
+  background: #ffa500;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffa500), color-stop(1, #000000));
+  background: -ms-linear-gradient(bottom, #ffa500, #000000);
+  background: -moz-linear-gradient(center bottom, #ffa500 0%, #000000 100%);
+}
+#menubar .dropdown-group:last-child button span.triangle-down {
+  display: inline-block;
+  margin-left: 7px;
+  margin-bottom: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid white;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+#menubar #login-status {
+  display: box;
+  float: right;
+}
+/* html5 tags */
+body {
+  width: 1000px;
+  background: #5b83ad;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: box;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+header {
+  background: #123456;
+  padding: 3px;
+  -webkit-border-top-right-radius: 15px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 15px;
+  -moz-border-radius-topright: 15px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 15px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin: 0px;
+  color: white;
+}
+header h1 {
+  margin-left: 30px;
+  text-shadow: 0px 0px 5px black;
+  font-size: 42px;
+}
+footer {
+  background: #123456;
+  padding: 3px;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 15px;
+  -webkit-border-bottom-left-radius: 15px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 15px;
+  -moz-border-radius-bottomleft: 15px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #123456;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #123456), color-stop(1, #ffffff));
+  background: -ms-linear-gradient(bottom, #123456, #ffffff);
+  background: -moz-linear-gradient(center bottom, #123456 0%, #ffffff 100%);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.7);
+  margin: 0px;
+  text-align: center;
+  text-shadow: 0px 0px 2px #5b83ad;
+}
+form {
+  width: 700px;
+  margin: auto;
+}
+form fieldset {
+  margin-bottom: 25px;
+  padding: 20px;
+}
+form label {
+  white-space: nowrap;
+  width: auto;
+  padding: 3px;
+}
+form table.invisible td {
+  padding: 5px;
+  width: auto;
+}
+form table.invisible td.label-col {
+  text-align: right;
+  min-width: 1%;
+}
+form table.invisible td.validation-col {
+  text-align: left;
+  min-width: 1%;
+  color: red;
+  text-shadow: 0px 0px 1px black;
+  font-size: 18px;
+  font-weight: bolder;
+  padding-left: 20px;
+}
+form input {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 2px solid black;
+  background: white;
+  width: 100%;
+  padding: 3px;
+  display: inline-block;
+}
+form input:hover:not(:focus) {
+  border: 2px solid red;
+}
+form input:focus {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+form textarea {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 2px solid black;
+  background: white;
+  width: 100%;
+  min-height: 200px;
+  padding: 3px;
+  display: inline-block;
+}
+form textarea:hover:not(:focus) {
+  border: 2px solid red;
+}
+form textarea:focus {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+form .form-buttons {
+  text-align: right;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  font-size: 0;
+}
+form .form-buttons button + button {
+  border-left: none;
+}
+form .form-buttons button {
+  background: #D2D2D2;
+  border: 2px solid black;
+  padding: 5px;
+  font-size: 16px;
+}
+form .form-buttons button:only-child {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+form .form-buttons button:not(:only-child):first-child {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+form .form-buttons button:not(:only-child):last-child {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+form .form-buttons button:hover {
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  background: #00ffaa;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #d2d2d2));
+  background: -ms-linear-gradient(bottom, #00ffaa, #d2d2d2);
+  background: -moz-linear-gradient(center bottom, #00ffaa 0%, #d2d2d2 100%);
+}
+form .form-buttons button:hover:active {
+  background: #00ffaa;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #ffaa00));
+  background: -ms-linear-gradient(bottom, #00ffaa, #ffaa00);
+  background: -moz-linear-gradient(center bottom, #00ffaa 0%, #ffaa00 100%);
+}
+form .form-buttons button:not(:hover):active {
+  background: #00ffaa;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #ffaa00));
+  background: -ms-linear-gradient(bottom, #00ffaa, #ffaa00);
+  background: -moz-linear-gradient(center bottom, #00ffaa 0%, #ffaa00 100%);
+}
+table.invisible {
+  width: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+table:not(.invisible) {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border: 1px solid black;
+}
+table:not(.invisible) th,
+table:not(.invisible) td {
+  text-align: center;
+}
+table:not(.invisible) thead + tbody {
+  border-top: 1px solid black;
+}
+table:not(.invisible) tr + tr {
+  border-top: 1px solid black;
+}
+table:not(.invisible) th,
+table:not(.invisible) tr > td {
+  padding: 6px;
+}
+table:not(.invisible) thead {
+  background: gray;
+  color: white;
+}
+table:not(.invisible) thead th.id {
+  width: 25px;
+}
+table:not(.invisible) thead th.picture {
+  width: 50px;
+}
+table:not(.invisible) thead th.edit-tools {
+  width: 100px;
+}
+table:not(.invisible) thead th.name {
+  width: auto;
+  text-align: left;
+}
+table:not(.invisible) tbody tr:nth-child(2n) {
+  background: #E1E1E1;
+}
+table:not(.invisible) tbody tr:nth-child(2n+1) {
+  background: white;
+}
+table:not(.invisible) tbody tr:hover {
+  background: #00D5FF;
+}
+table:not(.invisible) tbody td a {
+  text-decoration: none;
+  color: black;
+}
+table:not(.invisible) tbody td a:hover {
+  text-decoration: underline;
+}
+table:not(.invisible) tbody td.name {
+  font-weight: bold;
+  text-align: left;
+}
