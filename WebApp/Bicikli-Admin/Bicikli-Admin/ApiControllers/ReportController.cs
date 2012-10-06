@@ -31,9 +31,10 @@ namespace Bicikli_Admin.ApiControllers
 
             // STEP 2: Check if this Report has came from a DangerousZone
             var inDangerousZones = dc.GetDangerousZonesByDistance(requestModel.latitude, requestModel.longitude);
+            bool tooMuchAfterLastReport = ((session.last_report != null) && (currentTime - (DateTime)session.last_report).TotalMinutes > 1);
             
             // If this Report is in DangerousZone or too much time elapsed since the last report -> mark as DangerousZone
-            if ((inDangerousZones.Count() > 0) || ((session.last_report != null) && (currentTime - (DateTime)session.last_report).TotalMinutes > 1))
+            if ((inDangerousZones.Count() > 0) || tooMuchAfterLastReport)
             {
                 responseModel.status = ReportResponseStatus.OK_DANGER;
             }
@@ -45,28 +46,28 @@ namespace Bicikli_Admin.ApiControllers
             // STEP 3: Calculate time and price
 
             // Calculate time spent since last report
-            int elapsedSeconds = (int) (currentTime - (DateTime)session.start_time).TotalSeconds;
+            int elapsedSeconds = (int) Math.Floor((currentTime - (DateTime)session.start_time).TotalSeconds);
             if (session.last_report != null)
             {
-                elapsedSeconds = (int) (currentTime - (DateTime)session.last_report).TotalSeconds;
+                elapsedSeconds = (int) Math.Floor((currentTime - (DateTime)session.last_report).TotalSeconds);
             }
 
             // Calculate time spent in danger time until now
             responseModel.danger_time = 0;
-            if (session.dz_total_time != null)
+            if (session.dz_time != null)
             {
-                responseModel.danger_time = (int) session.dz_total_time;
+                responseModel.danger_time = (int) session.dz_time;
             }
 
             // Calculate time spent in normal time until now
             responseModel.normal_time = 0;
-            if (session.last_report != null)
+            if (session.normal_time != null)
             {
-                responseModel.normal_time = ((int) ((DateTime)session.last_report - (DateTime)session.start_time).TotalSeconds) - responseModel.danger_time;
+                responseModel.normal_time = (int)session.normal_time;
             }
 
             // If the last report was in DangerousZone then add elapsed time to that counter
-            if (session.dz_id != null)
+            if ((session.dz_id != null) || (tooMuchAfterLastReport))
             {
                 responseModel.danger_time += elapsedSeconds;
             }
@@ -76,18 +77,25 @@ namespace Bicikli_Admin.ApiControllers
             }
 
             // Calculate total balance
-            responseModel.total_balance = (int) Math.Round(responseModel.normal_time * normalPricePerMinutes/60.0);
-            responseModel.total_balance += (int) Math.Round(responseModel.danger_time * dangerPricePerMinites/60.0);
+            responseModel.total_balance = (int) Math.Round(responseModel.normal_time * (normalPricePerMinutes/60.0));
+            responseModel.total_balance += (int) Math.Round(responseModel.danger_time * (dangerPricePerMinites/60.0));
 
             // STEP 4: Update Session with Report data
             session.last_report = currentTime;
             session.latitude = requestModel.latitude;
             session.longitude = requestModel.longitude;
+            session.dz_time = responseModel.danger_time;
+            session.normal_time = responseModel.normal_time;
             
             if (responseModel.status == ReportResponseStatus.OK_DANGER)
             {
-                session.dz_total_time += elapsedSeconds;
-                session.dz_id = inDangerousZones.First().id;
+                inDangerousZones = dc.GetDangerousZonesByDistance(requestModel.latitude, requestModel.longitude);
+                var dz = inDangerousZones.FirstOrDefault();
+
+                if (dz != null)
+                {
+                    session.dz_id = dz.id;
+                }
             }
             else
             {
@@ -100,6 +108,7 @@ namespace Bicikli_Admin.ApiControllers
             if (((currentTime - (DateTime)session.start_time).TotalMinutes > 10) && (lenderNearby != null))
             {
                 session.end_time = currentTime;
+                session.Bike.current_lender_id = lenderNearby.id;
                 responseModel.status = ReportResponseStatus.END_OF_SESSION;
                 dc.SubmitChanges();
 

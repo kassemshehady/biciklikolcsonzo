@@ -42,16 +42,16 @@ namespace Bicikli_Admin.EntityFramework
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
-    partial void InsertSession(Session instance);
-    partial void UpdateSession(Session instance);
-    partial void DeleteSession(Session instance);
     partial void InsertDangerousZone(DangerousZone instance);
     partial void UpdateDangerousZone(DangerousZone instance);
     partial void DeleteDangerousZone(DangerousZone instance);
+    partial void InsertSession(Session instance);
+    partial void UpdateSession(Session instance);
+    partial void DeleteSession(Session instance);
     #endregion
 		
 		public BicikliDataClassesDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["BicikliDataConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -112,19 +112,19 @@ namespace Bicikli_Admin.EntityFramework
 			}
 		}
 		
-		public System.Data.Linq.Table<Session> Sessions
-		{
-			get
-			{
-				return this.GetTable<Session>();
-			}
-		}
-		
 		public System.Data.Linq.Table<DangerousZone> DangerousZones
 		{
 			get
 			{
 				return this.GetTable<DangerousZone>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Session> Sessions
+		{
+			get
+			{
+				return this.GetTable<Session>();
 			}
 		}
 		
@@ -1037,390 +1037,6 @@ namespace Bicikli_Admin.EntityFramework
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Session")]
-	public partial class Session : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private System.DateTime _start_time;
-		
-		private System.Nullable<System.DateTime> _end_time;
-		
-		private int _bike_id;
-		
-		private System.Nullable<System.DateTime> _last_report;
-		
-		private System.Nullable<int> _dz_id;
-		
-		private System.Nullable<int> _dz_total_time;
-		
-		private System.Nullable<double> _latitude;
-		
-		private System.Nullable<double> _longitude;
-		
-		private string _name;
-		
-		private string _address;
-		
-		private EntityRef<Bike> _Bike;
-		
-		private EntityRef<DangerousZone> _DangerousZone;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void Onstart_timeChanging(System.DateTime value);
-    partial void Onstart_timeChanged();
-    partial void Onend_timeChanging(System.Nullable<System.DateTime> value);
-    partial void Onend_timeChanged();
-    partial void Onbike_idChanging(int value);
-    partial void Onbike_idChanged();
-    partial void Onlast_reportChanging(System.Nullable<System.DateTime> value);
-    partial void Onlast_reportChanged();
-    partial void Ondz_idChanging(System.Nullable<int> value);
-    partial void Ondz_idChanged();
-    partial void Ondz_total_timeChanging(System.Nullable<int> value);
-    partial void Ondz_total_timeChanged();
-    partial void OnlatitudeChanging(System.Nullable<double> value);
-    partial void OnlatitudeChanged();
-    partial void OnlongitudeChanging(System.Nullable<double> value);
-    partial void OnlongitudeChanged();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void OnaddressChanging(string value);
-    partial void OnaddressChanged();
-    #endregion
-		
-		public Session()
-		{
-			this._Bike = default(EntityRef<Bike>);
-			this._DangerousZone = default(EntityRef<DangerousZone>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_start_time", DbType="DateTime NOT NULL")]
-		public System.DateTime start_time
-		{
-			get
-			{
-				return this._start_time;
-			}
-			set
-			{
-				if ((this._start_time != value))
-				{
-					this.Onstart_timeChanging(value);
-					this.SendPropertyChanging();
-					this._start_time = value;
-					this.SendPropertyChanged("start_time");
-					this.Onstart_timeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_end_time", DbType="DateTime")]
-		public System.Nullable<System.DateTime> end_time
-		{
-			get
-			{
-				return this._end_time;
-			}
-			set
-			{
-				if ((this._end_time != value))
-				{
-					this.Onend_timeChanging(value);
-					this.SendPropertyChanging();
-					this._end_time = value;
-					this.SendPropertyChanged("end_time");
-					this.Onend_timeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bike_id", DbType="Int NOT NULL")]
-		public int bike_id
-		{
-			get
-			{
-				return this._bike_id;
-			}
-			set
-			{
-				if ((this._bike_id != value))
-				{
-					if (this._Bike.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onbike_idChanging(value);
-					this.SendPropertyChanging();
-					this._bike_id = value;
-					this.SendPropertyChanged("bike_id");
-					this.Onbike_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_last_report", DbType="DateTime")]
-		public System.Nullable<System.DateTime> last_report
-		{
-			get
-			{
-				return this._last_report;
-			}
-			set
-			{
-				if ((this._last_report != value))
-				{
-					this.Onlast_reportChanging(value);
-					this.SendPropertyChanging();
-					this._last_report = value;
-					this.SendPropertyChanged("last_report");
-					this.Onlast_reportChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dz_id", DbType="Int")]
-		public System.Nullable<int> dz_id
-		{
-			get
-			{
-				return this._dz_id;
-			}
-			set
-			{
-				if ((this._dz_id != value))
-				{
-					if (this._DangerousZone.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Ondz_idChanging(value);
-					this.SendPropertyChanging();
-					this._dz_id = value;
-					this.SendPropertyChanged("dz_id");
-					this.Ondz_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dz_total_time", DbType="Int")]
-		public System.Nullable<int> dz_total_time
-		{
-			get
-			{
-				return this._dz_total_time;
-			}
-			set
-			{
-				if ((this._dz_total_time != value))
-				{
-					this.Ondz_total_timeChanging(value);
-					this.SendPropertyChanging();
-					this._dz_total_time = value;
-					this.SendPropertyChanged("dz_total_time");
-					this.Ondz_total_timeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float")]
-		public System.Nullable<double> latitude
-		{
-			get
-			{
-				return this._latitude;
-			}
-			set
-			{
-				if ((this._latitude != value))
-				{
-					this.OnlatitudeChanging(value);
-					this.SendPropertyChanging();
-					this._latitude = value;
-					this.SendPropertyChanged("latitude");
-					this.OnlatitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longitude", DbType="Float")]
-		public System.Nullable<double> longitude
-		{
-			get
-			{
-				return this._longitude;
-			}
-			set
-			{
-				if ((this._longitude != value))
-				{
-					this.OnlongitudeChanging(value);
-					this.SendPropertyChanging();
-					this._longitude = value;
-					this.SendPropertyChanged("longitude");
-					this.OnlongitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				if ((this._name != value))
-				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string address
-		{
-			get
-			{
-				return this._address;
-			}
-			set
-			{
-				if ((this._address != value))
-				{
-					this.OnaddressChanging(value);
-					this.SendPropertyChanging();
-					this._address = value;
-					this.SendPropertyChanged("address");
-					this.OnaddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Bike_Session", Storage="_Bike", ThisKey="bike_id", OtherKey="id", IsForeignKey=true)]
-		public Bike Bike
-		{
-			get
-			{
-				return this._Bike.Entity;
-			}
-			set
-			{
-				Bike previousValue = this._Bike.Entity;
-				if (((previousValue != value) 
-							|| (this._Bike.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Bike.Entity = null;
-						previousValue.Sessions.Remove(this);
-					}
-					this._Bike.Entity = value;
-					if ((value != null))
-					{
-						value.Sessions.Add(this);
-						this._bike_id = value.id;
-					}
-					else
-					{
-						this._bike_id = default(int);
-					}
-					this.SendPropertyChanged("Bike");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DangerousZone_Session", Storage="_DangerousZone", ThisKey="dz_id", OtherKey="id", IsForeignKey=true, DeleteRule="SET NULL")]
-		public DangerousZone DangerousZone
-		{
-			get
-			{
-				return this._DangerousZone.Entity;
-			}
-			set
-			{
-				DangerousZone previousValue = this._DangerousZone.Entity;
-				if (((previousValue != value) 
-							|| (this._DangerousZone.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DangerousZone.Entity = null;
-						previousValue.Sessions.Remove(this);
-					}
-					this._DangerousZone.Entity = value;
-					if ((value != null))
-					{
-						value.Sessions.Add(this);
-						this._dz_id = value.id;
-					}
-					else
-					{
-						this._dz_id = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("DangerousZone");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DangerousZones")]
 	public partial class DangerousZone : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1628,6 +1244,414 @@ namespace Bicikli_Admin.EntityFramework
 		{
 			this.SendPropertyChanging();
 			entity.DangerousZone = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Session")]
+	public partial class Session : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.DateTime _start_time;
+		
+		private System.Nullable<System.DateTime> _end_time;
+		
+		private int _bike_id;
+		
+		private System.Nullable<System.DateTime> _last_report;
+		
+		private System.Nullable<int> _dz_id;
+		
+		private System.Nullable<int> _dz_time;
+		
+		private System.Nullable<int> _normal_time;
+		
+		private System.Nullable<double> _latitude;
+		
+		private System.Nullable<double> _longitude;
+		
+		private string _name;
+		
+		private string _address;
+		
+		private EntityRef<Bike> _Bike;
+		
+		private EntityRef<DangerousZone> _DangerousZone;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void Onstart_timeChanging(System.DateTime value);
+    partial void Onstart_timeChanged();
+    partial void Onend_timeChanging(System.Nullable<System.DateTime> value);
+    partial void Onend_timeChanged();
+    partial void Onbike_idChanging(int value);
+    partial void Onbike_idChanged();
+    partial void Onlast_reportChanging(System.Nullable<System.DateTime> value);
+    partial void Onlast_reportChanged();
+    partial void Ondz_idChanging(System.Nullable<int> value);
+    partial void Ondz_idChanged();
+    partial void Ondz_timeChanging(System.Nullable<int> value);
+    partial void Ondz_timeChanged();
+    partial void Onnormal_timeChanging(System.Nullable<int> value);
+    partial void Onnormal_timeChanged();
+    partial void OnlatitudeChanging(System.Nullable<double> value);
+    partial void OnlatitudeChanged();
+    partial void OnlongitudeChanging(System.Nullable<double> value);
+    partial void OnlongitudeChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void OnaddressChanging(string value);
+    partial void OnaddressChanged();
+    #endregion
+		
+		public Session()
+		{
+			this._Bike = default(EntityRef<Bike>);
+			this._DangerousZone = default(EntityRef<DangerousZone>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_start_time", DbType="DateTime NOT NULL")]
+		public System.DateTime start_time
+		{
+			get
+			{
+				return this._start_time;
+			}
+			set
+			{
+				if ((this._start_time != value))
+				{
+					this.Onstart_timeChanging(value);
+					this.SendPropertyChanging();
+					this._start_time = value;
+					this.SendPropertyChanged("start_time");
+					this.Onstart_timeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_end_time", DbType="DateTime")]
+		public System.Nullable<System.DateTime> end_time
+		{
+			get
+			{
+				return this._end_time;
+			}
+			set
+			{
+				if ((this._end_time != value))
+				{
+					this.Onend_timeChanging(value);
+					this.SendPropertyChanging();
+					this._end_time = value;
+					this.SendPropertyChanged("end_time");
+					this.Onend_timeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bike_id", DbType="Int NOT NULL")]
+		public int bike_id
+		{
+			get
+			{
+				return this._bike_id;
+			}
+			set
+			{
+				if ((this._bike_id != value))
+				{
+					if (this._Bike.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onbike_idChanging(value);
+					this.SendPropertyChanging();
+					this._bike_id = value;
+					this.SendPropertyChanged("bike_id");
+					this.Onbike_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_last_report", DbType="DateTime")]
+		public System.Nullable<System.DateTime> last_report
+		{
+			get
+			{
+				return this._last_report;
+			}
+			set
+			{
+				if ((this._last_report != value))
+				{
+					this.Onlast_reportChanging(value);
+					this.SendPropertyChanging();
+					this._last_report = value;
+					this.SendPropertyChanged("last_report");
+					this.Onlast_reportChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dz_id", DbType="Int")]
+		public System.Nullable<int> dz_id
+		{
+			get
+			{
+				return this._dz_id;
+			}
+			set
+			{
+				if ((this._dz_id != value))
+				{
+					if (this._DangerousZone.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Ondz_idChanging(value);
+					this.SendPropertyChanging();
+					this._dz_id = value;
+					this.SendPropertyChanged("dz_id");
+					this.Ondz_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dz_time", DbType="Int")]
+		public System.Nullable<int> dz_time
+		{
+			get
+			{
+				return this._dz_time;
+			}
+			set
+			{
+				if ((this._dz_time != value))
+				{
+					this.Ondz_timeChanging(value);
+					this.SendPropertyChanging();
+					this._dz_time = value;
+					this.SendPropertyChanged("dz_time");
+					this.Ondz_timeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_normal_time", DbType="Int")]
+		public System.Nullable<int> normal_time
+		{
+			get
+			{
+				return this._normal_time;
+			}
+			set
+			{
+				if ((this._normal_time != value))
+				{
+					this.Onnormal_timeChanging(value);
+					this.SendPropertyChanging();
+					this._normal_time = value;
+					this.SendPropertyChanged("normal_time");
+					this.Onnormal_timeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float")]
+		public System.Nullable<double> latitude
+		{
+			get
+			{
+				return this._latitude;
+			}
+			set
+			{
+				if ((this._latitude != value))
+				{
+					this.OnlatitudeChanging(value);
+					this.SendPropertyChanging();
+					this._latitude = value;
+					this.SendPropertyChanged("latitude");
+					this.OnlatitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longitude", DbType="Float")]
+		public System.Nullable<double> longitude
+		{
+			get
+			{
+				return this._longitude;
+			}
+			set
+			{
+				if ((this._longitude != value))
+				{
+					this.OnlongitudeChanging(value);
+					this.SendPropertyChanging();
+					this._longitude = value;
+					this.SendPropertyChanged("longitude");
+					this.OnlongitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string address
+		{
+			get
+			{
+				return this._address;
+			}
+			set
+			{
+				if ((this._address != value))
+				{
+					this.OnaddressChanging(value);
+					this.SendPropertyChanging();
+					this._address = value;
+					this.SendPropertyChanged("address");
+					this.OnaddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Bike_Session", Storage="_Bike", ThisKey="bike_id", OtherKey="id", IsForeignKey=true)]
+		public Bike Bike
+		{
+			get
+			{
+				return this._Bike.Entity;
+			}
+			set
+			{
+				Bike previousValue = this._Bike.Entity;
+				if (((previousValue != value) 
+							|| (this._Bike.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Bike.Entity = null;
+						previousValue.Sessions.Remove(this);
+					}
+					this._Bike.Entity = value;
+					if ((value != null))
+					{
+						value.Sessions.Add(this);
+						this._bike_id = value.id;
+					}
+					else
+					{
+						this._bike_id = default(int);
+					}
+					this.SendPropertyChanged("Bike");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DangerousZone_Session", Storage="_DangerousZone", ThisKey="dz_id", OtherKey="id", IsForeignKey=true, DeleteRule="SET NULL")]
+		public DangerousZone DangerousZone
+		{
+			get
+			{
+				return this._DangerousZone.Entity;
+			}
+			set
+			{
+				DangerousZone previousValue = this._DangerousZone.Entity;
+				if (((previousValue != value) 
+							|| (this._DangerousZone.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DangerousZone.Entity = null;
+						previousValue.Sessions.Remove(this);
+					}
+					this._DangerousZone.Entity = value;
+					if ((value != null))
+					{
+						value.Sessions.Add(this);
+						this._dz_id = value.id;
+					}
+					else
+					{
+						this._dz_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("DangerousZone");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BicikliData" Class="BicikliDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\BicikliData.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\BicikliData.mdf;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="BicikliDataConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Bike" Member="Bikes">
     <Type Name="Bike">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -43,23 +43,6 @@
       <Association Name="User_LenderUser" Member="LenderUsers" ThisKey="UserId" OtherKey="user_id" Type="LenderUser" />
     </Type>
   </Table>
-  <Table Name="dbo.Session" Member="Sessions">
-    <Type Name="Session">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="start_time" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="end_time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="bike_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="last_report" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="dz_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="dz_total_time" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="address" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Association Name="Bike_Session" Member="Bike" ThisKey="bike_id" OtherKey="id" Type="Bike" IsForeignKey="true" />
-      <Association Name="DangerousZone_Session" Member="DangerousZone" ThisKey="dz_id" OtherKey="id" Type="DangerousZone" IsForeignKey="true" DeleteRule="SET NULL" />
-    </Type>
-  </Table>
   <Table Name="dbo.DangerousZones" Member="DangerousZones">
     <Type Name="DangerousZone">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -69,6 +52,24 @@
       <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="radius" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="DangerousZone_Session" Member="Sessions" ThisKey="id" OtherKey="dz_id" Type="Session" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Session" Member="Sessions">
+    <Type Name="Session">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="start_time" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="end_time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="bike_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="last_report" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="dz_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="dz_time" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="normal_time" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="Bike_Session" Member="Bike" ThisKey="bike_id" OtherKey="id" Type="Bike" IsForeignKey="true" />
+      <Association Name="DangerousZone_Session" Member="DangerousZone" ThisKey="dz_id" OtherKey="id" Type="DangerousZone" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
   <Function Name="dbo.GetLenderDetails" Method="GetLenderDetails">

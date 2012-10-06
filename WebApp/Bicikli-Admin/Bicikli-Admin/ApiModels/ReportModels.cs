@@ -14,14 +14,17 @@ namespace Bicikli_Admin.ApiModels
 
     public class ReportResponseModel
     {
-        public ReportResponseStatus status;
+        public string status;
         public int normal_time;
         public int danger_time;
         public int total_balance;
     }
 
-    public enum ReportResponseStatus
+    public class ReportResponseStatus
     {
-        OK_NORMAL, OK_DANGER, ERROR, END_OF_SESSION
+        public const string OK_NORMAL = "OK_NORMAL";
+        public const string OK_DANGER = "OK_DANGER";
+        public const string ERROR = "ERROR";
+        public const string END_OF_SESSION = "END_OF_SESSION";
     }
 }
