@@ -1,5 +1,4 @@
 ﻿@model Bicikli_Admin.Models.LoginModel
-
 @{
     ViewBag.Title = "Log in";
 }
@@ -9,32 +8,54 @@
     <h2>Use this form to enter your user name and password.</h2>
 </hgroup>
 
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+{
     @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
 
     <fieldset>
         <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="Log in" />
+
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(m => m.UserName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
+                <td class="validation-col">
+                    <label>(!)</label></td>
+            </tr>
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.Password)
+                </td>
+                <td class="validation-col">
+                    <label>(!)</label></td>
+            </tr>
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(m => m.RememberMe)
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                </td>
+                <td class="validation-col">
+                    <label>(!)</label></td>
+            </tr>
+        </table>
     </fieldset>
+    
+    <div class="form-buttons">
+        <button type="submit">Belépés</button>
+    </div>
     <p>
         @Html.ActionLink("Register", "Register") if you don't have an account.
     </p>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

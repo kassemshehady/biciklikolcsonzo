@@ -1,11 +1,13 @@
-﻿@if (Request.IsAuthenticated) {
-    <p>
-        Hello, @Html.ActionLink(User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })!
-        @Html.ActionLink("Log off", "LogOff", "Account")
-    </p>
-} else {
-    <ul>
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-}
+﻿<div id="login-status">
+    @if (Request.IsAuthenticated)
+    {
+        <p>Bejelentkezve, mint <strong>@Html.ActionLink(User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })</strong>.</p>
+        @Html.ActionLink("Kijelentkezés", "LogOff", "Account", routeValues: null, htmlAttributes: new { Class = "a_button" })
+    }
+    else
+    {
+        <p>Nem vagy bejelentkezve!</p>
+        @Html.ActionLink("Regisztráció", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", Class = "a_button" })
+        @Html.ActionLink("Bejelentkezés", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", Class = "a_button" })
+    }
+</div>

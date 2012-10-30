@@ -19,5 +19,14 @@ $(document).ready(function() {
 		}
 		return true;
 	});
+	
+	// Dropdown element
+	$(".dropdown-menu > a").click( function() {
+		var url = $(this).attr("href");
+		if (url != "" && url != "#") {
+			window.location.href = url;
+		}
+		return true;
+	});
 
 });

@@ -17,10 +17,12 @@ namespace Bicikli_Admin
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new ScriptBundle("~/Content/js").Include(
+                        "~/Scripts/main.js"));
+            
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                        "~/Content/normalize.css",
+                        "~/Content/main.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
