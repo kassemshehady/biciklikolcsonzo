@@ -7,7 +7,7 @@
 </head>
 <body>
 		<header>
-			<h1>Bicikli-Admin v1.0</h1>
+			<h1>@Html.ActionLink("Bicikli-Admin v1.0", "Index", "Home")</h1>
 		</header>
 		
 		<div id="menubar">
@@ -16,41 +16,48 @@
 				<div class="dropdown-group">
 					<button class="dropdown-toggle">Kölcsönzők<span class="triangle-down"></span></button>
 					<div class="dropdown-menu">
-						@Html.ActionLink("Home", "Index", "Home")
-						@Html.ActionLink("About", "About", "Home")
-						@Html.ActionLink("Contact", "Contact", "Home")
+						@Html.ActionLink("Kölcsönzők listázása", "Index", "Lenders")
+						@Html.ActionLink("Új kölcsönző felvétele", "Create", "Lenders")
 					</div>
 				</div>
 				<div class="dropdown-group">
 					<button class="dropdown-toggle">Felhasználók<span class="triangle-down"></span></button>
 					<div class="dropdown-menu">
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
+						@Html.ActionLink("Felhasználók listázása", "Index", "Users")
+                        @Html.ActionLink("Felhasználók listázása kölcsönzők szerint", "ListByLenders", "Users")
+                        @Html.ActionLink("Összerendeletlen felhasználók listázása", "UnassignedList", "Users")
+                        @Html.ActionLink("Munkatársak listázása", "FellowsList", "Users")
 					</div>
 				</div>
 				<div class="dropdown-group">
 					<button class="dropdown-toggle">Veszélyes zónák<span class="triangle-down"></span></button>
 					<div class="dropdown-menu">
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
+						@Html.ActionLink("Veszélyes zónák listázása", "Index", "Zones")
+                        @Html.ActionLink("Veszélyes zónák térképe", "ShowMap", "Zones")
+                        @Html.ActionLink("Új veszélyes zóna felvétele", "Create", "Zones")
 					</div>
 				</div>
 				<div class="dropdown-group">
 					<button class="dropdown-toggle active">Kerékpárok<span class="triangle-down"></span></button>
 					<div class="dropdown-menu">
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
+						@Html.ActionLink("Kerékpárok listázása", "Index", "Bikes")
+                        @Html.ActionLink("Szabad kerékpárok listázása", "FreeList", "Bikes")
+                        @Html.ActionLink("Foglalt kerékpárok listázása", "BusyList", "Bikes")
+                        @Html.ActionLink("Veszélyes zónában lévő kerékpárok listázása", "DangerousList", "Bikes")
+                        @Html.ActionLink("Foglalt kerékpárok mutatása térképen", "ShowMap", "Bikes")
+                        @Html.ActionLink("Új kerékpár felvétele", "Create", "Bikes")
+                        @Html.ActionLink("Lopás bejelentése", "AnnounceStealing", "Bikes")
 					</div>
 				</div>
 				<div class="dropdown-group">
 					<button class="dropdown-toggle">Számlák<span class="triangle-down"></span></button>
 					<div class="dropdown-menu">
-						<a href="#">TakRaj</a>
-						<a href="#">TakRaj</a>
-						<a href="#">Schwinn-MTB-007</a>
+						@Html.ActionLink("Számlák listázása", "Index", "Invoices")
+                        @Html.ActionLink("Lezáratlan számlák listázása", "ActiveSessions", "Invoices")
+                        @Html.ActionLink("Kifizetetlen, lezárt számlák listázása", "ClosedSessions", "Invoices")
+                        @Html.ActionLink("Számla kifizetése", "CloseSession", "Invoices")
+                        @Html.ActionLink("Nyomtatók listázása", "Index", "Printers")
+                        @Html.ActionLink("Nyomtató bejelentése", "Create", "Printers")
 					</div>
 				</div>
 			</nav>
