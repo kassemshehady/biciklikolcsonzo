@@ -1,0 +1,51 @@
+﻿<nav>
+    <div class="dropdown-group">
+        <button class="dropdown-toggle">Kölcsönzők<span class="triangle-down"></span></button>
+        <div class="dropdown-menu">
+            @Html.ActionLink("Kölcsönzők listázása", "Index", "Lenders")
+            @Html.ActionLink("Új kölcsönző felvétele", "Create", "Lenders")
+        </div>
+    </div>
+    <div class="dropdown-group">
+        <button class="dropdown-toggle">Felhasználók<span class="triangle-down"></span></button>
+        <div class="dropdown-menu">
+            @Html.ActionLink("Felhasználók listázása", "Index", "Users")
+            @Html.ActionLink("Felhasználók listázása kölcsönzők szerint", "ListByLenders", "Users")
+            @Html.ActionLink("Összerendeletlen felhasználók listázása", "UnassignedList", "Users")
+            @Html.ActionLink("Munkatársak listázása", "FellowsList", "Users")
+        </div>
+    </div>
+    <div class="dropdown-group">
+        <button class="dropdown-toggle">Veszélyes zónák<span class="triangle-down"></span></button>
+        <div class="dropdown-menu">
+            @Html.ActionLink("Veszélyes zónák listázása", "Index", "Zones")
+            @Html.ActionLink("Veszélyes zónák térképe", "ShowMap", "Zones")
+            @Html.ActionLink("Új veszélyes zóna felvétele", "Create", "Zones")
+        </div>
+    </div>
+    <div class="dropdown-group">
+        <button class="dropdown-toggle active">Kerékpárok<span class="triangle-down"></span></button>
+        <div class="dropdown-menu">
+            @Html.ActionLink("Kerékpárok listázása", "Index", "Bikes")
+            @Html.ActionLink("Szabad kerékpárok listázása", "FreeList", "Bikes")
+            @Html.ActionLink("Kölcsönözhető kerékpárok listázása", "LendableList", "Bikes")
+            @Html.ActionLink("Foglalt kerékpárok listázása", "BusyList", "Bikes")
+            @Html.ActionLink("Veszélyes zónában lévő kerékpárok listázása", "DangerousList", "Bikes")
+            @Html.ActionLink("Foglalt kerékpárok mutatása térképen", "ShowMap", "Bikes")
+            @Html.ActionLink("Új kerékpár felvétele", "Create", "Bikes")
+            @Html.ActionLink("Kerékpár kölcsönzése", "Lend", "Bikes")
+            @Html.ActionLink("Lopás bejelentése", "AnnounceStealing", "Bikes")
+        </div>
+    </div>
+    <div class="dropdown-group">
+        <button class="dropdown-toggle">Számlák<span class="triangle-down"></span></button>
+        <div class="dropdown-menu">
+            @Html.ActionLink("Számlák listázása", "Index", "Invoices")
+            @Html.ActionLink("Lezáratlan számlák listázása", "ActiveSessions", "Invoices")
+            @Html.ActionLink("Kifizetetlen, lezárt számlák listázása", "ClosedSessions", "Invoices")
+            @Html.ActionLink("Számla kifizetése", "CloseSession", "Invoices")
+            @Html.ActionLink("Nyomtatók listázása", "Index", "Printers")
+            @Html.ActionLink("Nyomtató bejelentése", "Create", "Printers")
+        </div>
+    </div>
+</nav>
