@@ -1,10 +1,14 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
-
 @{
     ViewBag.Title = "Error";
 }
 
-<hgroup class="title">
-    <h1 class="error">Error.</h1>
-    <h2 class="error">An error occurred while processing your request.</h2>
-</hgroup>
+<h1>Sajnáljuk...</h1>
+<p>
+    A kérés feldolgozása közben hiba történt.
+</p>
+<h2>Javaslatok:</h2>
+<ul>
+    <li>Amennyiben először látja ezt a képernyőt kérjük néhány perc múlva próbálja megismételni az előbbi műveletet.</li>
+    <li>Ha ez a hiba többször is előfordult, kérjük írjon nekünk egy e-mailt, melyben kitér a hibajelenségre, továbbá annak körülményeire. E-mail címünk: @AppHelpers.EmailLink(AppConstants.ErrorReportEmail)</li>
+</ul>

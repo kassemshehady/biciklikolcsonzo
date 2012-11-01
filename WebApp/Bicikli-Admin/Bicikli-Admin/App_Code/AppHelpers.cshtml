@@ -1,0 +1,6 @@
+﻿@****************************@
+@*  Creates an e-mail link  *@
+@****************************@
+@helper EmailLink(string email) {
+    Html.Raw("<a href='mailto:@" + email + "'>" + Html.Encode(email) + "</a>");
+}

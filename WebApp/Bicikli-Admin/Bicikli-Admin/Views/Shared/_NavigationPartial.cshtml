@@ -1,13 +1,13 @@
 ﻿<nav>
     <div class="dropdown-group">
-        <button class="dropdown-toggle">Kölcsönzők<span class="triangle-down"></span></button>
+        <button class="dropdown-toggle" id="menu-btn-lenders">Kölcsönzők<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
             @Html.ActionLink("Kölcsönzők listázása", "Index", "Lenders")
             @Html.ActionLink("Új kölcsönző felvétele", "Create", "Lenders")
         </div>
     </div>
     <div class="dropdown-group">
-        <button class="dropdown-toggle">Felhasználók<span class="triangle-down"></span></button>
+        <button class="dropdown-toggle" id="menu-btn-users">Felhasználók<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
             @Html.ActionLink("Felhasználók listázása", "Index", "Users")
             @Html.ActionLink("Felhasználók listázása kölcsönzők szerint", "ListByLenders", "Users")
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="dropdown-group">
-        <button class="dropdown-toggle">Veszélyes zónák<span class="triangle-down"></span></button>
+        <button class="dropdown-toggle" id="menu-btn-zones">Veszélyes zónák<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
             @Html.ActionLink("Veszélyes zónák listázása", "Index", "Zones")
             @Html.ActionLink("Veszélyes zónák térképe", "ShowMap", "Zones")
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="dropdown-group">
-        <button class="dropdown-toggle active">Kerékpárok<span class="triangle-down"></span></button>
+        <button class="dropdown-toggle" id="menu-btn-bikes">Kerékpárok<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
             @Html.ActionLink("Kerékpárok listázása", "Index", "Bikes")
             @Html.ActionLink("Szabad kerékpárok listázása", "FreeList", "Bikes")
@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="dropdown-group">
-        <button class="dropdown-toggle">Számlák<span class="triangle-down"></span></button>
+        <button class="dropdown-toggle" id="menu-btn-invoices">Számlák<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
             @Html.ActionLink("Számlák listázása", "Index", "Invoices")
             @Html.ActionLink("Lezáratlan számlák listázása", "ActiveSessions", "Invoices")
@@ -49,3 +49,13 @@
         </div>
     </div>
 </nav>
+
+@************************************@
+@*  Az aktív menüpont kivilágítása  *@
+@************************************@
+@if (!String.IsNullOrEmpty(ViewBag.active_menu_item_id))
+{
+    @Html.Raw("<script>document.getElementById('"
+        + ViewBag.active_menu_item_id
+        + "').className += ' active';</script>");
+}
