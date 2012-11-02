@@ -128,13 +128,6 @@ namespace Bicikli_Admin.EntityFramework
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLenderDetails")]
-		public ISingleResult<GetLenderDetailsResult> GetLenderDetails([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> param_id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), param_id);
-			return ((ISingleResult<GetLenderDetailsResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLendersList")]
 		public ISingleResult<GetLendersListResult> GetLendersList()
 		{
@@ -167,6 +160,13 @@ namespace Bicikli_Admin.EntityFramework
 		public System.Nullable<double> fnGetDistanceLatLong([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Lat1", DbType="Real")] System.Nullable<float> lat1, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Long1", DbType="Real")] System.Nullable<float> long1, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Lat2", DbType="Real")] System.Nullable<float> lat2, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Long2", DbType="Real")] System.Nullable<float> long2, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ReturnType", DbType="VarChar(10)")] string returnType)
 		{
 			return ((System.Nullable<double>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), lat1, long1, lat2, long2, returnType).ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLenderDetails")]
+		public ISingleResult<GetLenderDetailsResult> GetLenderDetails([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> param_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), param_id);
+			return ((ISingleResult<GetLenderDetailsResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -1655,86 +1655,6 @@ namespace Bicikli_Admin.EntityFramework
 		}
 	}
 	
-	public partial class GetLenderDetailsResult
-	{
-		
-		private double _latitude;
-		
-		private double _longitude;
-		
-		private string _address;
-		
-		private string _description;
-		
-		public GetLenderDetailsResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float NOT NULL")]
-		public double latitude
-		{
-			get
-			{
-				return this._latitude;
-			}
-			set
-			{
-				if ((this._latitude != value))
-				{
-					this._latitude = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longitude", DbType="Float NOT NULL")]
-		public double longitude
-		{
-			get
-			{
-				return this._longitude;
-			}
-			set
-			{
-				if ((this._longitude != value))
-				{
-					this._longitude = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string address
-		{
-			get
-			{
-				return this._address;
-			}
-			set
-			{
-				if ((this._address != value))
-				{
-					this._address = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string description
-		{
-			get
-			{
-				return this._description;
-			}
-			set
-			{
-				if ((this._description != value))
-				{
-					this._description = value;
-				}
-			}
-		}
-	}
-	
 	public partial class GetLendersListResult
 	{
 		
@@ -1916,6 +1836,104 @@ namespace Bicikli_Admin.EntityFramework
 				if ((this._distance != value))
 				{
 					this._distance = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetLenderDetailsResult
+	{
+		
+		private double _latitude;
+		
+		private double _longitude;
+		
+		private string _name;
+		
+		private string _address;
+		
+		private string _description;
+		
+		public GetLenderDetailsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float NOT NULL")]
+		public double latitude
+		{
+			get
+			{
+				return this._latitude;
+			}
+			set
+			{
+				if ((this._latitude != value))
+				{
+					this._latitude = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longitude", DbType="Float NOT NULL")]
+		public double longitude
+		{
+			get
+			{
+				return this._longitude;
+			}
+			set
+			{
+				if ((this._longitude != value))
+				{
+					this._longitude = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this._name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string address
+		{
+			get
+			{
+				return this._address;
+			}
+			set
+			{
+				if ((this._address != value))
+				{
+					this._address = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string description
+		{
+			get
+			{
+				return this._description;
+			}
+			set
+			{
+				if ((this._description != value))
+				{
+					this._description = value;
 				}
 			}
 		}

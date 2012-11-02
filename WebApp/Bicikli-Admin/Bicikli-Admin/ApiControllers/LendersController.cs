@@ -21,7 +21,7 @@ namespace Bicikli_Admin.ApiControllers
         public GetLenderDetailsResult Get(int id)
         {
             var dc = new BicikliDataClassesDataContext();
-            return dc.GetLenderDetails(id).Single();
+            return dc.GetLenderDetails(id).SingleOrDefault();
         }
     }
 }

@@ -72,15 +72,6 @@
       <Association Name="DangerousZone_Session" Member="DangerousZone" ThisKey="dz_id" OtherKey="id" Type="DangerousZone" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
-  <Function Name="dbo.GetLenderDetails" Method="GetLenderDetails">
-    <Parameter Name="param_id" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetLenderDetailsResult">
-      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.GetLendersList" Method="GetLendersList">
     <ElementType Name="GetLendersListResult">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -119,5 +110,15 @@
     <Parameter Name="Long2" Parameter="long2" Type="System.Single" DbType="Real" />
     <Parameter Name="ReturnType" Parameter="returnType" Type="System.String" DbType="VarChar(10)" />
     <Return Type="System.Double" />
+  </Function>
+  <Function Name="dbo.GetLenderDetails" Method="GetLenderDetails">
+    <Parameter Name="param_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetLenderDetailsResult">
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </ElementType>
   </Function>
 </Database>
