@@ -3,18 +3,24 @@
         <button class="dropdown-toggle" id="menu-btn-lenders">Kölcsönzők<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
             @Html.ActionLink("Kölcsönzők listázása", "Index", "Lenders")
-            @Html.ActionLink("Új kölcsönző felvétele", "Create", "Lenders")
+            @Html.ActionLink("Hozzám rendelt kölcsönzők listázása", "MyLenders", "Lenders")
+            @if (User.IsInRole("SiteAdmin"))
+            {
+                @Html.ActionLink("Új kölcsönző felvétele", "Create", "Lenders")
+            }
         </div>
     </div>
-    <div class="dropdown-group">
-        <button class="dropdown-toggle" id="menu-btn-users">Felhasználók<span class="triangle-down"></span></button>
-        <div class="dropdown-menu">
-            @Html.ActionLink("Felhasználók listázása", "Index", "Users")
-            @Html.ActionLink("Felhasználók listázása kölcsönzők szerint", "ListByLenders", "Users")
-            @Html.ActionLink("Összerendeletlen felhasználók listázása", "UnassignedList", "Users")
-            @Html.ActionLink("Munkatársak listázása", "FellowsList", "Users")
+    @if (User.IsInRole("SiteAdmin"))
+    {
+        <div class="dropdown-group">
+            <button class="dropdown-toggle" id="menu-btn-users">Felhasználók<span class="triangle-down"></span></button>
+            <div class="dropdown-menu">
+                @Html.ActionLink("Felhasználók listázása", "Index", "Users")
+                @Html.ActionLink("Site adminisztrátorok listázása", "SiteAdminsList", "Users")
+                @Html.ActionLink("Összerendeletlen felhasználók listázása", "UnassignedList", "Users")
+            </div>
         </div>
-    </div>
+    }
     <div class="dropdown-group">
         <button class="dropdown-toggle" id="menu-btn-zones">Veszélyes zónák<span class="triangle-down"></span></button>
         <div class="dropdown-menu">
@@ -34,7 +40,6 @@
             @Html.ActionLink("Foglalt kerékpárok mutatása térképen", "ShowMap", "Bikes")
             @Html.ActionLink("Új kerékpár felvétele", "Create", "Bikes")
             @Html.ActionLink("Kerékpár kölcsönzése", "Lend", "Bikes")
-            @Html.ActionLink("Lopás bejelentése", "AnnounceStealing", "Bikes")
         </div>
     </div>
     <div class="dropdown-group">

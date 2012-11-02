@@ -1,6 +1,50 @@
-﻿@****************************@
+﻿@using System.Web.Mvc;
+@********************************************************@
+@*  Workaround from http://stackoverflow.com/a/7024686  *@
+@********************************************************@
+@functions
+{
+    private static new HtmlHelper<object> Html
+    {
+        get { return ((WebViewPage)CurrentPage).Html; }
+    }
+}
+@****************************@
 @*  Creates an e-mail link  *@
 @****************************@
-@helper EmailLink(string email) {
-    Html.Raw("<a href='mailto:@" + email + "'>" + Html.Encode(email) + "</a>");
+@helper EmailLink(string email)
+{
+    @Html.Raw("<a href='mailto:" + email + "'>" + Html.Encode(email) + "</a>");
+}
+@******************************@
+@*  Creates a telephone link  *@
+@******************************@
+@helper TelephoneLink(string telephone)
+{
+    var builder = new System.Text.StringBuilder(telephone);
+    builder.Replace("-", "");
+    builder.Replace("/", "");
+    builder.Replace(":", "");
+    builder.Replace(".", "");
+    builder.Replace("(", "");
+    builder.Replace(")", "");
+    builder.Replace("[", "");
+    builder.Replace("]", "");
+    builder.Replace("<", "");
+    builder.Replace(">", "");
+    builder.Replace("{", "");
+    builder.Replace("}", "");
+    builder.Replace("@", "");
+    builder.Replace("#", "");
+    builder.Replace(",", "");
+    builder.Replace("?", "");
+    builder.Replace("%", "");
+    builder.Replace("~", "");
+    builder.Replace("§", "");
+    builder.Replace("$", "");
+    builder.Replace("&", "");
+    builder.Replace("*", "");
+    builder.Replace("\\", "");
+    builder.Replace(" ", "");
+    @Html.Raw("<a href='tel:" + builder.ToString() + "'>" + Html.Encode(telephone) + "</a>");
 }

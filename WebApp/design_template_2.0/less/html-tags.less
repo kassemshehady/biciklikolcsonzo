@@ -1,7 +1,7 @@
 /* html5 tags */
 
 body {
-	width: 1200px;
+	width: 1100px;
 	background: @background_color;
 	margin:0 auto;
 	margin-top: 20px;
@@ -25,11 +25,6 @@ header {
 		
 		a {
 			color: inherit;
-			text-decoration: none;
-			
-			&:hover {
-				text-decoration: underline;
-			}
 		}
 	}
 }
@@ -241,12 +236,7 @@ table:not(.invisible) {
 	
 		td {
 			a {
-				text-decoration: none;
 				color: black;
-			}
-			
-			a:hover {
-				text-decoration: underline;
 			}
 		
 			&.name {
@@ -254,5 +244,33 @@ table:not(.invisible) {
 				text-align: left;
 			}
 		}
+	}
+}
+
+address {
+	display: inline-block;
+	margin: 20px;
+	padding: 5px;
+	border-left: 5px solid blue;
+	text-align: right;
+	
+	a:first-child {
+		color: black;
+	}
+	
+	&:first-line {
+		font-weight: bold;
+	}
+	
+	&.default-address {
+		background-color: lime;
+	}
+}
+
+a {
+	text-decoration: none;
+	
+	&:hover {
+		text-decoration: underline;
 	}
 }

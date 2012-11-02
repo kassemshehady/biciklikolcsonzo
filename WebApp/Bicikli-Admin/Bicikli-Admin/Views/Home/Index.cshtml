@@ -1,8 +1,57 @@
-﻿@{
+﻿@using Bicikli_Admin.Models
+@model IEnumerable<LenderModel>
+@{
     ViewBag.Title = "Kezdőlap";
 }
 
-<h1>Üdvözöljük a @AppConstants.AppName adminisztrációs felületén!</h1>
-<p>
-    Kérjük válasszon a fenti menüpontok közül!
-</p>
+<h2>Üdvözöljük a @AppConstants.AppName adminisztrációs felületén!</h2>
+
+@if (Request.IsAuthenticated)
+{
+    <p>
+        Az Ön szerepköre
+        <strong>@AppUtilities.ResolveUserRole()</strong>.
+        Kérjük válasszon a fenti menüpontok közül!
+    </p>
+    
+    <h2>Az Önhöz rendelt kölcsönzők adatai:</h2>
+    
+    if (Model.Count() > 0)
+    {
+        foreach (LenderModel m in Model)
+        {
+    <address>
+        @m.name
+        <br />
+        @Html.Encode(m.address).Replace(Environment.NewLine, "<br />")
+    </address>
+        }
+    }
+    else
+    {
+    <p>
+        Sajnos Önhöz nem rendeltek kölcsönzőt.
+    </p>
+    }
+}
+else
+{
+    <p>
+        Ön nincs bejelentkezve. Kérjük regisztráljon vagy jelentkezzen be a fenti menü segítségével.
+    </p>
+}
+
+<h2>Az üzemeltető adatai:</h2>
+<address>
+    Fiktív Biciklikölcsönző Kft.<br />
+    Példa Irodaház<br />
+    Galagonya u. 30/a<br />
+    Budapest<br />
+    1117<br />
+    <br />
+    Tel: @AppHelpers.TelephoneLink("+36(30) 555-66-77")
+    <br />
+    Fax: @AppHelpers.TelephoneLink("+36(1) 555-6661")
+    <br />
+    E-Mail: @AppHelpers.EmailLink("info@example.com")
+</address>

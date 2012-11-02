@@ -6,7 +6,7 @@
     }
     else
     {
-        <p>Nem vagy bejelentkezve!</p>
+        <p>Nincs bejelentkezve!</p>
         @Html.ActionLink("Regisztráció", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", Class = "a_button" })
         @Html.ActionLink("Bejelentkezés", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", Class = "a_button" })
     }
