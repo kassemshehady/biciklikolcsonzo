@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Bicikli_Admin.Models.LenderModel>
+@{
+    ViewBag.Title = "Kölcsönzők";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="toolbar">
+    @Html.ActionLink("Új kölcsönző", "Create")
+</p>
+<table>
+    <thead>
+        <tr>
+            <th class="id">
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th class="name">
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th class="address">
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.printer_ip)
+            </th>
+            <th class="edit-tools"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td class="name">
+                    @Html.ActionLink(item.name, "Details", new { id = item.id })
+                </td>
+                <td class="address">
+                    @Html.Encode(item.address).Replace(Environment.NewLine, ", ")
+                </td>
+                <td>
+                    @Html.Raw(item.printer_ip ?? "-")
+                </td>
+                <td class="edit-tools">
+                    <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display:inline-block;"></span></a>
+                    <a title="Törlés" href='@Url.Action("Delete", new { id = item.id })'><span class='ui-icon ui-icon-trash' style="display:inline-block;"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

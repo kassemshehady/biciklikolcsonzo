@@ -19,10 +19,14 @@ namespace Bicikli_Admin
 
             bundles.Add(new ScriptBundle("~/Content/js").Include(
                         "~/Scripts/main.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/gmaps_picker_helper").Include(
+                        "~/Scripts/gmaps_picker_helper.js"));
             
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/normalize.css",
-                        "~/Content/main.css"));
+                        "~/Content/main.css",
+                        "~/Content/highlights.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

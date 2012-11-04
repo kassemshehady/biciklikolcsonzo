@@ -106,6 +106,7 @@
 		background: white;
 		position: relative;
 		display: none;
+		z-index: 9100000;
 		.drop-shadow(0, 0, 2px, 0.7);
 		
 		a {
@@ -167,5 +168,14 @@
 				margin-bottom: 0px;
 			}
 		}
+	}
+}
+
+.toolbar {
+	text-align: center;
+
+	a + a {
+		border-left: 1px solid black;
+		padding: 5px;
 	}
 }

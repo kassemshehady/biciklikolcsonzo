@@ -6,7 +6,7 @@ $(document).ready(function() {
 		$(document).click();
 		
 		if (!showing) {
-			$(this).addClass("open");
+		    $(this).addClass("open");
 		}
 		
 		return false;

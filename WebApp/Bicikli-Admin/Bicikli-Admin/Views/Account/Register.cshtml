@@ -1,15 +1,13 @@
 ﻿@model Bicikli_Admin.Models.RegisterModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Regisztráció";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
+<h2>@ViewBag.Title</h2>
 
-<p class="message-info">
-    Passwords must be at least @Membership.MinRequiredPasswordLength characters long.
+<p class="message-info ui-state-highlight">
+    <span class="ui-icon ui-icon-info" style="display: inline-block;"></span>
+    Figyelem! A jelszavak hossza legalább @Membership.MinRequiredPasswordLength karakter!
 </p>
 
 @using (Html.BeginForm())
@@ -17,7 +15,7 @@
     @Html.ValidationSummary()
 
     <fieldset>
-        <legend>Registration Form</legend>
+        <legend>Regisztrációs űrlap</legend>
 
         <table class="invisible">
             <tr>
@@ -28,7 +26,8 @@
                     @Html.TextBoxFor(m => m.UserName)
                 </td>
                 <td class="validation-col">
-                    <label>(!)</label></td>
+                    <label>@Html.ValidationMessageFor(m => m.UserName, "(!)")</label>
+                </td>
             </tr>
             <tr>
                 <td class="label-col">
@@ -38,7 +37,8 @@
                     @Html.TextBoxFor(m => m.Email)
                 </td>
                 <td class="validation-col">
-                    <label>(!)</label></td>
+                    <label>@Html.ValidationMessageFor(m => m.Email, "(!)")</label>
+                </td>
             </tr>
             <tr>
                 <td class="label-col">
@@ -48,7 +48,8 @@
                     @Html.PasswordFor(m => m.Password)
                 </td>
                 <td class="validation-col">
-                    <label>(!)</label></td>
+                    <label>@Html.ValidationMessageFor(m => m.Password, "(!)")</label>
+                </td>
             </tr>
             <tr>
                 <td class="label-col">
@@ -58,7 +59,8 @@
                     @Html.PasswordFor(m => m.ConfirmPassword)
                 </td>
                 <td class="validation-col">
-                    <label>(!)</label></td>
+                    <label>@Html.ValidationMessageFor(m => m.ConfirmPassword, "(!)")</label>
+                </td>
             </tr>
         </table>
     </fieldset>

@@ -493,6 +493,7 @@
   background: white;
   position: relative;
   display: none;
+  z-index: 9100000;
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
@@ -782,6 +783,13 @@
   border-top: 6px solid white;
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
+}
+.toolbar {
+  text-align: center;
+}
+.toolbar a + a {
+  border-left: 1px solid black;
+  padding: 5px;
 }
 /* css ids */
 #page-body {
@@ -1073,6 +1081,7 @@
   background: white;
   position: relative;
   display: none;
+  z-index: 9100000;
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
@@ -1367,6 +1376,10 @@
   display: box;
   float: right;
 }
+#mapCanvas {
+  width: 500px;
+  height: 400px;
+}
 /* html5 tags */
 body {
   width: 1100px;
@@ -1451,6 +1464,18 @@ form fieldset {
   margin-bottom: 25px;
   padding: 20px;
 }
+form fieldset div.enumeration {
+  border: 1px solid black;
+  margin: 5px;
+  display: inline-block;
+  padding: 5px;
+}
+form fieldset input[type='checkbox'] {
+  display: inline-block;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  width: auto;
+}
 form label {
   white-space: nowrap;
   width: auto;
@@ -1523,16 +1548,25 @@ form .form-buttons {
   padding-bottom: 20px;
   font-size: 0;
 }
-form .form-buttons button + button {
+form .form-buttons button + button,
+form .form-buttons button + a,
+form .form-buttons a + button,
+form .form-buttons a + a {
   border-left: none;
 }
-form .form-buttons button {
+form .form-buttons button,
+form .form-buttons a {
   background: #D2D2D2;
   border: 2px solid black;
   padding: 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
   font-size: 16px;
+  text-decoration: none;
+  color: black;
 }
-form .form-buttons button:only-child {
+form .form-buttons button:only-child,
+form .form-buttons a:only-child {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1540,7 +1574,8 @@ form .form-buttons button:only-child {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-form .form-buttons button:not(:only-child):first-child {
+form .form-buttons button:not(:only-child):first-child,
+form .form-buttons a:not(:only-child):first-child {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -1557,7 +1592,8 @@ form .form-buttons button:not(:only-child):first-child {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-form .form-buttons button:not(:only-child):last-child {
+form .form-buttons button:not(:only-child):last-child,
+form .form-buttons a:not(:only-child):last-child {
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 5px;
   -webkit-border-bottom-left-radius: 0;
@@ -1574,7 +1610,8 @@ form .form-buttons button:not(:only-child):last-child {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-form .form-buttons button:hover {
+form .form-buttons button:hover,
+form .form-buttons a:hover {
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
@@ -1583,13 +1620,15 @@ form .form-buttons button:hover {
   background: -ms-linear-gradient(bottom, #00ffaa, #d2d2d2);
   background: -moz-linear-gradient(center bottom, #00ffaa 0%, #d2d2d2 100%);
 }
-form .form-buttons button:hover:active {
+form .form-buttons button:hover:active,
+form .form-buttons a:hover:active {
   background: #00ffaa;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #ffaa00));
   background: -ms-linear-gradient(bottom, #00ffaa, #ffaa00);
   background: -moz-linear-gradient(center bottom, #00ffaa 0%, #ffaa00 100%);
 }
-form .form-buttons button:not(:hover):active {
+form .form-buttons button:not(:hover):active,
+form .form-buttons a:not(:hover):active {
   background: #00ffaa;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #ffaa00));
   background: -ms-linear-gradient(bottom, #00ffaa, #ffaa00);
@@ -1639,6 +1678,10 @@ table:not(.invisible) thead th.name {
   width: auto;
   text-align: left;
 }
+table:not(.invisible) thead th.address {
+  width: auto;
+  text-align: left;
+}
 table:not(.invisible) tbody tr:nth-child(2n) {
   background: #E1E1E1;
 }
@@ -1653,6 +1696,9 @@ table:not(.invisible) tbody td a {
 }
 table:not(.invisible) tbody td.name {
   font-weight: bold;
+  text-align: left;
+}
+table:not(.invisible) tbody td.address {
   text-align: left;
 }
 address {

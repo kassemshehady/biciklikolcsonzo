@@ -32,8 +32,18 @@ namespace Bicikli_Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                var user = Membership.GetUser(model.UserName);
+                if (user != null && user.IsLockedOut)
                 {
+                    ModelState.AddModelError("", "A felhasználó ki van tiltva.");
+                }
+                else if (user != null && !user.IsApproved)
+                {
+                    ModelState.AddModelError("", "A felhasználó nincs jóváhagyva.");
+                }
+                else if (Membership.ValidateUser(model.UserName, model.Password))
+                {
+
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -46,7 +56,7 @@ namespace Bicikli_Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    ModelState.AddModelError("", "A felhasználónév vagy a jelszó nem megfelelő.");
                 }
             }
 
@@ -74,6 +84,15 @@ namespace Bicikli_Admin.Controllers
         }
 
         //
+        // GET: /Account/RegisterSuccess
+
+        [AllowAnonymous]
+        public ActionResult RegisterSuccess()
+        {
+            return View();
+        }
+
+        //
         // POST: /Account/Register
 
         [AllowAnonymous]
@@ -84,12 +103,31 @@ namespace Bicikli_Admin.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: false, providerUserKey: null, status: out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegisterSuccess");
+                }
+                else if (createStatus == MembershipCreateStatus.DuplicateUserName)
+                {
+                    ModelState.AddModelError("", "A felhasználónév foglalt.");
+                }
+                else if (createStatus == MembershipCreateStatus.InvalidEmail)
+                {
+                    ModelState.AddModelError("", "Az E-Mail cím formátuma nem megfelelő.");
+                }
+                else if (createStatus == MembershipCreateStatus.InvalidPassword)
+                {
+                    ModelState.AddModelError("", "A jelszó nem megfelelő.");
+                }
+                else if (createStatus == MembershipCreateStatus.InvalidUserName)
+                {
+                    ModelState.AddModelError("", "A felhasználónév formátuma nem megfelelő.");
+                }
+                else if (createStatus == MembershipCreateStatus.UserRejected)
+                {
+                    ModelState.AddModelError("", "A felhasználó nem hozható létre, kérjük lépjen kapcsolatba az üzemeltetővel.");
                 }
                 else
                 {
@@ -137,7 +175,7 @@ namespace Bicikli_Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                    ModelState.AddModelError("", "A jelenlegi vagy az új jelszó nem megfelelő.");
                 }
             }
 

@@ -1,19 +1,16 @@
 ﻿@model Bicikli_Admin.Models.LoginModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Bejelentkezés";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Use this form to enter your user name and password.</h2>
-</hgroup>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
 {
-    @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
+    @Html.ValidationSummary(true, "A bejelentkezés sikertelen volt.")
 
     <fieldset>
-        <legend>Log in Form</legend>
+        <legend>Bejelentkezési adatok</legend>
 
         <table class="invisible">
             <tr>
@@ -24,7 +21,8 @@
                     @Html.TextBoxFor(m => m.UserName)
                 </td>
                 <td class="validation-col">
-                    <label>(!)</label></td>
+                    <label>@Html.ValidationMessageFor(m => m.UserName, "(!)")</label>
+                </td>
             </tr>
             <tr>
                 <td class="label-col">
@@ -34,7 +32,8 @@
                     @Html.PasswordFor(m => m.Password)
                 </td>
                 <td class="validation-col">
-                    <label>(!)</label></td>
+                    <label>@Html.ValidationMessageFor(m => m.Password, "(!)")</label>
+                </td>
             </tr>
             <tr>
                 <td class="label-col">
@@ -43,8 +42,7 @@
                 <td>
                     @Html.CheckBoxFor(m => m.RememberMe)
                 </td>
-                <td class="validation-col">
-                    <label>(!)</label></td>
+                <td class="validation-col"></td>
             </tr>
         </table>
     </fieldset>
@@ -53,7 +51,7 @@
         <button type="submit">Belépés</button>
     </div>
     <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
+        @Html.ActionLink("Regisztráljon", "Register"), ha nincs még hozzáférése.
     </p>
 }
 @section Scripts {

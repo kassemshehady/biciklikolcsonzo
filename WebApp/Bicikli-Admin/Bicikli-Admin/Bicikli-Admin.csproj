@@ -134,12 +134,19 @@
     <Compile Include="ApiControllers\ReportController.cs" />
     <Compile Include="ApiModels\PrinterModels.cs" />
     <Compile Include="ApiModels\ReportModels.cs" />
+    <Compile Include="App_GlobalResources\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="CommonClasses\AppConstants.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CommonClasses\AppUtilities.cs" />
+    <Compile Include="CommonClasses\CustomModelBinders.cs" />
     <Compile Include="CommonClasses\DataRepository.cs" />
+    <Compile Include="Controllers\LendersController.cs" />
     <Compile Include="Models\InvoiceModels.cs" />
     <Compile Include="CommonClasses\PrintingSubscription.cs" />
     <Compile Include="EntityFramework\BicikliDataClasses.designer.cs">
@@ -154,6 +161,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\LenderModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +170,7 @@
       <DependentUpon>BicikliData.mdf</DependentUpon>
     </Content>
     <Content Include="Content\main.css" />
+    <Content Include="Scripts\gmaps_picker_helper.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -233,7 +242,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\highlights.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\aspNetHome.png" />
@@ -267,8 +276,17 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\_NavigationPartial.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
+    <Content Include="Views\Lenders\Index.cshtml" />
+    <Content Include="Views\Lenders\MyLenders.cshtml" />
+    <Content Include="Views\Lenders\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Resources.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
