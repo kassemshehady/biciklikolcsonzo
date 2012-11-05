@@ -11,21 +11,19 @@ namespace Bicikli_Admin.Models
         [Display(Name = "#")]
         public int? id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="A következő mező kitöltése kötelező: {0}")]
         [Display(Name = "Földrajzi szélesség")]
-        [RegularExpression(@"[0-9]+(\.([0-9])+)?", ErrorMessage="A következő mező formátuma nem megfelelő: {0}.")]
         public double latitude { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
         [Display(Name = "Földrajzi hosszúság")]
-        [RegularExpression(@"[0-9]+(\.([0-9])+)?", ErrorMessage = "A következő mező formátuma nem megfelelő: {0}.")]
         public double longitude { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
         [Display(Name = "Név")]
         public string name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
         [Display(Name = "Cím")]
         [DataType(DataType.MultilineText)]
         public string address { get; set; }

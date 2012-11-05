@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Bicikli_Admin.EntityFramework;
+using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.CommonClasses
@@ -24,7 +25,8 @@ namespace Bicikli_Admin.CommonClasses
                        longitude = l.longitude,
                        name = l.name,
                        address = l.address,
-                       description = l.description
+                       description = l.description,
+                       printer_ip = l.printer_ip
                    };
         }
 
@@ -39,7 +41,8 @@ namespace Bicikli_Admin.CommonClasses
                        longitude = l.longitude,
                        name = l.name,
                        address = l.address,
-                       description = l.description
+                       description = l.description,
+                       printer_ip = l.printer_ip
                    };
         }
 
@@ -52,6 +55,43 @@ namespace Bicikli_Admin.CommonClasses
                        guid = u.UserId,
                        username = u.UserName
                    };
+        }
+
+        public static LenderModel GetLender(int id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return (from l in dc.Lenders
+                    where l.id == id
+                    select new LenderModel
+                    {
+                        id = l.id,
+                        latitude = l.latitude,
+                        longitude = l.longitude,
+                        name = l.name,
+                        address = l.address,
+                        description = l.description,
+                        printer_ip = l.printer_ip
+                    }).Single();
+        }
+
+        public static IEnumerable<UserModel> GetLenderAssignedUsers(int lender_id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from lug in dc.LenderUsers
+                   where lug.lender_id == lender_id
+                   select new UserModel
+                   {
+                       username = lug.User.UserName,
+                       guid = lug.User.UserId
+                   };
+        }
+
+        public static IEnumerable<Guid> GetLenderAssignedGuids(int lender_id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from lug in dc.LenderUsers
+                   where lug.lender_id == lender_id
+                   select lug.user_id;
         }
     }
 }

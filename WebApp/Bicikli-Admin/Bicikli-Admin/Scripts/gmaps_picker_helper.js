@@ -24,7 +24,22 @@ function updateMarkerAddress(str) {
 }
 
 function init_gmaps_single_marker() {
-    var latLng = new google.maps.LatLng(47.47, 19.06);
+
+    var edit_mode = true;               // use input field to init
+    var input_latitude = parseFloat(document.getElementById('latitude').value);
+    var input_longitude = parseFloat(document.getElementById('longitude').value);
+
+    if (input_latitude == null || Math.abs(input_latitude) < 0.001) {
+        input_latitude = 47.47;         // default latitude
+        edit_mode = false;
+    }
+
+    if (input_longitude == null || Math.abs(input_longitude) < 0.001) {
+        input_longitude = 19.06;        // default longitude
+        edit_mode = false;
+    }
+
+    var latLng = new google.maps.LatLng(input_latitude, input_longitude);
 
     map = new google.maps.Map(document.getElementById('mapCanvas'), {
         zoom: 8,
@@ -40,7 +55,12 @@ function init_gmaps_single_marker() {
 
     // Update current position info.
     updateMarkerPosition(latLng);
-    geocodePosition(latLng);
+
+    if (!edit_mode) {
+        geocodePosition(latLng);
+    } else {
+        map.setZoom(15);
+    }
 
     // Add dragging event listeners.
     google.maps.event.addListener(marker, 'drag', function () {
@@ -73,6 +93,7 @@ function updateGmapsView() {
     marker.setPosition(new google.maps.LatLng(lat, lng));
     updateMarkerPosition(marker.getPosition());
     map.setCenter(marker.getPosition());
+    map.setZoom(15);
     geocodePosition(marker.getPosition());
 }
 

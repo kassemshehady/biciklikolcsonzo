@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -23,8 +25,11 @@ namespace Bicikli_Admin
         {
             AreaRegistration.RegisterAllAreas();
 
+            // custom model binders for double and decimal parsing
+            ModelBinders.Binders.DefaultBinder = new CustomModelBinder();
             ModelBinders.Binders.Add(typeof(double), new DoubleModelBinder());
-            ModelBinders.Binders.Add(typeof(float), new FloatModelBinder());
+            ModelBinders.Binders.Remove(typeof(decimal));
+            ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

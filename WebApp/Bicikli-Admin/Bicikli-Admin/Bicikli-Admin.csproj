@@ -149,7 +149,7 @@
     <Compile Include="Controllers\LendersController.cs" />
     <Compile Include="Models\InvoiceModels.cs" />
     <Compile Include="CommonClasses\PrintingSubscription.cs" />
-    <Compile Include="EntityFramework\BicikliDataClasses.designer.cs">
+    <Compile Include="EntityFramework\linq\BicikliDataClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BicikliDataClasses.dbml</DependentUpon>
@@ -202,7 +202,7 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="EntityFramework\BicikliDataClasses.dbml">
+    <Content Include="EntityFramework\linq\BicikliDataClasses.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>BicikliDataClasses.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -280,6 +280,7 @@
     <Content Include="Views\Lenders\Index.cshtml" />
     <Content Include="Views\Lenders\MyLenders.cshtml" />
     <Content Include="Views\Lenders\Create.cshtml" />
+    <Content Include="Views\Lenders\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">
@@ -294,7 +295,7 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="EntityFramework\BicikliDataClasses.dbml.layout">
+    <None Include="EntityFramework\linq\BicikliDataClasses.dbml.layout">
       <DependentUpon>BicikliDataClasses.dbml</DependentUpon>
     </None>
   </ItemGroup>

@@ -2,7 +2,7 @@
 @using Bicikli_Admin.Models
 @using System.Collections.Generic
 @{
-    ViewBag.Title = "Új kölcsönző hozzáadása";
+    ViewBag.Title = "Kölcsönző szerkesztése";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,6 +13,8 @@
 
     <fieldset>
         <legend>Kölcsönző adatai</legend>
+
+        @Html.HiddenFor(model => model.id)
 
         <table class="invisible">
             <tr>
@@ -127,7 +129,7 @@
     </fieldset>
 
     <div class="form-buttons">
-        <button type="submit">Hozzáadás</button>
+        <button type="submit">Mentés</button>
     </div>
 }
 @section Scripts {

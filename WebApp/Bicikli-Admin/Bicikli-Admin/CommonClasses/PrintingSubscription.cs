@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Bicikli_Admin.ApiModels;
 using Bicikli_Admin.EntityFramework;
+using Bicikli_Admin.EntityFramework.linq;
 
 namespace Bicikli_Admin.CommonClasses
 {
