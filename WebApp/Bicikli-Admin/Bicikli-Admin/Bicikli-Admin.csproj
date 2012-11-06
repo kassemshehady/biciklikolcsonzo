@@ -147,6 +147,7 @@
     <Compile Include="CommonClasses\CustomModelBinders.cs" />
     <Compile Include="CommonClasses\DataRepository.cs" />
     <Compile Include="Controllers\LendersController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Models\InvoiceModels.cs" />
     <Compile Include="CommonClasses\PrintingSubscription.cs" />
     <Compile Include="EntityFramework\linq\BicikliDataClasses.designer.cs">
@@ -284,6 +285,14 @@
     <Content Include="Views\Lenders\Details.cshtml" />
     <Content Include="Views\Lenders\_UsersList.cshtml" />
     <Content Include="Views\Lenders\Delete.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\UnassignedList.cshtml" />
+    <Content Include="Views\Users\SiteAdminsList.cshtml" />
+    <Content Include="Views\Users\UnapprovedList.cshtml" />
+    <Content Include="Views\Users\BannedList.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\_LendersList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">

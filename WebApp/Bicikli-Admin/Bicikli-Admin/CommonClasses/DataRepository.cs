@@ -57,6 +57,58 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        public static IEnumerable<LenderModel> GetLendersOfUser(Guid guid)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from lu in dc.LenderUsers
+                   join l in dc.Lenders
+                   on lu.lender_id equals l.id
+                   where (lu.user_id == guid)
+                   select new LenderModel
+                   {
+                       id = l.id,
+                       address = l.address,
+                       description = l.description,
+                       latitude = l.latitude,
+                       longitude = l.longitude,
+                       name = l.name,
+                       printer_ip = l.printer_ip
+                   };
+        }
+
+        public static IEnumerable<UserModel> GetUsersWithDetails()
+        {
+            var result = new List<UserModel>();
+
+            #region Get users data
+
+            var dc = new BicikliDataClassesDataContext();
+            var membershipUsers = Membership.GetAllUsers();
+            foreach (MembershipUser mUser in membershipUsers)
+            {
+                var uModel = new UserModel();
+
+                #region Get user data
+
+                uModel.username = mUser.UserName;
+                uModel.guid = (Guid) mUser.ProviderUserKey;
+                uModel.email = mUser.Email;
+                uModel.countOfLenders = GetLendersOfUser(uModel.guid).Count();
+                uModel.lastLogin = mUser.LastLoginDate;
+                uModel.isSiteAdmin = Roles.IsUserInRole(mUser.UserName, "SiteAdmin");
+                uModel.isLockedOut = mUser.IsLockedOut;
+                uModel.isApproved = mUser.IsApproved;
+
+                #endregion
+
+                result.Add(uModel);
+            }
+
+            #endregion
+
+            return result;
+        }
+
         public static LenderModel GetLender(int id)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -92,6 +144,23 @@ namespace Bicikli_Admin.CommonClasses
             return from lug in dc.LenderUsers
                    where lug.lender_id == lender_id
                    select lug.user_id;
+        }
+
+        public static void DeleteLender(int lender_id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            var lenderToRemove = dc.Lenders.Where(l => l.id == lender_id).Single();
+            foreach (Bike bike in lenderToRemove.Bikes)
+            {
+                bike.current_lender_id = null;
+            }
+            dc.SubmitChanges();
+
+            dc.LenderUsers.DeleteAllOnSubmit(lenderToRemove.LenderUsers);
+            dc.SubmitChanges();
+
+            dc.Lenders.DeleteOnSubmit(lenderToRemove);
+            dc.SubmitChanges();
         }
     }
 }

@@ -303,18 +303,16 @@ namespace Bicikli_Admin.Controllers
         // POST: /Lenders/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(LenderModel model)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                DataRepository.DeleteLender((int) model.id);
                 return RedirectToAction("Index");
             }
             catch
             {
-                ViewBag.active_menu_item_id = "menu-btn-lenders";
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }

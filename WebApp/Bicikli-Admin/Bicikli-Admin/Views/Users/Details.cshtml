@@ -1,0 +1,99 @@
+﻿@model Bicikli_Admin.Models.UserModel
+@{
+    ViewBag.Title = Model.username;
+}
+
+<h2>@Html.DisplayFor(model => model.username) felhasználó adatlapja</h2>
+
+<div class="formlike">
+    <fieldset>
+        <legend>Profil</legend>
+
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.email)
+                    </span>
+                </td>
+                <td>
+                    @AppHelpers.EmailLink(Model.email)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.lastLogin)
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.lastLogin)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">Szerep
+                    </span>
+                </td>
+                <td>
+                    @Html.Encode(AppUtilities.ResolveUserRole(Model.username))
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.isApproved)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.isApproved)
+                    {
+                        @Html.Raw("Igen");
+                    }
+                    else
+                    {
+                        @Html.Raw("Nem");
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.isLockedOut)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.isLockedOut)
+                    {
+                        @Html.Raw("Igen");
+                    }
+                    else
+                    {
+                        @Html.Raw("Nem");
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.countOfLenders)
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.countOfLenders)
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    @Html.Partial("_LendersList")
+
+    <div class="form-buttons">
+        @Html.ActionLink("Vissza a felhasználók listájához", "Index")
+    </div>
+</div>

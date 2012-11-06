@@ -1,0 +1,61 @@
+﻿<fieldset>
+    <legend>Hozzárendelt kölcsönzők</legend>
+    @{
+        IEnumerable<Bicikli_Admin.Models.LenderModel> lenders = ViewBag.Lenders;
+        if (lenders != null)
+        {
+            foreach (Bicikli_Admin.Models.LenderModel l in lenders)
+            {
+        <ul>
+            @{
+                IEnumerable<Bicikli_Admin.Models.LenderModel> selectedLenders = ViewBag.SelectedLenders;
+                if (selectedLenders != null && selectedLenders.Contains(l))
+                {
+                <li>
+                    <input type="checkbox" name="users" value="@l.id" checked="checked" />
+                    @Html.ActionLink(
+                        Html.Encode(l.name),
+                        actionName: "Details",
+                        controllerName: "Lenders",
+                        routeValues: new { id = l.id },
+                        htmlAttributes: null)
+                </li>
+                }
+                else
+                {
+                <li>
+                    <input type="checkbox" name="users" value="@l.id" />
+                    @Html.ActionLink(
+                        Html.Encode(l.name),
+                        actionName: "Details",
+                        controllerName: "Lenders",
+                        routeValues: new { id = l.id },
+                        htmlAttributes: null)
+                </li>
+                }
+            }
+        </ul>
+            }
+        }
+        else
+        {
+            IEnumerable<Bicikli_Admin.Models.LenderModel> selectedLenders = ViewBag.SelectedLenders;
+            if (selectedLenders != null && selectedLenders.Count() > 0)
+            {
+        <ul>
+            @foreach (Bicikli_Admin.Models.LenderModel l in selectedLenders)
+            {
+                <li>
+                    @Html.ActionLink(
+                        Html.Encode(l.name),
+                        actionName: "Details",
+                        controllerName: "Lenders",
+                        routeValues: new { id = l.id },
+                        htmlAttributes: null)
+                </li>
+            }
+        </ul>
+            }
+        }
+    }
+</fieldset>

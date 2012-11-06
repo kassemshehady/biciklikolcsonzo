@@ -107,7 +107,7 @@ function updateGmapsView() {
     marker.setPosition(new google.maps.LatLng(lat, lng));
     updateMarkerPosition(marker.getPosition());
     map.setCenter(marker.getPosition());
-    map.setZoom(15);
+    map.setZoom(16);
     geocodePosition(marker.getPosition());
 }
 

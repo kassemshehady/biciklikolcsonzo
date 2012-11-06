@@ -13,7 +13,12 @@ public class AppUtilities
      */
     public static string ResolveUserRole()
     {
-        if (Roles.IsUserInRole("SiteAdmin"))
+        return ResolveUserRole(Membership.GetUser().UserName);
+    }
+
+    public static string ResolveUserRole(string username)
+    {
+        if (Roles.IsUserInRole(username, "SiteAdmin"))
         {
             return "Site Adminisztrátor";
         }

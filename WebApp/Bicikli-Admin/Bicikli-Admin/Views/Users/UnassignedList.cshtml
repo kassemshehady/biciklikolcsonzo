@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Bicikli_Admin.Models.UserModel>
+@{
+    ViewBag.Title = "Összerendeletlen felhasználók";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th class="name">
+                @Html.DisplayNameFor(model => model.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lastLogin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isSiteAdmin)
+            </th>
+            <th class="edit-tools"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="name">
+                    @Html.ActionLink(Html.Encode(item.username), "Details", new { id = item.username })
+                </td>
+                <td>
+                    @AppHelpers.EmailLink(item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastLogin)
+                </td>
+                <td>
+                    @if (item.isSiteAdmin)
+                    {
+                        @Html.Raw("<span class='ui-icon ui-icon-check' style='display: inline-block;'>Igen</span>")
+                    }
+                    else
+                    {
+                        @Html.Raw("<span class='ui-icon ui-icon-closethick' style='display: inline-block;'>Nem</span>")
+                    }
+                </td>
+                <td class="edit-tools">
+                    <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.username })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

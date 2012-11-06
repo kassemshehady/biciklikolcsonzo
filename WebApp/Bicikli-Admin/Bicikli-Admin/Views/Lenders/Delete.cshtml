@@ -6,7 +6,10 @@
 }
 
 <h2>Biztosan törölni szeretné az alábbi kölcsönzőt?</h2>
-<p>Figyelem! A művelet nem vonható vissza!</p>
+<p class="message-error ui-state-error">
+    <span class="ui-icon ui-icon-alert" style="display: inline-block;"></span>
+    Figyelem! A művelet nem vonható vissza!
+</p>
 
 @using (Html.BeginForm())
 {
@@ -22,6 +25,7 @@
                 </td>
                 <td>
                     @Html.DisplayFor(model => model.name)
+                    @Html.HiddenFor(model => model.id)
                 </td>
             </tr>
 

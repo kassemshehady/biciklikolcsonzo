@@ -14,7 +14,14 @@
 @****************************@
 @helper EmailLink(string email)
 {
-    @Html.Raw("<a href='mailto:" + email + "'>" + Html.Encode(email) + "</a>");
+    if (email != null && email != "")
+    {
+        @Html.Raw("<a href='mailto:" + email + "'>" + Html.Encode(email) + "</a>");
+    }
+    else
+    {
+        @Html.Raw("-");
+    }
 }
 @******************************@
 @*  Creates a telephone link  *@
