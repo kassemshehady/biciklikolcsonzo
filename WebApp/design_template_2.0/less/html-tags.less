@@ -40,7 +40,7 @@ footer {
 	text-shadow: 0px 0px 2px @background_color;
 }
 
-form {
+form, .formlike {
 	width: 700px;
 	margin: auto;
 	
@@ -48,11 +48,18 @@ form {
 		margin-bottom: 25px;
 		padding: 20px;
 		
-		div.enumeration {
-			border: 1px solid black;
-			margin: 5px;
+		ul.boxed-enumeration {
 			display: inline-block;
 			padding: 5px;
+			list-style:none;
+			
+			li {
+				border: 1px solid black;
+				margin: 5px;
+				display: inline-block;
+				padding: 5px;
+				list-style:none;
+			}
 		}
 		
 		input[type='checkbox'] {
@@ -63,10 +70,14 @@ form {
 		}
 	}
 	
-	label {
+	label, .labellike {
 		white-space: nowrap;
 		width: auto;
 		padding: 3px;
+	}
+	
+	.labellike {
+		font-weight: bold;
 	}
 	
 	table.invisible {
@@ -88,6 +99,10 @@ form {
 				font-weight: bolder;
 				padding-left: 20px;
 			}
+		}
+		
+		tr {
+			vertical-align: top;
 		}
 	}
 	

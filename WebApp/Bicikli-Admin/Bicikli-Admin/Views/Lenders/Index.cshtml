@@ -37,14 +37,19 @@
                     @Html.ActionLink(item.name, "Details", new { id = item.id })
                 </td>
                 <td class="address">
-                    @Html.Encode(item.address).Replace(Environment.NewLine, ", ")
+                    @{
+                        string dstr = Html.Encode(item.address);
+                        dstr = dstr.Replace("," + Html.Encode(Environment.NewLine), Html.Encode(Environment.NewLine));
+                        dstr = dstr.Replace(", " + Html.Encode(Environment.NewLine), Html.Encode(Environment.NewLine));
+                        @Html.Raw(dstr.Replace(Html.Encode(Environment.NewLine), ", "));
+                    }
                 </td>
                 <td>
                     @Html.Raw(item.printer_ip ?? "-")
                 </td>
                 <td class="edit-tools">
-                    <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display:inline-block;"></span></a>
-                    <a title="Törlés" href='@Url.Action("Delete", new { id = item.id })'><span class='ui-icon ui-icon-trash' style="display:inline-block;"></span></a>
+                    <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>
+                    <a title="Törlés" href='@Url.Action("Delete", new { id = item.id })'><span class='ui-icon ui-icon-trash' style="display: inline-block;"></span></a>
                 </td>
             </tr>
         }

@@ -23,7 +23,7 @@ function updateMarkerAddress(str) {
     document.getElementById('address').value = str;
 }
 
-function init_gmaps_single_marker() {
+function init_gmaps_single_marker(readonly) {
 
     var edit_mode = true;               // use input field to init
     var input_latitude = parseFloat(document.getElementById('latitude').value);
@@ -41,42 +41,56 @@ function init_gmaps_single_marker() {
 
     var latLng = new google.maps.LatLng(input_latitude, input_longitude);
 
-    map = new google.maps.Map(document.getElementById('mapCanvas'), {
-        zoom: 8,
-        center: latLng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+    if (readonly) {
+        map = new google.maps.Map(document.getElementById('mapCanvas'), {
+            zoom: 16,
+            center: latLng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
 
-    marker = new google.maps.Marker({
-        position: latLng,
-        map: map,
-        draggable: true
-    });
-
-    // Update current position info.
-    updateMarkerPosition(latLng);
-
-    if (!edit_mode) {
-        geocodePosition(latLng);
+        marker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+            draggable: false
+        });
     } else {
-        map.setZoom(15);
+        map = new google.maps.Map(document.getElementById('mapCanvas'), {
+            zoom: 8,
+            center: latLng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        marker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+            draggable: true
+        });
+
+        // Update current position info.
+        updateMarkerPosition(latLng);
+
+        if (!edit_mode) {
+            geocodePosition(latLng);
+        } else {
+            map.setZoom(16);
+        }
+
+        // Add dragging event listeners.
+        google.maps.event.addListener(marker, 'drag', function () {
+            updateMarkerPosition(marker.getPosition());
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function () {
+            updateMarkerPosition(marker.getPosition());
+            geocodePosition(marker.getPosition());
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            marker.setPosition(event.latLng);
+            updateMarkerPosition(marker.getPosition());
+            geocodePosition(marker.getPosition());
+        });
     }
-
-    // Add dragging event listeners.
-    google.maps.event.addListener(marker, 'drag', function () {
-        updateMarkerPosition(marker.getPosition());
-    });
-
-    google.maps.event.addListener(marker, 'dragend', function () {
-        updateMarkerPosition(marker.getPosition());
-        geocodePosition(marker.getPosition());
-    });
-
-    google.maps.event.addListener(map, 'click', function (event) {
-        marker.setPosition(event.latLng);
-        updateMarkerPosition(marker.getPosition());
-        geocodePosition(marker.getPosition());
-    });
 }
 
 function updateGmapsView() {
@@ -98,7 +112,11 @@ function updateGmapsView() {
 }
 
 function init_gmaps_picker() {
-    init_gmaps_single_marker();
+    init_gmaps_single_marker(false);
     $("#latitude").change(updateGmapsView);
     $("#longitude").change(updateGmapsView);
+}
+
+function init_gmaps_readonly() {
+    init_gmaps_single_marker(true);
 }

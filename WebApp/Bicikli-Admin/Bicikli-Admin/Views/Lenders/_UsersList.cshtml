@@ -1,0 +1,61 @@
+﻿<fieldset>
+    <legend>Hozzárendelt felhasználók</legend>
+    @{
+        IEnumerable<Bicikli_Admin.Models.UserModel> users = ViewBag.Users;
+        if (users != null)
+        {
+            foreach (Bicikli_Admin.Models.UserModel u in users)
+            {
+        <ul class="boxed-enumeration">
+            @{
+                IEnumerable<string> selectedUsers = ViewBag.SelectedUsers;
+                if (selectedUsers != null && selectedUsers.Contains(u.username))
+                {
+                <li>
+                    <input type="checkbox" name="users" value="@u.username" checked="checked" />
+                    @Html.ActionLink(
+                        Html.Encode(u.username),
+                        actionName: "Details",
+                        controllerName: "Users",
+                        routeValues: new { id = u.username },
+                        htmlAttributes: null)
+                </li>
+                }
+                else
+                {
+                <li>
+                    <input type="checkbox" name="users" value="@u.username" />
+                    @Html.ActionLink(
+                        Html.Encode(u.username),
+                        actionName: "Details",
+                        controllerName: "Users",
+                        routeValues: new { id = u.username },
+                        htmlAttributes: null)
+                </li>
+                }
+            }
+        </ul>
+            }
+        }
+        else
+        {
+            IEnumerable<string> selectedUsers = ViewBag.SelectedUsers;
+            if (selectedUsers != null && selectedUsers.Count() > 0)
+            {
+        <ul class="boxed-enumeration">
+            @foreach (string username in selectedUsers)
+            {
+                <li>
+                    @Html.ActionLink(
+                        Html.Encode(username),
+                        actionName: "Details",
+                        controllerName: "Users",
+                        routeValues: new { id = username },
+                        htmlAttributes: null)
+                </li>
+            }
+        </ul>
+            }
+        }
+    }
+</fieldset>

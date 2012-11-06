@@ -101,32 +101,7 @@
         </table>
     </fieldset>
     
-    <fieldset>
-        <legend>Hozzárendelt felhasználók</legend>
-        @{
-    IEnumerable<UserModel> users = ViewBag.Users;
-    if (users != null)
-    {
-        foreach (UserModel u in users)
-        {
-            <div class="enumeration">
-                @{
-            IEnumerable<string> selectedUsers = ViewBag.SelectedUsers;
-            if (selectedUsers != null && selectedUsers.Contains(u.username))
-            {
-                    <input type="checkbox" name="users" value="@u.username" checked="checked" />
-            }
-            else
-            {
-                    <input type="checkbox" name="users" value="@u.username" />
-            }
-                }
-                <label for="users">@Html.Encode(u.username)</label>
-            </div>
-        }
-    }
-        }
-    </fieldset>
+    @Html.Partial("_UsersList")
 
     <div class="form-buttons">
         <button type="submit">Mentés</button>

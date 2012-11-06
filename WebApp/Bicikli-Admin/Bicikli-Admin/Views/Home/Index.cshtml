@@ -23,7 +23,10 @@
     <address>
         @m.name
         <br />
-        @Html.Encode(m.address).Replace(Environment.NewLine, "<br />")
+        @{
+            string dstr = Html.Encode(m.address);
+            @Html.Raw(dstr.Replace(Html.Encode(Environment.NewLine), "<br />"))
+        }
     </address>
         }
     }

@@ -36,7 +36,27 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Details(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-lenders";
-            return View();
+            try
+            {
+                var lenderToShow = DataRepository.GetLender(id);
+
+                #region Get selected users from db
+
+                var selectedUsers = new List<string>();
+                foreach (UserModel usermodel in DataRepository.GetLenderAssignedUsers(id))
+                {
+                    selectedUsers.Add(usermodel.username);
+                }
+                ViewBag.SelectedUsers = selectedUsers;
+
+                #endregion
+
+                return View(lenderToShow);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         //
@@ -78,7 +98,7 @@ namespace Bicikli_Admin.Controllers
                         var msUser = Membership.GetUser(username);
                         if (msUser != null)
                         {
-                            Guid msUserGuid = (Guid) msUser.ProviderUserKey;
+                            Guid msUserGuid = (Guid)msUser.ProviderUserKey;
                             if (!guidsToInsert.Contains(msUserGuid))
                             {
                                 guidsToInsert.Add(msUserGuid);
@@ -98,7 +118,7 @@ namespace Bicikli_Admin.Controllers
                 lenderToInsert.longitude = model.longitude;
                 db.Lenders.InsertOnSubmit(lenderToInsert);
                 db.SubmitChanges();
-                
+
                 // Step 3: Add users to Lender
                 foreach (Guid guid in guidsToInsert)
                 {
@@ -137,14 +157,18 @@ namespace Bicikli_Admin.Controllers
             try
             {
                 var lenderToEdit = DataRepository.GetLender(id);
-                var selectedUsers = new List<string>();
 
+                #region Get selected users from db
+
+                var selectedUsers = new List<string>();
                 foreach (UserModel usermodel in DataRepository.GetLenderAssignedUsers(id))
                 {
                     selectedUsers.Add(usermodel.username);
                 }
-
                 ViewBag.SelectedUsers = selectedUsers;
+
+                #endregion
+
                 return View(lenderToEdit);
             }
             catch
@@ -252,7 +276,27 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Delete(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-lenders";
-            return View();
+            try
+            {
+                var lenderToShow = DataRepository.GetLender(id);
+
+                #region Get selected users from db
+
+                var selectedUsers = new List<string>();
+                foreach (UserModel usermodel in DataRepository.GetLenderAssignedUsers(id))
+                {
+                    selectedUsers.Add(usermodel.username);
+                }
+                ViewBag.SelectedUsers = selectedUsers;
+
+                #endregion
+
+                return View(lenderToShow);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         //

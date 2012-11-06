@@ -1456,40 +1456,61 @@ footer {
   text-align: center;
   text-shadow: 0px 0px 2px #5b83ad;
 }
-form {
+form,
+.formlike {
   width: 700px;
   margin: auto;
 }
-form fieldset {
+form fieldset,
+.formlike fieldset {
   margin-bottom: 25px;
   padding: 20px;
 }
-form fieldset div.enumeration {
+form fieldset ul.boxed-enumeration,
+.formlike fieldset ul.boxed-enumeration {
+  display: inline-block;
+  padding: 5px;
+  list-style: none;
+}
+form fieldset ul.boxed-enumeration li,
+.formlike fieldset ul.boxed-enumeration li {
   border: 1px solid black;
   margin: 5px;
   display: inline-block;
   padding: 5px;
+  list-style: none;
 }
-form fieldset input[type='checkbox'] {
+form fieldset input[type='checkbox'],
+.formlike fieldset input[type='checkbox'] {
   display: inline-block;
   box-sizing: content-box;
   -moz-box-sizing: content-box;
   width: auto;
 }
-form label {
+form label,
+.formlike label,
+form .labellike,
+.formlike .labellike {
   white-space: nowrap;
   width: auto;
   padding: 3px;
 }
-form table.invisible td {
+form .labellike,
+.formlike .labellike {
+  font-weight: bold;
+}
+form table.invisible td,
+.formlike table.invisible td {
   padding: 5px;
   width: auto;
 }
-form table.invisible td.label-col {
+form table.invisible td.label-col,
+.formlike table.invisible td.label-col {
   text-align: right;
   min-width: 1%;
 }
-form table.invisible td.validation-col {
+form table.invisible td.validation-col,
+.formlike table.invisible td.validation-col {
   text-align: left;
   min-width: 1%;
   color: red;
@@ -1498,7 +1519,12 @@ form table.invisible td.validation-col {
   font-weight: bolder;
   padding-left: 20px;
 }
-form input {
+form table.invisible tr,
+.formlike table.invisible tr {
+  vertical-align: top;
+}
+form input,
+.formlike input {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1511,15 +1537,18 @@ form input {
   padding: 3px;
   display: inline-block;
 }
-form input:hover:not(:focus) {
+form input:hover:not(:focus),
+.formlike input:hover:not(:focus) {
   border: 2px solid red;
 }
-form input:focus {
+form input:focus,
+.formlike input:focus {
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
-form textarea {
+form textarea,
+.formlike textarea {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1533,15 +1562,18 @@ form textarea {
   padding: 3px;
   display: inline-block;
 }
-form textarea:hover:not(:focus) {
+form textarea:hover:not(:focus),
+.formlike textarea:hover:not(:focus) {
   border: 2px solid red;
 }
-form textarea:focus {
+form textarea:focus,
+.formlike textarea:focus {
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
-form .form-buttons {
+form .form-buttons,
+.formlike .form-buttons {
   text-align: right;
   padding-left: 20px;
   padding-right: 20px;
@@ -1549,13 +1581,19 @@ form .form-buttons {
   font-size: 0;
 }
 form .form-buttons button + button,
+.formlike .form-buttons button + button,
 form .form-buttons button + a,
+.formlike .form-buttons button + a,
 form .form-buttons a + button,
-form .form-buttons a + a {
+.formlike .form-buttons a + button,
+form .form-buttons a + a,
+.formlike .form-buttons a + a {
   border-left: none;
 }
 form .form-buttons button,
-form .form-buttons a {
+.formlike .form-buttons button,
+form .form-buttons a,
+.formlike .form-buttons a {
   background: #D2D2D2;
   border: 2px solid black;
   padding: 5px;
@@ -1566,7 +1604,9 @@ form .form-buttons a {
   color: black;
 }
 form .form-buttons button:only-child,
-form .form-buttons a:only-child {
+.formlike .form-buttons button:only-child,
+form .form-buttons a:only-child,
+.formlike .form-buttons a:only-child {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1575,7 +1615,9 @@ form .form-buttons a:only-child {
   background-clip: padding-box;
 }
 form .form-buttons button:not(:only-child):first-child,
-form .form-buttons a:not(:only-child):first-child {
+.formlike .form-buttons button:not(:only-child):first-child,
+form .form-buttons a:not(:only-child):first-child,
+.formlike .form-buttons a:not(:only-child):first-child {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -1593,7 +1635,9 @@ form .form-buttons a:not(:only-child):first-child {
   background-clip: padding-box;
 }
 form .form-buttons button:not(:only-child):last-child,
-form .form-buttons a:not(:only-child):last-child {
+.formlike .form-buttons button:not(:only-child):last-child,
+form .form-buttons a:not(:only-child):last-child,
+.formlike .form-buttons a:not(:only-child):last-child {
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 5px;
   -webkit-border-bottom-left-radius: 0;
@@ -1611,7 +1655,9 @@ form .form-buttons a:not(:only-child):last-child {
   background-clip: padding-box;
 }
 form .form-buttons button:hover,
-form .form-buttons a:hover {
+.formlike .form-buttons button:hover,
+form .form-buttons a:hover,
+.formlike .form-buttons a:hover {
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
@@ -1621,14 +1667,18 @@ form .form-buttons a:hover {
   background: -moz-linear-gradient(center bottom, #00ffaa 0%, #d2d2d2 100%);
 }
 form .form-buttons button:hover:active,
-form .form-buttons a:hover:active {
+.formlike .form-buttons button:hover:active,
+form .form-buttons a:hover:active,
+.formlike .form-buttons a:hover:active {
   background: #00ffaa;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #ffaa00));
   background: -ms-linear-gradient(bottom, #00ffaa, #ffaa00);
   background: -moz-linear-gradient(center bottom, #00ffaa 0%, #ffaa00 100%);
 }
 form .form-buttons button:not(:hover):active,
-form .form-buttons a:not(:hover):active {
+.formlike .form-buttons button:not(:hover):active,
+form .form-buttons a:not(:hover):active,
+.formlike .form-buttons a:not(:hover):active {
   background: #00ffaa;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00ffaa), color-stop(1, #ffaa00));
   background: -ms-linear-gradient(bottom, #00ffaa, #ffaa00);

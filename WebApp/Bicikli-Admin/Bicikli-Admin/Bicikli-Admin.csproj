@@ -281,6 +281,9 @@
     <Content Include="Views\Lenders\MyLenders.cshtml" />
     <Content Include="Views\Lenders\Create.cshtml" />
     <Content Include="Views\Lenders\Edit.cshtml" />
+    <Content Include="Views\Lenders\Details.cshtml" />
+    <Content Include="Views\Lenders\_UsersList.cshtml" />
+    <Content Include="Views\Lenders\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">
