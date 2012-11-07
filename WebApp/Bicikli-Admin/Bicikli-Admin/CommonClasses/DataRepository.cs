@@ -162,5 +162,35 @@ namespace Bicikli_Admin.CommonClasses
             dc.Lenders.DeleteOnSubmit(lenderToRemove);
             dc.SubmitChanges();
         }
+
+        public static IEnumerable<ZoneModel> GetDangerousZones()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from z in dc.DangerousZones
+                   select new ZoneModel() {
+                       id = z.id,
+                       name = z.name,
+                       description = z.description,
+                       latitude = z.latitude,
+                       longitude = z.longitude,
+                       radius = z.radius
+                   };
+        }
+
+        public static IEnumerable<BikeModel> GetBikes()
+        {
+            // ide írni kell egy tárolt eljárást, hogy a többi mezőt is ki tudjam tölteni
+            var dc = new BicikliDataClassesDataContext();
+            return from b in dc.Bikes
+                   select new BikeModel()
+                   {
+                       id = b.id,
+                       name = b.name,
+                       description = b.description,
+                       currentLenderId = b.current_lender_id,
+                       imageUrl = b.image_url,
+                       isActive = b.is_active
+                   };
+        }
     }
 }

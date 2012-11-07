@@ -9,10 +9,10 @@
         <ul>
             @{
                 IEnumerable<Bicikli_Admin.Models.LenderModel> selectedLenders = ViewBag.SelectedLenders;
-                if (selectedLenders != null && selectedLenders.Contains(l))
+                if (selectedLenders != null && selectedLenders.Contains(l, new Bicikli_Admin.Models.LenderModelComparer()))
                 {
                 <li>
-                    <input type="checkbox" name="users" value="@l.id" checked="checked" />
+                    <input type="checkbox" name="lenders" value="@l.id" checked="checked" />
                     @Html.ActionLink(
                         Html.Encode(l.name),
                         actionName: "Details",
@@ -24,7 +24,7 @@
                 else
                 {
                 <li>
-                    <input type="checkbox" name="users" value="@l.id" />
+                    <input type="checkbox" name="lenders" value="@l.id" />
                     @Html.ActionLink(
                         Html.Encode(l.name),
                         actionName: "Details",

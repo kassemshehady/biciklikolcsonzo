@@ -11,7 +11,7 @@ namespace Bicikli_Admin.Models
         [Display(Name = "#")]
         public int? id { get; set; }
 
-        [Required(ErrorMessage="A következő mező kitöltése kötelező: {0}")]
+        [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
         [Display(Name = "Földrajzi szélesség")]
         public double latitude { get; set; }
 
@@ -33,7 +33,25 @@ namespace Bicikli_Admin.Models
         public String description { get; set; }
 
         [Display(Name = "Nyomtató IP")]
-        [RegularExpression(@"([0-9]{1,3}\.){3}[0-9]{1,3}", ErrorMessage="A {0} mező nem tartalmaz érvényes IPv4 címet.")]
+        [RegularExpression(@"([0-9]{1,3}\.){3}[0-9]{1,3}", ErrorMessage = "A {0} mező nem tartalmaz érvényes IPv4 címet.")]
         public String printer_ip { get; set; }
+    }
+
+    public class LenderModelComparer : IEqualityComparer<LenderModel>
+    {
+        bool IEqualityComparer<LenderModel>.Equals(LenderModel x, LenderModel y)
+        {
+
+            // Check whether any of the compared objects is null.
+            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                return false;
+
+            return (x.name == y.name) && (x.id == y.id);
+        }
+
+        public int GetHashCode(LenderModel lm)
+        {
+            return lm.GetHashCode();
+        }
     }
 }

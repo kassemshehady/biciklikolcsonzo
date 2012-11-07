@@ -146,8 +146,14 @@
     <Compile Include="CommonClasses\AppUtilities.cs" />
     <Compile Include="CommonClasses\CustomModelBinders.cs" />
     <Compile Include="CommonClasses\DataRepository.cs" />
+    <Compile Include="Controllers\BikesController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\LendersController.cs" />
+    <Compile Include="Controllers\PrintersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\ZonesController.cs" />
+    <Compile Include="Models\BikeModel.cs" />
+    <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\InvoiceModels.cs" />
     <Compile Include="CommonClasses\PrintingSubscription.cs" />
     <Compile Include="EntityFramework\linq\BicikliDataClasses.designer.cs">
@@ -162,7 +168,9 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\LenderModel.cs" />
+    <Compile Include="Models\PrinterModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\ZoneModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +301,7 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\_LendersList.cshtml" />
+    <Content Include="Views\Zones\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">

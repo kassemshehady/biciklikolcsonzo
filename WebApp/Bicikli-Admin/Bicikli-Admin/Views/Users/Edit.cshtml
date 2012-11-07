@@ -1,7 +1,81 @@
 ﻿@model Bicikli_Admin.Models.UserModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Felhasználó szerkesztése";
 }
 
-<h2>Edit</h2>
+<h2>@Html.DisplayFor(model => model.username) felhasználó szerkesztése</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false)
+
+    <fieldset>
+        <legend>Profil</legend>
+        @Html.HiddenFor(model => model.username)
+
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.email)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.email)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.email, "(!)")</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.lastLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.lastLogin)
+                </td>
+                <td class="validation-col">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.isSiteAdmin)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.isSiteAdmin)
+                </td>
+                <td class="validation-col">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.isApproved)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.isApproved)
+                </td>
+                <td class="validation-col">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.isLockedOut)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.isLockedOut)
+                </td>
+                <td class="validation-col">
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    
+    @Html.Partial("_LendersList")
+
+    <div class="form-buttons">
+        <button type="submit">Mentés</button>
+    </div>
+}

@@ -36,7 +36,10 @@
         <div class="dropdown-menu">
             @Html.ActionLink("Kerékpárok listázása", "Index", "Bikes")
             @Html.ActionLink("Szabad kerékpárok listázása", "FreeList", "Bikes")
-            @Html.ActionLink("Kölcsönözhető kerékpárok listázása", "LendableList", "Bikes")
+            @if (Request.Cookies.Get("favourite_lender") != null)
+            {
+                @Html.ActionLink("Kölcsönözhető kerékpárok listázása", "FreeList", "Bikes", htmlAttributes: new { id = Request.Cookies.Get("favourite_lender").Value })
+            }
             @Html.ActionLink("Foglalt kerékpárok listázása", "BusyList", "Bikes")
             @Html.ActionLink("Veszélyes zónában lévő kerékpárok listázása", "DangerousList", "Bikes")
             @Html.ActionLink("Foglalt kerékpárok mutatása térképen", "ShowMap", "Bikes")

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Bicikli_Admin.CommonClasses;
+using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
@@ -96,17 +98,141 @@ namespace Bicikli_Admin.Controllers
         // POST: /Users/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(UserModel model)
+        public ActionResult Edit(UserModel model, int[] lenders)
         {
             try
             {
-                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
+
+                #region Update user profile
+
+                var mUser = Membership.GetUser(model.username);
+                if (mUser == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                if (mUser.Email != model.email)
+                {
+                    mUser.Email = model.email;
+                }
+                if (mUser.IsApproved != model.isApproved)
+                {
+                    mUser.IsApproved = model.isApproved;
+                }
+                if (mUser.IsLockedOut != model.isLockedOut)
+                {
+                    if (model.isLockedOut)
+                    {
+                        try
+                        {
+                            for (int i = 0; i < Membership.MaxInvalidPasswordAttempts; i++)
+                            {
+                                Membership.ValidateUser(mUser.UserName, "98zfd8vbd9fvbdfv9d8vz9b8dz9a8z89z9d8z9da8za98fdzd");
+                            }
+                        }
+                        catch
+                        {
+                            //dummy
+                        }
+                    }
+                    else
+                    {
+                        mUser.UnlockUser();
+                    }
+                }
+                if (Roles.IsUserInRole(mUser.UserName, "SiteAdmin") != model.isSiteAdmin)
+                {
+                    if (model.isSiteAdmin)
+                    {
+                        Roles.AddUserToRole(mUser.UserName, "SiteAdmin");
+                    }
+                    else
+                    {
+                        Roles.RemoveUserFromRole(mUser.UserName, "SiteAdmin");
+                    }
+                }
+                Membership.UpdateUser(mUser);
+
+                #endregion
+
+                #region Update assigned lenders
+
+                if (lenders != null)
+                {
+                    var lendersToInsert = new List<int>();
+                    foreach (int l in lenders)
+                    {
+                        if (!lendersToInsert.Contains(l))
+                        {
+                            lendersToInsert.Add(l);
+                        }
+                    }
+                    var assignedLenders = DataRepository.GetLendersOfUser((Guid)mUser.ProviderUserKey);
+                    var lendersToRemove = new List<int>();
+                    foreach (LenderModel lm in assignedLenders)
+                    {
+                        if (lendersToInsert.Contains((int)lm.id))
+                        {
+                            lendersToInsert.Remove((int)lm.id);
+                        }
+                        else
+                        {
+                            lendersToRemove.Add((int)lm.id);
+                        }
+                    }
+
+                    var db = new BicikliDataClassesDataContext();
+                    foreach (int l in lendersToRemove)
+                    {
+                        db.LenderUsers.DeleteOnSubmit(db.LenderUsers.First(s => ((s.lender_id == l) && (s.user_id == (Guid)mUser.ProviderUserKey))));
+                    }
+                    foreach (int l in lendersToInsert)
+                    {
+                        db.LenderUsers.InsertOnSubmit(new LenderUser() { lender_id = l, user_id = (Guid)mUser.ProviderUserKey });
+                    }
+                    db.SubmitChanges();
+
+                #endregion
+
+                }
+                else
+                {
+                    var db = new BicikliDataClassesDataContext();
+                    db.LenderUsers.DeleteAllOnSubmit(db.LenderUsers.Where(s => (s.user_id == (Guid)mUser.ProviderUserKey)));
+                    db.SubmitChanges();
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                #region Redisplay page
+
+                ViewBag.active_menu_item_id = "menu-btn-users";
+                var user = DataRepository.GetUsersWithDetails().Single(u => u.username == model.username);
+                model.lastLogin = user.lastLogin;
+                var dbLenders = DataRepository.GetLenders();
+                ViewBag.Lenders = dbLenders;
+
+                var selectedLenders = new List<LenderModel>();
+                foreach (int lid in lenders)
+                {
+                    selectedLenders.Add(
+                        new LenderModel
+                        {
+                            name = dbLenders.Where(dbl => dbl.id == lid).First().name,
+                            id = lid
+                        });
+                }
+                ViewBag.SelectedLenders = selectedLenders;
+
+                #endregion
+
+                return View(model);
             }
         }
 

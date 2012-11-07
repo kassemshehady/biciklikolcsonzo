@@ -49,7 +49,7 @@ namespace Bicikli_Admin.Models
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(@"^[0-9a-zA-Z\.-]+@([0-9a-zA-Z-]+\.)+[a-zA-Z]{2,}$", ErrorMessage = "Az E-Mail cím formátuma nem megfelelő.")] 
+        [RegularExpression(@"^[0-9a-zA-Z\.-]+@([0-9a-zA-Z-]+\.)+[a-zA-Z]{2,}$", ErrorMessage = "Az E-Mail cím formátuma nem megfelelő.")]
         [Display(Name = "E-Mail cím")]
         public string Email { get; set; }
 

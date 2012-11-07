@@ -11,9 +11,13 @@ namespace Bicikli_Admin.Models
         public Guid guid { get; set; }
 
         [Display(Name="Felhasználónév")]
+        [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
         public string username { get; set; }
 
         [Display(Name="E-Mail")]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^[0-9a-zA-Z\.-]+@([0-9a-zA-Z-]+\.)+[a-zA-Z]{2,}$", ErrorMessage = "Az E-Mail cím formátuma nem megfelelő.")] 
+        [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
         public string email { get; set; }
 
         [Display(Name="Kölcsönzők #")]
