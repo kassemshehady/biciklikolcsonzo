@@ -153,7 +153,7 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ZonesController.cs" />
     <Compile Include="Models\BikeModel.cs" />
-    <Compile Include="Models\InvoiceModel.cs" />
+    <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\InvoiceModels.cs" />
     <Compile Include="CommonClasses\PrintingSubscription.cs" />
     <Compile Include="EntityFramework\linq\BicikliDataClasses.designer.cs">

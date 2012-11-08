@@ -27,13 +27,16 @@ namespace Bicikli_Admin.Models
         [Display(Name = "Aktív?")]
         public bool isActive { get; set; }
 
+        // foreign...
         [Display(Name = "Veszélyes zónában van?")]
         public bool isInDangerousZone { get; set; }
 
+        // foreign...
         [Display(Name = "Utoljára kölcsönözve")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}")]
         public DateTime lastLendingDate { get; set; }
 
-        public InvoiceModel invoice { get; set; }
+        // foreign...
+        public SessionModel session { get; set; }
     }
 }

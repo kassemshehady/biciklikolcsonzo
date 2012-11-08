@@ -61,7 +61,7 @@ namespace Bicikli_Admin.Controllers
         public ActionResult DangerousList()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBikes().Where(b => ((b.currentLenderId == null) && (b.invoice == null))));
+            return View(DataRepository.GetBikes().Where(b => ((b.currentLenderId == null) && (b.session == null))));
         }
 
         //
