@@ -16,6 +16,7 @@ namespace Bicikli_Admin.Models
         public string name { get; set; }
 
         [Display(Name = "Leírás")]
+        [DataType(DataType.MultilineText)]
         public String description { get; set; }
 
         [Display(Name = "Kép")]
@@ -38,5 +39,6 @@ namespace Bicikli_Admin.Models
 
         // foreign...
         public SessionModel session { get; set; }
+        public LenderModel lender { get; set; }
     }
 }

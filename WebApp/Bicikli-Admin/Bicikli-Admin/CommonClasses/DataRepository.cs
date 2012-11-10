@@ -315,6 +315,22 @@ namespace Bicikli_Admin.CommonClasses
                                         where s.bike_id == bike.id
                                         orderby s.start_time descending
                                         select s.start_time).FirstOrDefault();
+
+                if (bike.currentLenderId != null)
+                {
+                    bike.lender = (from l in dc.Lenders
+                                   where l.id == bike.currentLenderId
+                                   select new LenderModel()
+                                   {
+                                       address = l.address,
+                                       description = l.description,
+                                       id = l.id,
+                                       latitude = l.latitude,
+                                       longitude = l.longitude,
+                                       name = l.name,
+                                       printer_ip = l.printer_ip
+                                   }).SingleOrDefault();
+                }
             }
 
             #endregion
@@ -348,34 +364,33 @@ namespace Bicikli_Admin.CommonClasses
 
             #endregion
 
-            #region Get Bike's Active Sessions...
+            #region Get Bike's Active Session if any...
 
-            var bikeActiveSessions = (from s in dc.Sessions
-                                      where ((s.end_time == null) && (s.bike_id == bikeId))
-                                      orderby s.start_time descending
-                                      select new SessionModel()
-                                      {
-                                          address = s.address,
-                                          bike_id = s.bike_id,
-                                          dangerousZoneId = s.dz_id,
-                                          dangerousZoneTime = s.dz_time,
-                                          endTime = s.end_time,
-                                          id = s.id,
-                                          lastReport = s.last_report,
-                                          latitude = s.latitude,
-                                          longitude = s.longitude,
-                                          name = s.name,
-                                          normalTime = s.normal_time,
-                                          startTime = s.start_time
-                                      }).ToList();
+            bike.session = (from s in dc.Sessions
+                            where ((s.end_time == null) && (s.bike_id == bikeId))
+                            orderby s.start_time descending
+                            select new SessionModel()
+                            {
+                                address = s.address,
+                                bike_id = s.bike_id,
+                                dangerousZoneId = s.dz_id,
+                                dangerousZoneTime = s.dz_time,
+                                endTime = s.end_time,
+                                id = s.id,
+                                lastReport = s.last_report,
+                                latitude = s.latitude,
+                                longitude = s.longitude,
+                                name = s.name,
+                                normalTime = s.normal_time,
+                                startTime = s.start_time
+                            }).SingleOrDefault();
 
             #endregion
 
             #region Collect additional information...
 
-            if ((bikeActiveSessions != null) && (bikeActiveSessions.Count() > 0))
+            if (bike.session != null)
             {
-                bike.session = bikeActiveSessions.First();
                 bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
             }
 
@@ -383,6 +398,22 @@ namespace Bicikli_Admin.CommonClasses
                                     where s.bike_id == bike.id
                                     orderby s.start_time descending
                                     select s.start_time).FirstOrDefault();
+
+            if (bike.currentLenderId != null)
+            {
+                bike.lender = (from l in dc.Lenders
+                               where l.id == bike.currentLenderId
+                               select new LenderModel()
+                               {
+                                   address = l.address,
+                                   description = l.description,
+                                   id = l.id,
+                                   latitude = l.latitude,
+                                   longitude = l.longitude,
+                                   name = l.name,
+                                   printer_ip = l.printer_ip
+                               }).SingleOrDefault();
+            }
 
             #endregion
 

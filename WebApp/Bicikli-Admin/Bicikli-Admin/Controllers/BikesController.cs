@@ -26,9 +26,11 @@ namespace Bicikli_Admin.Controllers
         public ActionResult FreeList(int id = -1)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
             if (id != -1)
             {
-                return View(DataRepository.GetBikes().Where(b => b.currentLenderId == id));
+                ViewBag.SelectedLenderId = id;
+                return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId == id)));
             }
 
             var favouriteLender = Request.Cookies.Get("favourite_lender");
@@ -36,11 +38,12 @@ namespace Bicikli_Admin.Controllers
 
             if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
             {
-                return View(DataRepository.GetBikes().Where(b => b.currentLenderId == favouriteLenderId));
+                ViewBag.SelectedLenderId = favouriteLenderId;
+                return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId == favouriteLenderId)));
             }
             else
             {
-                return View(DataRepository.GetBikes().Where(b => b.currentLenderId != null));
+                return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId != null)));
             }
         }
 
@@ -52,10 +55,10 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-bikes";
             if (id != -1)
             {
-                return View(DataRepository.GetBikes().Where(b => b.session.dangerousZoneId == id));
+                return View(DataRepository.GetBikes().Where(b => b.isActive && (b.session.dangerousZoneId == id)));
             }
 
-            return View(DataRepository.GetBikes().Where(b => b.isInDangerousZone));
+            return View(DataRepository.GetBikes().Where(b => b.isActive && b.isInDangerousZone));
         }
 
         //
@@ -64,7 +67,7 @@ namespace Bicikli_Admin.Controllers
         public ActionResult UnusedList()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBikes().Where(b => ((b.currentLenderId == null) && (b.session == null))));
+            return View(DataRepository.GetBikes().Where(b => !b.isActive || ((b.currentLenderId == null) && (b.session == null))));
         }
 
         //
@@ -73,7 +76,7 @@ namespace Bicikli_Admin.Controllers
         public ActionResult BusyList()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBikes().Where(b => b.currentLenderId == null));
+            return View(DataRepository.GetBikes().Where(b => (b.currentLenderId == null) && (b.session != null)));
         }
 
         //
@@ -82,7 +85,30 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Details(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBike(id));
+            ViewBag.CanILend = false;
+
+            #region Determine if I can lend it?
+
+            var bike = DataRepository.GetBike(id);
+            if ((bike.session == null) && bike.isActive && (bike.currentLenderId != null))
+            {
+                var myLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
+                if ((myLenders != null) && (myLenders.Count() > 0))
+                {
+                    foreach (var l in myLenders)
+                    {
+                        if (l.id == bike.currentLenderId)
+                        {
+                            ViewBag.CanILend = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
+            return View(bike);
         }
 
         //
@@ -91,6 +117,16 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
+
+            var favouriteLender = Request.Cookies.Get("favourite_lender");
+            int favouriteLenderId;
+
+            if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
+            {
+                ViewBag.SelectedLenderId = favouriteLenderId;
+            }
+
             return View(new BikeModel());
         }
 
@@ -109,6 +145,15 @@ namespace Bicikli_Admin.Controllers
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
+                ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
+
+                var favouriteLender = Request.Cookies.Get("favourite_lender");
+                int favouriteLenderId;
+
+                if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
+                {
+                    ViewBag.SelectedLenderId = favouriteLenderId;
+                }
                 return View(m);
             }
         }
@@ -119,6 +164,7 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
             return View(DataRepository.GetBike(id));
         }
 
@@ -137,6 +183,7 @@ namespace Bicikli_Admin.Controllers
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
+                ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
                 return View(m);
             }
         }
@@ -171,20 +218,22 @@ namespace Bicikli_Admin.Controllers
 
         //
         // GET: /Bikes/Lend
+        // TODO: ÁTHELYEZNI A SZÁMLÁKHOZ!!!!
+        // TODO: Kölcsönzők listája nem kell, mert a bicikliről tudjuk, hogy hol van!
 
-        public ActionResult Lend()
+        public ActionResult Lend(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            ViewBag.BikeToLend = DataRepository.GetBike(id);
+
+            var favouriteLender = Request.Cookies.Get("favourite_lender");
+            int favouriteLenderId;
+
+            if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
+            {
+                ViewBag.SelectedLenderId = favouriteLenderId;
+            }
             return View(DataRepository.GetAssignedLenders(User.Identity.Name));
-        }
-
-        //
-        // GET: /Bikes/LendFrom
-
-        public ActionResult LendFrom(int id)
-        {
-            ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBikes().Where(b => b.currentLenderId == id));
         }
 
         //
@@ -193,7 +242,8 @@ namespace Bicikli_Admin.Controllers
         public ActionResult ShowMap()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBikes().Where(b => b.currentLenderId == null));
+            ViewBag.DangerousZones = DataRepository.GetDangerousZones();
+            return View(DataRepository.GetBikes().Where(b => (b.currentLenderId == null) && (b.session != null) && (b.session.latitude != null) && (b.session.longitude != null)));
         }
     }
 }

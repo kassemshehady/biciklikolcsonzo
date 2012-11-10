@@ -22,6 +22,12 @@ namespace Bicikli_Admin
 
             bundles.Add(new ScriptBundle("~/Content/gmaps_picker_helper").Include(
                         "~/Scripts/gmaps_picker_helper.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/gmaps_showmap_helper").Include(
+                        "~/Scripts/gmaps_showmap_helper.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/clearbox").Include(
+                        "~/Scripts/clearbox.js"));
             
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/normalize.css",

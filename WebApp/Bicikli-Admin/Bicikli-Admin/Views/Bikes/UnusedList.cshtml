@@ -1,69 +1,87 @@
 ﻿@model IEnumerable<Bicikli_Admin.Models.BikeModel>
-
 @{
-    ViewBag.Title = "UnusedList";
+    ViewBag.Title = "Használaton kívüli kerékpárok";
 }
 
-<h2>UnusedList</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.imageUrl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.currentLenderId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isInDangerousZone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.lastLendingDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.imageUrl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.currentLenderId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isInDangerousZone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.lastLendingDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
-
+    <thead>
+        <tr>
+            <th class="id">
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th class="name">
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.currentLenderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lastLendingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isActive)
+            </th>
+            <th class="edit-tools"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td class="name">
+                    @Html.ActionLink(item.name, "Details", new { id = item.id })
+                </td>
+                <td>
+                    @if (item.currentLenderId != null)
+                    {
+                        @Html.ActionLink(item.lender.name, "Details", "Lenders", routeValues: new { id = item.currentLenderId }, htmlAttributes: null)
+                    }
+                    else
+                    {
+                        @Html.Raw("-");
+                    }
+                </td>
+                <td>
+                    @if (item.lastLendingDate == null)
+                    {
+                        @Html.Raw("-");
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.lastLendingDate)
+                    }
+                </td>
+                <td>
+                    @if (item.isActive)
+                    {
+                        @Html.Raw("<span class='ui-icon ui-icon-check' style='display: inline-block;'>Igen</span>")
+                    }
+                    else
+                    {
+                        @Html.Raw("<span class='ui-icon ui-icon-closethick' style='display: inline-block;'>Nem</span>")
+                    }
+                </td>
+                <td class="edit-tools">
+                    @if (item.imageUrl != null)
+                    {
+                        <a title="Kép" rel="clearbox" target="_blank" href='@Html.Raw(item.imageUrl)'><span class='ui-icon ui-icon-image' style="display: inline-block;"></span></a>
+                    }
+                    <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>
+                    @if (item.lastLendingDate == null)
+                    {
+                        <a title="Törlés" href='@Url.Action("Delete", new { id = item.id })'><span class='ui-icon ui-icon-trash' style="display: inline-block;"></span></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/Content/clearbox")
+}

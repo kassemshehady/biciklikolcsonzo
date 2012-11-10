@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bicikli_Admin.CommonClasses;
+using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
@@ -45,7 +46,25 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
+
+                #region Insertion Logic
+
+                var db = new BicikliDataClassesDataContext();
+                db.DangerousZones.InsertOnSubmit(new DangerousZone()
+                {
+                    description = m.description,
+                    latitude = m.latitude,
+                    longitude = m.longitude,
+                    name = m.name,
+                    radius = m.radius
+                });
+                db.SubmitChanges();
+
+                #endregion
 
                 return RedirectToAction("Index");
             }
@@ -73,12 +92,46 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
+
+                #region Update Logic
+
+                var db = new BicikliDataClassesDataContext();
+                var zoneToUpdate = db.DangerousZones.Single(z => z.id == m.id);
+
+                if (zoneToUpdate.description != m.description)
+                {
+                    zoneToUpdate.description = m.description;
+                }
+                if (zoneToUpdate.latitude != m.latitude)
+                {
+                    zoneToUpdate.latitude = m.latitude;
+                }
+                if (zoneToUpdate.longitude != m.longitude)
+                {
+                    zoneToUpdate.longitude = m.longitude;
+                }
+                if (zoneToUpdate.name != m.name)
+                {
+                    zoneToUpdate.name = m.name;
+                }
+                if (zoneToUpdate.radius != m.radius)
+                {
+                    zoneToUpdate.radius = m.radius;
+                }
+
+                db.SubmitChanges();
+
+                #endregion
 
                 return RedirectToAction("Index");
             }
             catch
             {
+                ViewBag.active_menu_item_id = "menu-btn-zones";
                 return View(m);
             }
         }
@@ -100,12 +153,27 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                #region Deletion Logic
+
+                var db = new BicikliDataClassesDataContext();
+                var zoneToRemove = db.DangerousZones.Single(z => z.id == m.id);
+                if (zoneToRemove.Sessions.Count() > 0)
+                {
+                    foreach (Session s in zoneToRemove.Sessions)
+                    {
+                        s.dz_id = null;
+                    }
+                }
+                db.DangerousZones.DeleteOnSubmit(zoneToRemove);
+                db.SubmitChanges();
+
+                #endregion
 
                 return RedirectToAction("Index");
             }
             catch
             {
+                ViewBag.active_menu_item_id = "menu-btn-zones";
                 return View(m);
             }
         }

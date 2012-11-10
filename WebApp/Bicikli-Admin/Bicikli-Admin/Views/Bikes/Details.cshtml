@@ -1,64 +1,178 @@
 ﻿@model Bicikli_Admin.Models.BikeModel
-
+@using Bicikli_Admin.Models
+@using System.Collections.Generic
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Kerékpár adatlap";
 }
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.name)</h2>
 
-<fieldset>
-    <legend>BikeModel</legend>
+<div class="formlike">
+    <fieldset>
+        <legend>Kerékpár adatai</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.name)
-    </div>
+        <table class="invisible">
+            @if ((Model.session != null) && (Model.session.latitude != null) && (Model.session.longitude != null))
+            {
+                <tr>
+                    <td class="label-col">
+                        <span class="labellike">
+                            @Html.DisplayNameFor(model => model.session.latitude)
+                        </span>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.session.latitude.ToString() ?? "-")
+                        @Html.HiddenFor(model => model.session.latitude)
+                    </td>
+                </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.description)
-    </div>
+                <tr>
+                    <td class="label-col">
+                        <span class="labellike">
+                            @Html.DisplayNameFor(model => model.session.longitude)
+                        </span>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.session.longitude.ToString() ?? "-")
+                        @Html.HiddenFor(model => model.session.longitude)
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="label-col">
+                        <span class="labellike">Térkép</span>
+                    </td>
+                    <td>
+                        <div id="mapCanvas"></div>
+                    </td>
+                </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.imageUrl)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.imageUrl)
-    </div>
+                <tr>
+                    <td class="label-col">
+                        <span class="labellike">Cím</span>
+                    </td>
+                    <td>
+                        <div id="addressDiv"></div>
+                    </td>
+                </tr>
+            }
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.currentLenderId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.currentLenderId)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.lastLendingDate)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.lastLendingDate == null)
+                    {
+                        @Html.Raw("-");
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.lastLendingDate)
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.isActive)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.isActive)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.currentLenderId)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.currentLenderId == null)
+                    {
+                        if (Model.session != null)
+                        {
+                        @Html.Raw("A kerékpár épp ki van kölcsönözve");
+                        }
+                        else
+                        {
+                        @Html.Raw("-");
+                        }
+                    }
+                    else
+                    {
+                        @Html.ActionLink(Model.lender.name, "Details", "Lenders", routeValues: new { id = Model.currentLenderId }, htmlAttributes: null)
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.isInDangerousZone)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.isInDangerousZone)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.imageUrl)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.imageUrl == null)
+                    {
+                        @Html.Raw("Nincs");
+                    }
+                    else
+                    {
+                        <a title="Kép" rel="clearbox" target="_blank" href='@Html.Raw(Model.imageUrl)'>@Html.Raw(Model.imageUrl)</a>
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.lastLendingDate)
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.isActive)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.isActive)
+                    {
+                        @Html.Raw("Igen");
+                    }
+                    else
+                    {
+                        @Html.Raw("Nem");
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.isInDangerousZone)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.isInDangerousZone)
+                    {
+                        @Html.ActionLink("Igen", "Details", "Zones", routeValues: new { id = Model.session.dangerousZoneId }, htmlAttributes: null);
+                    }
+                    else
+                    {
+                        @Html.Raw("Nem");
+                    }
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <div class="form-buttons">
+        @Html.ActionLink("Vissza a kerékpárok listájához", "Index")
+        @if ((bool)ViewBag.CanILend)
+        {
+            @Html.ActionLink("Kölcsönzés", "Lend", routeValues: new { id = Model.id })
+        }
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.lastLendingDate)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</div>
+
+@section Scripts {
+    @if ((Model.session != null) && (Model.session.latitude != null) && (Model.session.longitude != null))
+    {
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        @Scripts.Render("~/Content/gmaps_picker_helper")
+
+        <script type="text/javascript">
+            google.maps.event.addDomListener(window, 'load', init_gmaps_readonly);
+        </script>
+    }
+}

@@ -46,6 +46,7 @@ namespace Bicikli_Admin.Models
 
         [Display(Name = "Cím")]
         [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]
+        [DataType(DataType.MultilineText)]
         public string address { get; set; }
 
         [Display(Name = "Fizetve?")]

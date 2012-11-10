@@ -133,9 +133,15 @@ function updateGmapsView() {
         lng = marker.getPosition().lng();
     }
 
-    var rad = parseFloat($("#radius").val());
-    if (isNaN(rad)) {
-        rad = circle.getRadius();
+    if ($("#radius") != null) {
+        var rad = parseFloat($("#radius").val());
+        if (isNaN(rad)) {
+            rad = circle.getRadius();
+            if (isNaN(rad)) {
+                rad = 250;
+            }
+            document.getElementById('radius').value = rad;
+        }
     }
 
     marker.setPosition(new google.maps.LatLng(lat, lng));
