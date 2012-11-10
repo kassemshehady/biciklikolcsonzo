@@ -1,0 +1,77 @@
+﻿@model Bicikli_Admin.Models.ZoneModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>ZoneModel</legend>
+
+        @Html.HiddenFor(model => model.id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.name)
+            @Html.ValidationMessageFor(model => model.name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.description)
+            @Html.ValidationMessageFor(model => model.description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.latitude)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.latitude)
+            @Html.ValidationMessageFor(model => model.latitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.longitude)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.longitude)
+            @Html.ValidationMessageFor(model => model.longitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.radius)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.radius)
+            @Html.ValidationMessageFor(model => model.radius)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.bikesInThisZone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.bikesInThisZone)
+            @Html.ValidationMessageFor(model => model.bikesInThisZone)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

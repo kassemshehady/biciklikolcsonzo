@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Bicikli_Admin.CommonClasses;
+using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
 {
@@ -14,7 +16,25 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.active_menu_item_id = "menu-btn-invoices";
-            return View();
+            return View(DataRepository.GetSessions());
+        }
+
+        //
+        // GET: /Invoices/ActiveSessions
+
+        public ActionResult ActiveSessions()
+        {
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            return View(DataRepository.GetSessions().Where(s => s.endTime != null));
+        }
+
+        //
+        // GET: /Invoices/ClosedSessions
+
+        public ActionResult ClosedSessions()
+        {
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            return View(DataRepository.GetSessions().Where(s => ((s.endTime == null) && !s.paid)));
         }
 
         //
@@ -22,22 +42,25 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            ViewBag.Printers = DataRepository.GetLenders().Where(l => l.printer_ip != null);
+            return View(DataRepository.GetSession(id));
         }
 
         //
-        // GET: /Invoices/Create
+        // GET: /Invoices/Create/5
 
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            return View(new SessionModel());
         }
 
         //
         // POST: /Invoices/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(SessionModel m)
         {
             try
             {
@@ -47,7 +70,8 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                ViewBag.active_menu_item_id = "menu-btn-invoices";
+                return View(m);
             }
         }
 
@@ -56,14 +80,16 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            ViewBag.Printers = DataRepository.GetLenders().Where(l => l.printer_ip != null);
+            return View(DataRepository.GetSession(id));
         }
 
         //
         // POST: /Invoices/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(SessionModel m)
         {
             try
             {
@@ -73,34 +99,25 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                ViewBag.active_menu_item_id = "menu-btn-invoices";
+                return View(m);
             }
         }
 
         //
-        // GET: /Invoices/Delete/5
+        // GET: /Invoices/Print
 
-        public ActionResult Delete(int id)
+        public ActionResult Print(int session_id, int lender_id)
         {
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            var lender = DataRepository.GetLender(lender_id);
+            var session = DataRepository.GetSession(session_id);
+
+            // TODO: nyomtatóra küldő logika
+
+            ViewBag.Lender = lender;
+            ViewBag.Session = session;
             return View();
-        }
-
-        //
-        // POST: /Invoices/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

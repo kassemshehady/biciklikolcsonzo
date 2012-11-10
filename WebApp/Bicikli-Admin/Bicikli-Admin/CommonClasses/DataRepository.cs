@@ -11,6 +11,11 @@ namespace Bicikli_Admin.CommonClasses
 {
     public class DataRepository
     {
+        /// <summary>
+        /// Returns all assigned lenders by username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public static IEnumerable<LenderModel> GetAssignedLenders(string username)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -18,6 +23,7 @@ namespace Bicikli_Admin.CommonClasses
                    join lu in dc.LenderUsers
                    on l equals lu.Lender
                    where (lu.User.UserId == (Guid)Membership.GetUser(username).ProviderUserKey)
+                   orderby l.name ascending
                    select new LenderModel
                    {
                        id = l.id,
@@ -30,10 +36,15 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        /// <summary>
+        /// Returns all lenders
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<LenderModel> GetLenders()
         {
             var dc = new BicikliDataClassesDataContext();
             return from l in dc.Lenders
+                   orderby l.name ascending
                    select new LenderModel
                    {
                        id = l.id,
@@ -46,10 +57,16 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        /// <summary>
+        /// Returns all users from the database but only with guid and username
+        /// fields filled out. (Performance...)
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<UserModel> GetUsers()
         {
             var dc = new BicikliDataClassesDataContext();
             return from u in dc.Users
+                   orderby u.UserName ascending
                    select new UserModel
                    {
                        guid = u.UserId,
@@ -57,6 +74,11 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        /// <summary>
+        /// Returns all lenders assigned to a certain user
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
         public static IEnumerable<LenderModel> GetLendersOfUser(Guid guid)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -64,6 +86,7 @@ namespace Bicikli_Admin.CommonClasses
                    join l in dc.Lenders
                    on lu.lender_id equals l.id
                    where (lu.user_id == guid)
+                   orderby l.name ascending
                    select new LenderModel
                    {
                        id = l.id,
@@ -76,6 +99,10 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        /// <summary>
+        /// Returns all users from the database with every collected detail
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<UserModel> GetUsersWithDetails()
         {
             var result = new List<UserModel>();
@@ -109,11 +136,17 @@ namespace Bicikli_Admin.CommonClasses
             return result;
         }
 
+        /// <summary>
+        /// Returns a lender
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static LenderModel GetLender(int id)
         {
             var dc = new BicikliDataClassesDataContext();
             return (from l in dc.Lenders
                     where l.id == id
+                    orderby l.name ascending
                     select new LenderModel
                     {
                         id = l.id,
@@ -126,6 +159,11 @@ namespace Bicikli_Admin.CommonClasses
                     }).Single();
         }
 
+        /// <summary>
+        /// Returns all users assigned to a certain lender
+        /// </summary>
+        /// <param name="lender_id"></param>
+        /// <returns></returns>
         public static IEnumerable<UserModel> GetLenderAssignedUsers(int lender_id)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -138,6 +176,11 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        /// <summary>
+        /// Returns all guids (user_id) assigned to a certain lender
+        /// </summary>
+        /// <param name="lender_id"></param>
+        /// <returns></returns>
         public static IEnumerable<Guid> GetLenderAssignedGuids(int lender_id)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -146,6 +189,10 @@ namespace Bicikli_Admin.CommonClasses
                    select lug.user_id;
         }
 
+        /// <summary>
+        /// Deletes a lender
+        /// </summary>
+        /// <param name="lender_id"></param>
         public static void DeleteLender(int lender_id)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -163,10 +210,15 @@ namespace Bicikli_Admin.CommonClasses
             dc.SubmitChanges();
         }
 
+        /// <summary>
+        /// Returns ALL dangerous zones
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<ZoneModel> GetDangerousZones()
         {
             var dc = new BicikliDataClassesDataContext();
             return from z in dc.DangerousZones
+                   orderby z.name ascending
                    select new ZoneModel()
                    {
                        id = z.id,
@@ -178,12 +230,40 @@ namespace Bicikli_Admin.CommonClasses
                    };
         }
 
+        /// <summary>
+        /// Returns a dangerous zone
+        /// </summary>
+        /// <returns></returns>
+        public static ZoneModel GetDangerousZone(int zoneId)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return (from z in dc.DangerousZones
+                    where z.id == zoneId
+                    orderby z.name ascending
+                    select new ZoneModel()
+                    {
+                        id = z.id,
+                        name = z.name,
+                        description = z.description,
+                        latitude = z.latitude,
+                        longitude = z.longitude,
+                        radius = z.radius
+                    }).Single();
+        }
+
+        /// <summary>
+        /// Returns ALL bikes from database with every collectable data
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<BikeModel> GetBikes()
         {
             // ide írni kell egy tárolt eljárást, hogy a többi mezőt is ki tudjam tölteni
             var dc = new BicikliDataClassesDataContext();
 
+            #region Get all bikes...
+
             var allBikes = (from b in dc.Bikes
+                            orderby b.name ascending
                             select new BikeModel()
                             {
                                 id = b.id,
@@ -194,26 +274,172 @@ namespace Bicikli_Admin.CommonClasses
                                 isActive = b.is_active
                             }).ToList();
 
-            var allSessions = (from s in dc.Sessions
-                               where ((s.bike_id != null) && (s.end_time == null))
-                               orderby s.start_time descending
-                               select new SessionModel()
-                               {
-                                   address = s.address,
-                                   bike_id = s.bike_id,
-                                   dangerousZoneId = s.dz_id,
-                                   dangerousZoneTime = s.dz_time,
-                                   endTime = s.end_time,
-                                   id = s.id,
-                                   lastReport = s.last_report,
-                                   latitude = s.latitude,
-                                   longitude = s.longitude,
-                                   name = s.name,
-                                   normalTime = s.normal_time,
-                                   startTime = s.start_time
-                               }).ToList();
+            #endregion
+
+            #region Get Active Sessions...
+
+            var allActiveSessions = (from s in dc.Sessions
+                                     where s.end_time == null
+                                     orderby s.start_time descending
+                                     select new SessionModel()
+                                     {
+                                         address = s.address,
+                                         bike_id = s.bike_id,
+                                         dangerousZoneId = s.dz_id,
+                                         dangerousZoneTime = s.dz_time,
+                                         endTime = s.end_time,
+                                         id = s.id,
+                                         lastReport = s.last_report,
+                                         latitude = s.latitude,
+                                         longitude = s.longitude,
+                                         name = s.name,
+                                         normalTime = s.normal_time,
+                                         startTime = s.start_time
+                                     }).ToList();
+
+            #endregion
+
+            #region Collect additional information...
+
+            foreach (var bike in allBikes)
+            {
+                var sessionsWithThisBike = allActiveSessions.Where(s => s.bike_id == bike.id);
+
+                if ((sessionsWithThisBike != null) && (sessionsWithThisBike.Count() > 0))
+                {
+                    bike.session = sessionsWithThisBike.First();
+                    bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
+                }
+
+                bike.lastLendingDate = (from s in dc.Sessions
+                                        where s.bike_id == bike.id
+                                        orderby s.start_time descending
+                                        select s.start_time).FirstOrDefault();
+            }
+
+            #endregion
 
             return allBikes;
+        }
+
+        /// <summary>
+        /// Returns only ONE bike from database with every collectable data
+        /// </summary>
+        /// <param name="bikeId"></param>
+        /// <returns></returns>
+        public static BikeModel GetBike(int bikeId)
+        {
+            var dc = new BicikliDataClassesDataContext();
+
+            #region Get the bike...
+
+            var bike = (from b in dc.Bikes
+                        where b.id == bikeId
+                        orderby b.name ascending
+                        select new BikeModel()
+                        {
+                            id = b.id,
+                            name = b.name,
+                            description = b.description,
+                            currentLenderId = b.current_lender_id,
+                            imageUrl = b.image_url,
+                            isActive = b.is_active
+                        }).Single();
+
+            #endregion
+
+            #region Get Bike's Active Sessions...
+
+            var bikeActiveSessions = (from s in dc.Sessions
+                                      where ((s.end_time == null) && (s.bike_id == bikeId))
+                                      orderby s.start_time descending
+                                      select new SessionModel()
+                                      {
+                                          address = s.address,
+                                          bike_id = s.bike_id,
+                                          dangerousZoneId = s.dz_id,
+                                          dangerousZoneTime = s.dz_time,
+                                          endTime = s.end_time,
+                                          id = s.id,
+                                          lastReport = s.last_report,
+                                          latitude = s.latitude,
+                                          longitude = s.longitude,
+                                          name = s.name,
+                                          normalTime = s.normal_time,
+                                          startTime = s.start_time
+                                      }).ToList();
+
+            #endregion
+
+            #region Collect additional information...
+
+            if ((bikeActiveSessions != null) && (bikeActiveSessions.Count() > 0))
+            {
+                bike.session = bikeActiveSessions.First();
+                bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
+            }
+
+            bike.lastLendingDate = (from s in dc.Sessions
+                                    where s.bike_id == bike.id
+                                    orderby s.start_time descending
+                                    select s.start_time).FirstOrDefault();
+
+            #endregion
+
+            return bike;
+        }
+
+        /// <summary>
+        /// Returns all sessions (invoices) from the database
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<SessionModel> GetSessions()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from s in dc.Sessions
+                   orderby s.start_time descending
+                   select new SessionModel()
+                   {
+                       address = s.address,
+                       bike_id = s.bike_id,
+                       dangerousZoneId = s.dz_id,
+                       dangerousZoneTime = s.dz_time,
+                       endTime = s.end_time,
+                       id = s.id,
+                       lastReport = s.last_report,
+                       latitude = s.latitude,
+                       longitude = s.longitude,
+                       name = s.name,
+                       normalTime = s.normal_time,
+                       startTime = s.start_time
+                   };
+        }
+
+        /// <summary>
+        /// Returns a session (invoice) from the database
+        /// </summary>
+        /// <returns></returns>
+        public static SessionModel GetSession(int id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return (from s in dc.Sessions
+                    where s.id == id
+                    select new SessionModel()
+                    {
+                        address = s.address,
+                        bike_id = s.bike_id,
+                        dangerousZoneId = s.dz_id,
+                        dangerousZoneTime = s.dz_time,
+                        endTime = s.end_time,
+                        id = s.id,
+                        lastReport = s.last_report,
+                        latitude = s.latitude,
+                        longitude = s.longitude,
+                        name = s.name,
+                        normalTime = s.normal_time,
+                        startTime = s.start_time,
+                        paid = s.paid
+                    }).Single();
         }
     }
 }

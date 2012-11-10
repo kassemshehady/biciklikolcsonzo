@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bicikli_Admin.CommonClasses;
+using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
 {
@@ -23,7 +24,8 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-zones";
+            return View(DataRepository.GetDangerousZone(id));
         }
 
         //
@@ -31,14 +33,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-zones";
+            return View(new ZoneModel());
         }
 
         //
         // POST: /Zones/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(ZoneModel m)
         {
             try
             {
@@ -48,6 +51,7 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
+                ViewBag.active_menu_item_id = "menu-btn-zones";
                 return View();
             }
         }
@@ -57,14 +61,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-zones";
+            return View(DataRepository.GetDangerousZone(id));
         }
 
         //
         // POST: /Zones/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ZoneModel m)
         {
             try
             {
@@ -74,7 +79,7 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                return View(m);
             }
         }
 
@@ -83,14 +88,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-zones";
+            return View(DataRepository.GetDangerousZone(id));
         }
 
         //
         // POST: /Zones/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(ZoneModel m)
         {
             try
             {
@@ -100,8 +106,17 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                return View(m);
             }
+        }
+
+        //
+        // GET: /Zones/ShowMap
+
+        public ActionResult ShowMap()
+        {
+            ViewBag.active_menu_item_id = "menu-btn-zones";
+            return View(DataRepository.GetDangerousZones());
         }
     }
 }

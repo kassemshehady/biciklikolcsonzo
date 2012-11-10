@@ -20,7 +20,7 @@ namespace Bicikli_Admin.CommonClasses
             {
                 actualValue = Convert.ToDouble(valueResult.AttemptedValue, System.Globalization.CultureInfo.InvariantCulture);
             }
-            catch (FormatException e)
+            catch
             {
                 modelState.Errors.Add("A következő mező nem valós számot tartalmaz: " + bindingContext.ModelMetadata.DisplayName);
             }
@@ -45,7 +45,7 @@ namespace Bicikli_Admin.CommonClasses
             {
                 actualValue = Convert.ToDecimal(valueResult.AttemptedValue, System.Globalization.CultureInfo.InvariantCulture);
             }
-            catch (FormatException e)
+            catch
             {
                 modelState.Errors.Add("A következő mező nem valós számot tartalmaz: " + bindingContext.ModelMetadata.DisplayName);
             }

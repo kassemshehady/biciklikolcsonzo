@@ -1,0 +1,115 @@
+﻿@model Bicikli_Admin.Models.SessionModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>SessionModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.startTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.startTime)
+            @Html.ValidationMessageFor(model => model.startTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.endTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.endTime)
+            @Html.ValidationMessageFor(model => model.endTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.bike_id)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.bike_id)
+            @Html.ValidationMessageFor(model => model.bike_id)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.lastReport)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.lastReport)
+            @Html.ValidationMessageFor(model => model.lastReport)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.dangerousZoneId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.dangerousZoneId)
+            @Html.ValidationMessageFor(model => model.dangerousZoneId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.dangerousZoneTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.dangerousZoneTime)
+            @Html.ValidationMessageFor(model => model.dangerousZoneTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.normalTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.normalTime)
+            @Html.ValidationMessageFor(model => model.normalTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.latitude)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.latitude)
+            @Html.ValidationMessageFor(model => model.latitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.longitude)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.longitude)
+            @Html.ValidationMessageFor(model => model.longitude)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.name)
+            @Html.ValidationMessageFor(model => model.name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.address)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.address)
+            @Html.ValidationMessageFor(model => model.address)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

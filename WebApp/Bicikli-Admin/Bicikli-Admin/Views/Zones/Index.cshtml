@@ -40,7 +40,14 @@
                     @Html.DisplayFor(modelItem => item.radius)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.bikesInThisZone)
+                    @if (item.bikesInThisZone > 0)
+                    {
+                        @Html.ActionLink(item.bikesInThisZone.ToString(), "DangerousList", "Bikes", routeValues: new { id = item.id }, htmlAttributes: null)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.bikesInThisZone)
+                    }
                 </td>
                 <td class="edit-tools">
                     <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>

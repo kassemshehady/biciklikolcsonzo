@@ -1,0 +1,92 @@
+﻿@model Bicikli_Admin.Models.SessionModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>SessionModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.startTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.startTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.endTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.endTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.bike_id)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.bike_id)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lastReport)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lastReport)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dangerousZoneId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dangerousZoneId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dangerousZoneTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dangerousZoneTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.normalTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.normalTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.latitude)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.latitude)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.longitude)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.longitude)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.address)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.address)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

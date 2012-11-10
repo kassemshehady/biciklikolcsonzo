@@ -1,0 +1,64 @@
+﻿@model Bicikli_Admin.Models.BikeModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>BikeModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.imageUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.imageUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.currentLenderId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.currentLenderId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.isActive)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.isActive)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.isInDangerousZone)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.isInDangerousZone)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lastLendingDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lastLendingDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

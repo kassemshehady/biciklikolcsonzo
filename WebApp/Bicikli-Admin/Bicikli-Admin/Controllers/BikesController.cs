@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bicikli_Admin.CommonClasses;
+using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
 {
@@ -19,11 +20,17 @@ namespace Bicikli_Admin.Controllers
         }
 
         //
+        // GET: /Bikes/FreeList/5
         // GET: /Bikes/FreeList
 
-        public ActionResult FreeList()
+        public ActionResult FreeList(int id = -1)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            if (id != -1)
+            {
+                return View(DataRepository.GetBikes().Where(b => b.currentLenderId == id));
+            }
+
             var favouriteLender = Request.Cookies.Get("favourite_lender");
             int favouriteLenderId;
 
@@ -38,27 +45,23 @@ namespace Bicikli_Admin.Controllers
         }
 
         //
-        // GET: /Bikes/FreeList/5
-
-        public ActionResult FreeList(int id)
-        {
-            ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBikes().Where(b => b.currentLenderId == id));
-        }
-
-        //
         // GET: /Bikes/DangerousList
 
-        public ActionResult DangerousList()
+        public ActionResult DangerousList(int id = -1)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            if (id != -1)
+            {
+                return View(DataRepository.GetBikes().Where(b => b.session.dangerousZoneId == id));
+            }
+
             return View(DataRepository.GetBikes().Where(b => b.isInDangerousZone));
         }
 
         //
         // GET: /Bikes/UnusedList
 
-        public ActionResult DangerousList()
+        public ActionResult UnusedList()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
             return View(DataRepository.GetBikes().Where(b => ((b.currentLenderId == null) && (b.session == null))));
@@ -78,7 +81,8 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(DataRepository.GetBike(id));
         }
 
         //
@@ -86,14 +90,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(new BikeModel());
         }
 
         //
         // POST: /Bikes/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(BikeModel m)
         {
             try
             {
@@ -103,7 +108,8 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                ViewBag.active_menu_item_id = "menu-btn-bikes";
+                return View(m);
             }
         }
 
@@ -112,14 +118,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(DataRepository.GetBike(id));
         }
 
         //
         // POST: /Bikes/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(BikeModel m)
         {
             try
             {
@@ -129,7 +136,8 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                ViewBag.active_menu_item_id = "menu-btn-bikes";
+                return View(m);
             }
         }
 
@@ -138,14 +146,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(DataRepository.GetBike(id));
         }
 
         //
         // POST: /Bikes/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(BikeModel m)
         {
             try
             {
@@ -155,8 +164,36 @@ namespace Bicikli_Admin.Controllers
             }
             catch
             {
-                return View();
+                ViewBag.active_menu_item_id = "menu-btn-bikes";
+                return View(m);
             }
+        }
+
+        //
+        // GET: /Bikes/Lend
+
+        public ActionResult Lend()
+        {
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(DataRepository.GetAssignedLenders(User.Identity.Name));
+        }
+
+        //
+        // GET: /Bikes/LendFrom
+
+        public ActionResult LendFrom(int id)
+        {
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(DataRepository.GetBikes().Where(b => b.currentLenderId == id));
+        }
+
+        //
+        // GET: /Bikes/ShowMap
+
+        public ActionResult ShowMap()
+        {
+            ViewBag.active_menu_item_id = "menu-btn-bikes";
+            return View(DataRepository.GetBikes().Where(b => b.currentLenderId == null));
         }
     }
 }

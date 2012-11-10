@@ -149,7 +149,6 @@
     <Compile Include="Controllers\BikesController.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\LendersController.cs" />
-    <Compile Include="Controllers\PrintersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ZonesController.cs" />
     <Compile Include="Models\BikeModel.cs" />
@@ -168,7 +167,6 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\LenderModel.cs" />
-    <Compile Include="Models\PrinterModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ZoneModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -302,6 +300,30 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\_LendersList.cshtml" />
     <Content Include="Views\Zones\Index.cshtml" />
+    <Content Include="Views\Bikes\Index.cshtml" />
+    <Content Include="Views\Bikes\FreeList.cshtml" />
+    <Content Include="Views\Bikes\DangerousList.cshtml" />
+    <Content Include="Views\Bikes\UnusedList.cshtml" />
+    <Content Include="Views\Bikes\BusyList.cshtml" />
+    <Content Include="Views\Bikes\Details.cshtml" />
+    <Content Include="Views\Bikes\Create.cshtml" />
+    <Content Include="Views\Bikes\Edit.cshtml" />
+    <Content Include="Views\Bikes\Delete.cshtml" />
+    <Content Include="Views\Bikes\Lend.cshtml" />
+    <Content Include="Views\Bikes\LendFrom.cshtml" />
+    <Content Include="Views\Bikes\ShowMap.cshtml" />
+    <Content Include="Views\Zones\Details.cshtml" />
+    <Content Include="Views\Zones\Create.cshtml" />
+    <Content Include="Views\Zones\Edit.cshtml" />
+    <Content Include="Views\Zones\Delete.cshtml" />
+    <Content Include="Views\Zones\ShowMap.cshtml" />
+    <Content Include="Views\Invoices\Print.cshtml" />
+    <Content Include="Views\Invoices\Edit.cshtml" />
+    <Content Include="Views\Invoices\Create.cshtml" />
+    <Content Include="Views\Invoices\Details.cshtml" />
+    <Content Include="Views\Invoices\Index.cshtml" />
+    <Content Include="Views\Invoices\ActiveSessions.cshtml" />
+    <Content Include="Views\Invoices\ClosedSessions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">

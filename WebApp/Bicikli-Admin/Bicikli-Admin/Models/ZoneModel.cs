@@ -16,6 +16,7 @@ namespace Bicikli_Admin.Models
         public string name { get; set; }
 
         [Display(Name = "Zóna leírása")]
+        [DataType(DataType.MultilineText)]
         public String description { get; set; }
 
         [Required(ErrorMessage = "A következő mező kitöltése kötelező: {0}")]

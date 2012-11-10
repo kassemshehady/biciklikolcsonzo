@@ -1,0 +1,112 @@
+﻿@model Bicikli_Admin.Models.ZoneModel
+@using Bicikli_Admin.Models
+@using System.Collections.Generic
+@{
+    ViewBag.Title = "Új veszélyes zóna hozzáadása";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false)
+
+    <fieldset>
+        <legend>Veszélyes zóna adatai</legend>
+
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.latitude)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.latitude)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.latitude, "(!)")</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.longitude)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.longitude)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.longitude, "(!)")</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.radius)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.radius)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.radius, "(!)")</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <label for="mapCanvas">Térkép</label>
+                </td>
+                <td>
+                    <div id="mapCanvas"></div>
+                </td>
+                <td class="validation-col"></td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <label>Cím</label>
+                </td>
+                <td>
+                    <div id="addressDiv"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.name)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.name)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.name, "(!)")</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.description)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.description)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.description, "(!)")</label>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <div class="form-buttons">
+        <button type="submit">Hozzáadás</button>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    @Scripts.Render("~/Content/gmaps_picker_helper")
+
+    <script type="text/javascript">
+        google.maps.event.addDomListener(window, 'load', init_gmaps_zones_picker);
+    </script>
+}
