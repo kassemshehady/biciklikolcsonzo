@@ -1690,65 +1690,65 @@ table.invisible {
   padding: 0;
   margin: 0;
 }
-table:not(.invisible) {
+table:not(.invisible, #CB_Window) {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   border: 1px solid black;
 }
-table:not(.invisible) th,
-table:not(.invisible) td {
+table:not(.invisible, #CB_Window) th,
+table:not(.invisible, #CB_Window) td {
   text-align: center;
 }
-table:not(.invisible) thead + tbody {
+table:not(.invisible, #CB_Window) thead + tbody {
   border-top: 1px solid black;
 }
-table:not(.invisible) tr + tr {
+table:not(.invisible, #CB_Window) tr + tr {
   border-top: 1px solid black;
 }
-table:not(.invisible) th,
-table:not(.invisible) tr > td {
+table:not(.invisible, #CB_Window) th,
+table:not(.invisible, #CB_Window) tr > td {
   padding: 6px;
 }
-table:not(.invisible) thead {
+table:not(.invisible, #CB_Window) thead {
   background: gray;
   color: white;
 }
-table:not(.invisible) thead th.id {
+table:not(.invisible, #CB_Window) thead th.id {
   width: 25px;
 }
-table:not(.invisible) thead th.picture {
+table:not(.invisible, #CB_Window) thead th.picture {
   width: 50px;
 }
-table:not(.invisible) thead th.edit-tools {
+table:not(.invisible, #CB_Window) thead th.edit-tools {
   width: 100px;
 }
-table:not(.invisible) thead th.name {
+table:not(.invisible, #CB_Window) thead th.name {
   width: auto;
   text-align: left;
 }
-table:not(.invisible) thead th.address {
+table:not(.invisible, #CB_Window) thead th.address {
   width: auto;
   text-align: left;
 }
-table:not(.invisible) tbody tr:nth-child(2n) {
+table:not(.invisible, #CB_Window) tbody tr:nth-child(2n) {
   background: #E1E1E1;
 }
-table:not(.invisible) tbody tr:nth-child(2n+1) {
+table:not(.invisible, #CB_Window) tbody tr:nth-child(2n+1) {
   background: white;
 }
-table:not(.invisible) tbody tr:hover {
+table:not(.invisible, #CB_Window) tbody tr:hover {
   background: #00D5FF;
 }
-table:not(.invisible) tbody td a {
+table:not(.invisible, #CB_Window) tbody td a {
   color: black;
 }
-table:not(.invisible) tbody td.name {
+table:not(.invisible, #CB_Window) tbody td.name {
   font-weight: bold;
   text-align: left;
 }
-table:not(.invisible) tbody td.address {
+table:not(.invisible, #CB_Window) tbody td.address {
   text-align: left;
 }
 address {

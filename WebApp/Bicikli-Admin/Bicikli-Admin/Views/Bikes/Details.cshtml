@@ -113,7 +113,21 @@
                     }
                     else
                     {
-                        <a title="Kép" rel="clearbox" target="_blank" href='@Html.Raw(Model.imageUrl)'>@Html.Raw(Model.imageUrl)</a>
+                        <a title="Kép" rel="clearbox" href='@Html.Raw(Url.Content("~/Content/uploads/" + Model.imageUrl))'>@Html.Raw(Model.imageUrl)</a>
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.description)
+                    </span>
+                </td>
+                <td>
+                    @{
+                        string dstr = Html.Encode(Model.description ?? "-");
+                        @Html.Raw(dstr.Replace(Html.Encode(Environment.NewLine), "<br />"))
                     }
                 </td>
             </tr>
@@ -175,4 +189,5 @@
             google.maps.event.addDomListener(window, 'load', init_gmaps_readonly);
         </script>
     }
+    @Scripts.Render("~/Content/clearbox")
 }

@@ -56,7 +56,7 @@
                 <td class="edit-tools">
                     @if (item.imageUrl != null)
                     {
-                        <a title="Kép" rel="clearbox" target="_blank" href='@Html.Raw(item.imageUrl)'><span class='ui-icon ui-icon-image' style="display: inline-block;"></span></a>
+                        <a title="Kép" rel="clearbox" href='@Html.Raw(Url.Content("~/Content/uploads/" + item.imageUrl))'><span class='ui-icon ui-icon-image' style="display: inline-block;"></span></a>
                     }
                     <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>
                 </td>

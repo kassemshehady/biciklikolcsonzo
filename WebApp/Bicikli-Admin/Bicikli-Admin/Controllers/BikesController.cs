@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bicikli_Admin.CommonClasses;
+using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
@@ -164,26 +166,112 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
-            return View(DataRepository.GetBike(id));
+            var bike = DataRepository.GetBike(id);
+
+            #region Create dropdown list for selectable lenders
+
+            var myLenders = new List<SelectListItem>();
+            myLenders.Add(new SelectListItem()
+            {
+                Text = "-- Használaton kívül --",
+                Value = "-1",
+                Selected = (bike.currentLenderId == null)
+            });
+            foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
+            {
+                myLenders.Add(new SelectListItem()
+                {
+                    Text = item.name,
+                    Value = item.id.ToString(),
+                    Selected = (bike.currentLenderId == item.id)
+                });
+            }
+            ViewBag.MyLenders = myLenders;
+
+            #endregion
+
+            return View(bike);
         }
 
         //
         // POST: /Bikes/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(BikeModel m)
+        public ActionResult Edit(BikeModel m, int MyLenders = -1, HttpPostedFileBase ImgFile = null)
         {
             try
             {
-                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
+
+                var db = new BicikliDataClassesDataContext();
+                var bikeToUpdate = db.Bikes.Single(b => b.id == m.id);
+
+                if (bikeToUpdate.name != m.name)
+                {
+                    bikeToUpdate.name = m.name;
+                }
+                if (bikeToUpdate.description != m.description)
+                {
+                    bikeToUpdate.description = m.description;
+                }
+                if (bikeToUpdate.current_lender_id != null)
+                {
+                    if (MyLenders < 0)
+                    {
+                        bikeToUpdate.current_lender_id = null;
+                    }
+                    else if (bikeToUpdate.current_lender_id != MyLenders)
+                    {
+                        bikeToUpdate.current_lender_id = MyLenders;
+                    }
+                }
+                if (bikeToUpdate.is_active != m.isActive)
+                {
+                    bikeToUpdate.is_active = m.isActive;
+                }
+                if (ImgFile != null)
+                {
+                    if (ImgFile != null && ImgFile.ContentLength > 0)
+                    {
+                        var fileName = DateTime.Now.Ticks.ToString() + m.id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
+                        var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                        ImgFile.SaveAs(path);
+                        bikeToUpdate.image_url = fileName;
+                    }
+                }
+                db.SubmitChanges();
 
                 return RedirectToAction("Index");
             }
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
-                ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
+
+                #region Create dropdown list for selectable lenders
+
+                var myLenders = new List<SelectListItem>();
+                myLenders.Add(new SelectListItem()
+                {
+                    Text = "-- Használaton kívül --",
+                    Value = "-1",
+                    Selected = (m.currentLenderId == null)
+                });
+                foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
+                {
+                    myLenders.Add(new SelectListItem()
+                    {
+                        Text = item.name,
+                        Value = item.id.ToString(),
+                        Selected = (m.currentLenderId == item.id)
+                    });
+                }
+                ViewBag.MyLenders = myLenders;
+
+                #endregion
+
                 return View(m);
             }
         }

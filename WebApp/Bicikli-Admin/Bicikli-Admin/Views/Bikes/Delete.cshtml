@@ -48,7 +48,7 @@
                     }
                     else
                     {
-                        <a title="Kép" rel="clearbox" target="_blank" href='@Html.Raw(Model.imageUrl)'>@Html.Raw(Model.imageUrl)</a>
+                        <a title="Kép" rel="clearbox" href='@Html.Raw(Url.Content("~/Content/uploads/" + Model.imageUrl))'>@Html.Raw(Model.imageUrl)</a>
                     }
                 </td>
             </tr>
@@ -76,4 +76,8 @@
     <div class="form-buttons">
         @Html.ActionLink("Vissza a kerékpárok listájához", "Index")
     </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/Content/clearbox")
 }

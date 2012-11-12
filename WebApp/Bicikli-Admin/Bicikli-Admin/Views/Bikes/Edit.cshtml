@@ -1,85 +1,212 @@
 ﻿@model Bicikli_Admin.Models.BikeModel
-
+@using Bicikli_Admin.Models
+@using System.Collections.Generic
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Kerékpár szerkesztése";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+@using (Html.BeginForm("Edit", "Bikes", new { id = Url.RequestContext.RouteData.Values["id"] }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false)
 
     <fieldset>
-        <legend>BikeModel</legend>
+        <legend>Kerékpár adatai</legend>
 
         @Html.HiddenFor(model => model.id)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.name)
-            @Html.ValidationMessageFor(model => model.name)
-        </div>
+        <table class="invisible">
+            @if ((Model.session != null) && (Model.session.latitude != null) && (Model.session.longitude != null))
+            {
+                <tr>
+                    <td class="label-col">
+                        <label>
+                            @Html.DisplayNameFor(model => model.session.latitude)
+                        </label>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.session.latitude.ToString() ?? "-")
+                        @Html.HiddenFor(model => model.session.latitude)
+                    </td>
+                    <td></td>
+                </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.description)
-            @Html.ValidationMessageFor(model => model.description)
-        </div>
+                <tr>
+                    <td class="label-col">
+                        <label>
+                            @Html.DisplayNameFor(model => model.session.longitude)
+                        </label>
+                    </td>
+                    <td>
+                        @Html.Raw(Model.session.longitude.ToString() ?? "-")
+                        @Html.HiddenFor(model => model.session.longitude)
+                    </td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td class="label-col">
+                        <label>Térkép</label>
+                    </td>
+                    <td>
+                        <div id="mapCanvas"></div>
+                    </td>
+                    <td></td>
+                </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.imageUrl)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.imageUrl)
-            @Html.ValidationMessageFor(model => model.imageUrl)
-        </div>
+                <tr>
+                    <td class="label-col">
+                        <label>Cím</label>
+                    </td>
+                    <td>
+                        <div id="addressDiv"></div>
+                    </td>
+                    <td></td>
+                </tr>
+            }
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.currentLenderId)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.currentLenderId)
-            @Html.ValidationMessageFor(model => model.currentLenderId)
-        </div>
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.lastLendingDate)
+                    </label>
+                </td>
+                <td>
+                    @if (Model.lastLendingDate == null)
+                    {
+                        @Html.Raw("-");
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.lastLendingDate)
+                    }
+                </td>
+                <td></td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.isActive)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.isActive)
-            @Html.ValidationMessageFor(model => model.isActive)
-        </div>
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.name)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.name)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.name, "(!)")</label>
+                </td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.isInDangerousZone)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.isInDangerousZone)
-            @Html.ValidationMessageFor(model => model.isInDangerousZone)
-        </div>
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.description)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.description)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.description, "(!)")</label>
+                </td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.lastLendingDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.lastLendingDate)
-            @Html.ValidationMessageFor(model => model.lastLendingDate)
-        </div>
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.currentLenderId)
+                    </label>
+                </td>
+                <td>
+                    @if (Model.currentLenderId == null)
+                    {
+                        if (Model.session != null)
+                        {
+                        @Html.Raw("A kerékpár épp ki van kölcsönözve")
+                        }
+                        else
+                        {
+                        @Html.DropDownList("MyLenders")
+                        }
+                    }
+                    else
+                    {
+                        @Html.DropDownList("MyLenders")
+                    }
+                </td>
+                <td></td>
+            </tr>
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.imageUrl)
+                    </label>
+                </td>
+                <td>
+                    @if (Model.imageUrl == null)
+                    {
+                        @Html.Raw("Nincs")
+                    }
+                    else
+                    {
+                        <a title="Kép" rel="clearbox" href='@Html.Raw(Url.Content("~/Content/uploads/" + Model.imageUrl))'>@Html.Raw(Model.imageUrl)</a>
+                    }
+                    <br />
+                    <br />
+                    Új feltöltése:
+                    <input type="file" name="ImgFile" id="ImgFile" />
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.isActive)
+                    </label>
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.isActive)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.isActive, "(!)")</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.isInDangerousZone)
+                    </label>
+                </td>
+                <td>
+                    @if (Model.isInDangerousZone)
+                    {
+                        @Html.ActionLink("Igen", "Details", "Zones", routeValues: new { id = Model.session.dangerousZoneId }, htmlAttributes: null)
+                    }
+                    else
+                    {
+                        @Html.Raw("Nem")
+                    }
+                </td>
+                <td></td>
+            </tr>
+        </table>
     </fieldset>
+
+    <div class="form-buttons">
+        <button type="submit">Mentés</button>
+    </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @if ((Model.session != null) && (Model.session.latitude != null) && (Model.session.longitude != null))
+    {
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        @Scripts.Render("~/Content/gmaps_picker_helper")
+
+        <script type="text/javascript">
+            google.maps.event.addDomListener(window, 'load', init_gmaps_readonly);
+        </script>
+    }
+    @Scripts.Render("~/Content/clearbox")
 }
