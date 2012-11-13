@@ -83,6 +83,24 @@
                     @Html.Raw(Model.printer_ip ?? "-")
                 </td>
             </tr>
+
+            @{
+                var isNotFavourite = (bool)ViewBag.IsNotFavourite;
+                var canBeFavourite = (bool)ViewBag.CanBeFavourite;
+
+                if (canBeFavourite)
+                {
+                <tr>
+                    <td class="label-col">
+                        <span class="labellike">Kedvenc?
+                        </span>
+                    </td>
+                    <td>
+                        @Html.Raw(!isNotFavourite ? "Igen" : "Nem")
+                    </td>
+                </tr>
+                }
+            }
         </table>
     </fieldset>
 
@@ -90,6 +108,12 @@
 
     <div class="form-buttons">
         @Html.ActionLink("Vissza a kölcsönzők listájához", "Index")
+        @{
+            if (isNotFavourite && canBeFavourite)
+            {
+            @Html.ActionLink("Kedvenccé tétel", "MakeFavourite", new { id = Url.RequestContext.RouteData.Values["id"] })
+            }
+        }
     </div>
 </div>
 

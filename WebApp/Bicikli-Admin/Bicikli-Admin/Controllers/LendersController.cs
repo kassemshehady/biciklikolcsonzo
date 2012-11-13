@@ -51,6 +51,23 @@ namespace Bicikli_Admin.Controllers
 
                 #endregion
 
+                #region Determine if it is favourite or not
+
+                var favouriteLender = Request.Cookies.Get("favourite_lender");
+                ViewBag.IsNotFavourite = ((favouriteLender == null) || (lenderToShow.id.ToString() != favouriteLender.Value));
+                
+                var myLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
+                try
+                {
+                    ViewBag.CanBeFavourite = (myLenders.SingleOrDefault(ml => ml.id == id) != null);
+                }
+                catch
+                {
+                    ViewBag.CanBeFavourite = false;
+                }
+
+                #endregion
+
                 return View(lenderToShow);
             }
             catch
@@ -313,6 +330,23 @@ namespace Bicikli_Admin.Controllers
             catch
             {
                 return RedirectToAction("Index");
+            }
+        }
+
+        //
+        // GET: /Lenders/MakeFavourite/5
+
+        public ActionResult MakeFavourite(int id)
+        {
+            try
+            {
+                var favouriteLender = DataRepository.GetAssignedLenders(User.Identity.Name).Single(l => l.id == id);
+                Response.Cookies.Set(new HttpCookie("favourite_lender", favouriteLender.id.ToString()));
+                return RedirectToAction("Details", new { id = id });
+            }
+            catch
+            {
+                return RedirectToAction("Details", new { id = id });
             }
         }
     }

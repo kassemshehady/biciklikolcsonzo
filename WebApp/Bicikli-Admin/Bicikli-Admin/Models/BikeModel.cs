@@ -35,7 +35,7 @@ namespace Bicikli_Admin.Models
         // foreign...
         [Display(Name = "Utoljára kölcsönözve")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}")]
-        public DateTime lastLendingDate { get; set; }
+        public DateTime? lastLendingDate { get; set; }
 
         // foreign...
         public SessionModel session { get; set; }

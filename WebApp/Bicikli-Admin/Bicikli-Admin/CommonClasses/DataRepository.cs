@@ -316,6 +316,11 @@ namespace Bicikli_Admin.CommonClasses
                                         orderby s.start_time descending
                                         select s.start_time).FirstOrDefault();
 
+                if (bike.lastLendingDate == new DateTime())
+                {
+                    bike.lastLendingDate = null;
+                }
+
                 if (bike.currentLenderId != null)
                 {
                     bike.lender = (from l in dc.Lenders
@@ -398,6 +403,11 @@ namespace Bicikli_Admin.CommonClasses
                                     where s.bike_id == bike.id
                                     orderby s.start_time descending
                                     select s.start_time).FirstOrDefault();
+
+            if (bike.lastLendingDate == new DateTime())
+            {
+                bike.lastLendingDate = null;
+            }
 
             if (bike.currentLenderId != null)
             {

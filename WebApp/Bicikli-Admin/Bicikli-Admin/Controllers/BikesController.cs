@@ -34,15 +34,6 @@ namespace Bicikli_Admin.Controllers
                 ViewBag.SelectedLenderId = id;
                 return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId == id)));
             }
-
-            var favouriteLender = Request.Cookies.Get("favourite_lender");
-            int favouriteLenderId;
-
-            if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
-            {
-                ViewBag.SelectedLenderId = favouriteLenderId;
-                return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId == favouriteLenderId)));
-            }
             else
             {
                 return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId != null)));
@@ -119,43 +110,104 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
-
             var favouriteLender = Request.Cookies.Get("favourite_lender");
-            int favouriteLenderId;
 
-            if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
+            #region Create dropdown list for selectable lenders
+
+            var myLenders = new List<SelectListItem>();
+            myLenders.Add(new SelectListItem()
             {
-                ViewBag.SelectedLenderId = favouriteLenderId;
+                Text = "-- Használaton kívül --",
+                Value = "-1",
+                Selected = ((favouriteLender == null) || (favouriteLender.Value == "-1"))
+            });
+            foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
+            {
+                myLenders.Add(new SelectListItem()
+                {
+                    Text = item.name,
+                    Value = item.id.ToString(),
+                    Selected = ((favouriteLender != null) && (favouriteLender.Value == item.id.ToString()))
+                });
             }
 
-            return View(new BikeModel());
+            ViewBag.MyLenders = myLenders;
+
+            #endregion
+
+            return View(new BikeModel() { isActive = true });
         }
 
         //
         // POST: /Bikes/Create
 
         [HttpPost]
-        public ActionResult Create(BikeModel m)
+        public ActionResult Create(BikeModel m, int MyLenders = -1, HttpPostedFileBase ImgFile = null)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
+
+                var db = new BicikliDataClassesDataContext();
+                var bikeToInsert = new Bike();
+
+                bikeToInsert.description = m.description;
+                bikeToInsert.is_active = m.isActive;
+                bikeToInsert.name = m.name;
+
+                if (MyLenders > -1)
+                {
+                    bikeToInsert.current_lender_id = MyLenders;
+                }
+
+                db.Bikes.InsertOnSubmit(bikeToInsert);
+                db.SubmitChanges();
+
+                if (ImgFile != null)
+                {
+                    if (ImgFile != null && ImgFile.ContentLength > 0)
+                    {
+                        var fileName = DateTime.Now.Ticks.ToString() + "---" + bikeToInsert.id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
+                        var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
+                        ImgFile.SaveAs(path);
+                        bikeToInsert.image_url = fileName;
+                    }
+                }
+                db.SubmitChanges();
 
                 return RedirectToAction("Index");
             }
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
-                ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
-
                 var favouriteLender = Request.Cookies.Get("favourite_lender");
-                int favouriteLenderId;
 
-                if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
+                #region Create dropdown list for selectable lenders
+
+                var myLenders = new List<SelectListItem>();
+                myLenders.Add(new SelectListItem()
                 {
-                    ViewBag.SelectedLenderId = favouriteLenderId;
+                    Text = "-- Használaton kívül --",
+                    Value = "-1",
+                    Selected = ((favouriteLender == null) || (favouriteLender.Value == "-1"))
+                });
+                foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
+                {
+                    myLenders.Add(new SelectListItem()
+                    {
+                        Text = item.name,
+                        Value = item.id.ToString(),
+                        Selected = ((favouriteLender != null) && (favouriteLender.Value == item.id.ToString()))
+                    });
                 }
+
+                ViewBag.MyLenders = myLenders;
+
+                #endregion
+
                 return View(m);
             }
         }
@@ -217,7 +269,7 @@ namespace Bicikli_Admin.Controllers
                 {
                     bikeToUpdate.description = m.description;
                 }
-                if (bikeToUpdate.current_lender_id != null)
+                if (DataRepository.GetBike((int)m.id).session == null)
                 {
                     if (MyLenders < 0)
                     {
@@ -236,8 +288,8 @@ namespace Bicikli_Admin.Controllers
                 {
                     if (ImgFile != null && ImgFile.ContentLength > 0)
                     {
-                        var fileName = DateTime.Now.Ticks.ToString() + m.id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
-                        var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                        var fileName = DateTime.Now.Ticks.ToString() + "---" + m.id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
+                        var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
                         ImgFile.SaveAs(path);
                         bikeToUpdate.image_url = fileName;
                     }
@@ -293,7 +345,15 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                var bikeToDelete = DataRepository.GetBike((int)m.id);
+                if (bikeToDelete.lastLendingDate != null)
+                {
+                    throw new Exception();
+                }
+
+                var db = new BicikliDataClassesDataContext();
+                db.Bikes.DeleteOnSubmit(db.Bikes.Single(b => b.id == m.id));
+                db.SubmitChanges();
 
                 return RedirectToAction("Index");
             }

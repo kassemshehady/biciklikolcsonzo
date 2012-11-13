@@ -1,83 +1,88 @@
 ﻿@model Bicikli_Admin.Models.BikeModel
-
+@using Bicikli_Admin.Models
+@using System.Collections.Generic
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Kerékpár szerkesztése";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+@using (Html.BeginForm("Create", "Bikes", new { id = Url.RequestContext.RouteData.Values["id"] }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false)
 
     <fieldset>
-        <legend>BikeModel</legend>
+        <legend>Kerékpár adatai</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.name)
-            @Html.ValidationMessageFor(model => model.name)
-        </div>
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.name)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.name)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.name, "(!)")</label>
+                </td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.description)
-            @Html.ValidationMessageFor(model => model.description)
-        </div>
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.description)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.description)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.description, "(!)")</label>
+                </td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.imageUrl)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.imageUrl)
-            @Html.ValidationMessageFor(model => model.imageUrl)
-        </div>
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.currentLenderId)
+                    </label>
+                </td>
+                <td>
+                    @Html.DropDownList("MyLenders")
+                </td>
+                <td></td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.currentLenderId)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.currentLenderId)
-            @Html.ValidationMessageFor(model => model.currentLenderId)
-        </div>
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.imageUrl)
+                    </label>
+                </td>
+                <td>
+                    <input type="file" name="ImgFile" id="ImgFile" />
+                </td>
+                <td></td>
+            </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.isActive)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.isActive)
-            @Html.ValidationMessageFor(model => model.isActive)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.isInDangerousZone)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.isInDangerousZone)
-            @Html.ValidationMessageFor(model => model.isInDangerousZone)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.lastLendingDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.lastLendingDate)
-            @Html.ValidationMessageFor(model => model.lastLendingDate)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+            <tr>
+                <td class="label-col">
+                    <label>
+                        @Html.DisplayNameFor(model => model.isActive)
+                    </label>
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.isActive)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.isActive, "(!)")</label>
+                </td>
+            </tr>
+        </table>
     </fieldset>
+
+    <div class="form-buttons">
+        <button type="submit">Létrehozás</button>
+    </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
