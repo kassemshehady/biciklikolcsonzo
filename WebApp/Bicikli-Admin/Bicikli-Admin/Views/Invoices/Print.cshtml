@@ -1,5 +1,67 @@
-﻿@{
-    ViewBag.Title = "Print";
+﻿@model IEnumerable<Bicikli_Admin.Models.LenderModel>
+@{
+    ViewBag.Title = "Számla nyomtatása";
 }
 
-<h2>Print</h2>
+<h2>@ViewBag.Title</h2>
+<p class="message-info ui-state-highlight">
+    <span class="ui-icon ui-icon-info" style="display: inline-block;"></span>
+    A számla nyomtatásához kérjük válasszon egy bejelentett nyomtatóval rendelkező kölcsönzőt!<br />
+    A nyomtatás a választott kölcsönzőben fog megtörténni.
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th class="id">
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th class="name">
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th class="address">
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.printer_ip)
+            </th>
+            <th class="edit-tools"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td class="name">
+                    @Html.ActionLink(item.name, "Details", new { id = item.id })
+                </td>
+                <td class="address">
+                    @{
+            string dstr = Html.Encode(item.address);
+            dstr = dstr.Replace("," + Html.Encode(Environment.NewLine), Html.Encode(Environment.NewLine));
+            dstr = dstr.Replace(", " + Html.Encode(Environment.NewLine), Html.Encode(Environment.NewLine));
+                        @Html.Raw(dstr.Replace(Html.Encode(Environment.NewLine), ", "));
+                    }
+                </td>
+                <td>
+                    @Html.Raw(item.printer_ip ?? "-")
+                </td>
+                <td class="edit-tools">
+                    <a title="Nyomtatás" href='@Url.Action("Print", new { id = ViewBag.InvoiceId, lender_id = item.id })'><span class='ui-icon ui-icon-print' style="display: inline-block;"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<p>
+    <div class="formlike">
+        <div class="form-buttons">
+            @Html.ActionLink("Vissza a számlák listájához", "Index")
+        </div>
+    </div>
+</p>

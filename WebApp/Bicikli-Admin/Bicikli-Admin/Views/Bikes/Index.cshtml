@@ -59,7 +59,7 @@
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.lastLendingDate)
+                        @Html.ActionLink(Html.DisplayFor(modelItem => item.lastLendingDate).ToString(), "Details", "Invoices", routeValues: new { id = item.lastSession.id }, htmlAttributes: null)
                     }
                 </td>
                 <td>

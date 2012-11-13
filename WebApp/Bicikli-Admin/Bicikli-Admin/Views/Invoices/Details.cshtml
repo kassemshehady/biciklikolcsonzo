@@ -1,92 +1,228 @@
 ﻿@model Bicikli_Admin.Models.SessionModel
-
+@using Bicikli_Admin.Models
+@using System.Collections.Generic
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Számla megtekintése";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
-<fieldset>
-    <legend>SessionModel</legend>
+<div class="formlike">
+    <fieldset>
+        <legend>Ügyfél adatai</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.startTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.startTime)
-    </div>
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                    @Html.LabelFor(model => model.name)
+                        </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.name)
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.endTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.endTime)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                    @Html.LabelFor(model => model.address)
+                        </span>
+                </td>
+                <td>
+                    @{
+                        string astr = Html.Encode(Model.address ?? "-");
+                        @Html.Raw(astr.Replace(Html.Encode(Environment.NewLine), "<br />"))
+                    }
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Számla adatai</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.bike_id)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.bike_id)
-    </div>
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.id)
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.id)
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.lastReport)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.lastReport)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.startTime)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.startTime != null)
+                    {
+                        @Html.DisplayFor(model => model.startTime)
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.dangerousZoneId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.dangerousZoneId)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.endTime)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.endTime != null)
+                    {
+                        @Html.DisplayFor(model => model.endTime)
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.dangerousZoneTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.dangerousZoneTime)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.paid)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.paid)
+                    {
+                        @Html.Raw("Igen")
+                    }
+                    else
+                    {
+                        @Html.Raw("Nem")
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.normalTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.normalTime)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.lastReport)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.lastReport != null)
+                    {
+                        @Html.DisplayFor(model => model.lastReport)
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.latitude)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.latitude)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.bike_id)
+                    </span>
+                </td>
+                <td>
+                    @Html.ActionLink(Model.bikeModel.name, "Details", "Bikes", routeValues: new { id = Model.bike_id }, htmlAttributes: null)
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.longitude)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.longitude)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.totalTimeMinutes)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.totalTimeMinutes != null)
+                    {
+                        @Html.DisplayFor(model => model.totalTimeMinutes)
+                        @Html.Raw(" perc")
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.name)
-    </div>
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.normalTime)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.normalTimeMinutes != null)
+                    {
+                        @Html.DisplayFor(model => model.normalTimeMinutes)
+                        @Html.Raw(" perc")
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.address)
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.dangerousZoneTime)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.dangerousZoneTimeMinutes != null)
+                    {
+                        @Html.DisplayFor(model => model.dangerousZoneTimeMinutes)
+                        @Html.Raw(" perc")
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.LabelFor(model => model.totalBalance)
+                    </span>
+                </td>
+                <td>
+                    @if (Model.totalBalance != null)
+                    {
+                        @Html.DisplayFor(model => model.totalBalance)
+                        @Html.Raw(" Ft")
+                    }
+                    else
+                    {
+                        @Html.Raw("-")
+                    }
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <div class="form-buttons">
+        @Html.ActionLink("Vissza a számlák listájához", "Index")
+        @if (Model.endTime != null)
+        {
+            @Html.ActionLink("Számla nyomtatása", "Print", "Invoices", routeValues: new { id = Model.id }, htmlAttributes: null)
+        }
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.address)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

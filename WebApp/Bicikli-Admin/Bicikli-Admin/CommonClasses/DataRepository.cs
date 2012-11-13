@@ -311,10 +311,35 @@ namespace Bicikli_Admin.CommonClasses
                     bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
                 }
 
-                bike.lastLendingDate = (from s in dc.Sessions
-                                        where s.bike_id == bike.id
-                                        orderby s.start_time descending
-                                        select s.start_time).FirstOrDefault();
+                var lastLendingData = (from s in dc.Sessions
+                                       where s.bike_id == bike.id
+                                       orderby s.start_time descending
+                                       select new LastLendingOfBike()
+                                       {
+                                           lastLendingDate = s.start_time,
+                                           lastSession = new SessionModel()
+                                           {
+                                               address = s.address,
+                                               bike_id = s.bike_id,
+                                               dangerousZoneId = s.dz_id,
+                                               dangerousZoneTime = s.dz_time,
+                                               endTime = s.end_time,
+                                               id = s.id,
+                                               lastReport = s.last_report,
+                                               latitude = s.latitude,
+                                               longitude = s.longitude,
+                                               name = s.name,
+                                               normalTime = s.normal_time,
+                                               paid = s.paid,
+                                               startTime = s.start_time
+                                           }
+                                       }).FirstOrDefault();
+
+                if (lastLendingData != null)
+                {
+                    bike.lastLendingDate = lastLendingData.lastLendingDate;
+                    bike.lastSession = lastLendingData.lastSession;
+                }
 
                 if (bike.lastLendingDate == new DateTime())
                 {
@@ -399,10 +424,35 @@ namespace Bicikli_Admin.CommonClasses
                 bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
             }
 
-            bike.lastLendingDate = (from s in dc.Sessions
-                                    where s.bike_id == bike.id
-                                    orderby s.start_time descending
-                                    select s.start_time).FirstOrDefault();
+            var lastLendingData = (from s in dc.Sessions
+                                   where s.bike_id == bike.id
+                                   orderby s.start_time descending
+                                   select new LastLendingOfBike()
+                                   {
+                                       lastLendingDate = s.start_time,
+                                       lastSession = new SessionModel()
+                                       {
+                                           address = s.address,
+                                           bike_id = s.bike_id,
+                                           dangerousZoneId = s.dz_id,
+                                           dangerousZoneTime = s.dz_time,
+                                           endTime = s.end_time,
+                                           id = s.id,
+                                           lastReport = s.last_report,
+                                           latitude = s.latitude,
+                                           longitude = s.longitude,
+                                           name = s.name,
+                                           normalTime = s.normal_time,
+                                           paid = s.paid,
+                                           startTime = s.start_time
+                                       }
+                                   }).FirstOrDefault();
+
+            if (lastLendingData != null)
+            {
+                bike.lastLendingDate = lastLendingData.lastLendingDate;
+                bike.lastSession = lastLendingData.lastSession;
+            }
 
             if (bike.lastLendingDate == new DateTime())
             {
@@ -452,7 +502,8 @@ namespace Bicikli_Admin.CommonClasses
                        longitude = s.longitude,
                        name = s.name,
                        normalTime = s.normal_time,
-                       startTime = s.start_time
+                       startTime = s.start_time,
+                       bikeModel = DataRepository.GetBike(s.bike_id)
                    };
         }
 
@@ -479,7 +530,8 @@ namespace Bicikli_Admin.CommonClasses
                         name = s.name,
                         normalTime = s.normal_time,
                         startTime = s.start_time,
-                        paid = s.paid
+                        paid = s.paid,
+                        bikeModel = DataRepository.GetBike(s.bike_id)
                     }).Single();
         }
     }

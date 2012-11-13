@@ -37,8 +37,8 @@ var
 	CB_CloseBtn2Top=-20,				// vertical position of the close button in content mode
 	CB_CloseBtn2Right=-30,				// horizontal position of the close button in content mode
 
-	CB_OSD='on',					// turns on OSD
-	CB_OSDShowReady='on',				// when clearbox is loaded and ready, it shows an OSD message
+	CB_OSD='off',					// turns on OSD
+	CB_OSDShowReady='off',				// when clearbox is loaded and ready, it shows an OSD message
 
 // CB font, text and navigation (at the bottom of CB window) settings:
 
@@ -111,6 +111,6 @@ var
 	CB_AllowedToRun='on',					// if 'off', CB won't start (you can change this variable without reload!)
 	CB_AllowExtFunctLoad='off',				// if 'on', CB will run a function named CB_ExternalFunctionLoad(); every time after a new content has loaded (useful for audit, etc)
 	CB_AllowExtFunctPageLoad='off',				// if 'on', CB will run a function named CB_ExternalFunctionPageLoad(); after your page has fully loaded
-	CB_AllowExtFunctCBClose='off	'				// if 'on', CB will run a function named CB_ExternalFunctionCBClose(); after CB window has closed
+	CB_AllowExtFunctCBClose='off'				// if 'on', CB will run a function named CB_ExternalFunctionCBClose(); after CB window has closed
 
 ;

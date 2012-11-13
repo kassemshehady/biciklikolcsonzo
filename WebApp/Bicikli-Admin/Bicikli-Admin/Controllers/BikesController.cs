@@ -365,26 +365,6 @@ namespace Bicikli_Admin.Controllers
         }
 
         //
-        // GET: /Bikes/Lend
-        // TODO: ÁTHELYEZNI A SZÁMLÁKHOZ!!!!
-        // TODO: Kölcsönzők listája nem kell, mert a bicikliről tudjuk, hogy hol van!
-
-        public ActionResult Lend(int id)
-        {
-            ViewBag.active_menu_item_id = "menu-btn-bikes";
-            ViewBag.BikeToLend = DataRepository.GetBike(id);
-
-            var favouriteLender = Request.Cookies.Get("favourite_lender");
-            int favouriteLenderId;
-
-            if ((favouriteLender != null) && int.TryParse(favouriteLender.Value, out favouriteLenderId))
-            {
-                ViewBag.SelectedLenderId = favouriteLenderId;
-            }
-            return View(DataRepository.GetAssignedLenders(User.Identity.Name));
-        }
-
-        //
         // GET: /Bikes/ShowMap
 
         public ActionResult ShowMap()

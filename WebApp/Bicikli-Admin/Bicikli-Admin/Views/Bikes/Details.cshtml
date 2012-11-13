@@ -70,7 +70,7 @@
                     }
                     else
                     {
-                        @Html.DisplayFor(model => model.lastLendingDate)
+                        @Html.ActionLink(Html.DisplayFor(model => model.lastLendingDate).ToString(), "Details", "Invoices", routeValues: new { id = Model.lastSession.id }, htmlAttributes: null)
                     }
                 </td>
             </tr>
@@ -174,7 +174,7 @@
         @Html.ActionLink("Vissza a kerékpárok listájához", "Index")
         @if ((bool)ViewBag.CanILend)
         {
-            @Html.ActionLink("Kölcsönzés", "Lend", routeValues: new { id = Model.id })
+            @Html.ActionLink("Kölcsönzés", "Create", "Invoices", routeValues: new { id = Model.id }, htmlAttributes: null)
         }
     </div>
 </div>

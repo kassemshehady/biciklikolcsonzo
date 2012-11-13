@@ -39,6 +39,13 @@ namespace Bicikli_Admin.Models
 
         // foreign...
         public SessionModel session { get; set; }
+        public SessionModel lastSession { get; set; }
         public LenderModel lender { get; set; }
+    }
+
+    public class LastLendingOfBike
+    {
+        public DateTime? lastLendingDate { get; set; }
+        public SessionModel lastSession { get; set; }
     }
 }

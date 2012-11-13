@@ -13,15 +13,15 @@ namespace Bicikli_Admin.ApiControllers
 {
     public class ReportController : ApiController
     {
+        public const int normalPricePerMinutes = 60;
+        public const int dangerPricePerMinites = 200;
+
         // POST api/Report
         public ReportResponseModel Post(ReportRequestModel requestModel)
         {
             var dc = new BicikliDataClassesDataContext();
             var responseModel = new ReportResponseModel();
             var currentTime = DateTime.Now;
-
-            const int normalPricePerMinutes = 60;
-            const int dangerPricePerMinites = 200;
 
             // STEP 1: Check if this Report is valid (Session exists and has not ended)
             Session session = dc.Sessions.FirstOrDefault(s => ((s.end_time == null) && (s.id == requestModel.session_id)));

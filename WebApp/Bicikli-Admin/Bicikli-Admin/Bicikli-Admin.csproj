@@ -455,7 +455,6 @@
     <Content Include="Views\Bikes\Create.cshtml" />
     <Content Include="Views\Bikes\Edit.cshtml" />
     <Content Include="Views\Bikes\Delete.cshtml" />
-    <Content Include="Views\Bikes\Lend.cshtml" />
     <Content Include="Views\Bikes\ShowMap.cshtml" />
     <Content Include="Views\Zones\Details.cshtml" />
     <Content Include="Views\Zones\Create.cshtml" />
@@ -469,6 +468,9 @@
     <Content Include="Views\Invoices\Index.cshtml" />
     <Content Include="Views\Invoices\ActiveSessions.cshtml" />
     <Content Include="Views\Invoices\ClosedSessions.cshtml" />
+    <Content Include="Views\Invoices\Print_NoPrinters.cshtml" />
+    <Content Include="Views\Invoices\Print_Failed.cshtml" />
+    <Content Include="Views\Invoices\Print_Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">
