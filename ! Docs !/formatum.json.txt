@@ -110,7 +110,7 @@ VÁLASZ:
 Feliratkozás nyomtatásra:
 -------------------------
 
-HTTP PUT /api/PrintingSubscription/{id: int}
+HTTP PUT /api/PrintingSubscription
 
 KÉRÉS:
 {
