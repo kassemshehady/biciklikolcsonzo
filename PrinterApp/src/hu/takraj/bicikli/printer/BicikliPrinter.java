@@ -3,18 +3,29 @@
  */
 package hu.takraj.bicikli.printer;
 
+import hu.takraj.bicikli.printer.models.InvoiceModel;
+import hu.takraj.bicikli.printer.models.PrinterModel;
+
+import java.awt.print.PrinterJob;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.google.gson.Gson;
 
 /**
  * @author TakRaj
@@ -82,7 +93,7 @@ public class BicikliPrinter {
 				}
 			}
 
-		}, 0, config.announceInterval);
+		}, 30, config.announceInterval);
 	}
 
 	private static void loadProperties() throws Throwable {
@@ -132,12 +143,28 @@ public class BicikliPrinter {
 
 	private static void handlePrinting(InputStream inputStream) {
 		try {
+			StringBuilder jsonData = new StringBuilder();
+
 			String line = null;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					inputStream));
+					inputStream, Charset.forName("UTF-8").newDecoder()));
 			while ((line = reader.readLine()) != null) {
-				log("ADAT: " + line);
-				//TODO Felügyelet nélküli nyomtatás
+				jsonData.append(line);
+			}
+
+			Gson gson = new Gson();
+			InvoiceModel invoice = gson.fromJson(jsonData.toString(),
+					InvoiceModel.class);
+
+			log("INFO: Nyomtatasi feladat kuldese...");
+			try {
+				PrinterJob job = PrinterJob.getPrinterJob();
+				job.setPrintable(new InvoicePrinter(invoice));
+				job.print();
+				log("INFO: Nyomtatási feladat sikeresen elkuldve.");
+			} catch (Throwable t) {
+				log("HIBA: A nyomtatas sikertelen. -> "
+						+ t.getClass().getCanonicalName());
 			}
 		} catch (Throwable t) {
 			log("HIBA: Az adat fogadasa sikertelen volt. -> "
@@ -156,11 +183,42 @@ public class BicikliPrinter {
 	}
 
 	private static void registerPrinter() throws Throwable {
-		// TODO Nyomtató bejelentése
+		URL url = new URL(config.announceUrl);
+		System.out.println(url.toString());
+		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+
+		httpCon.setDoOutput(true);
+		httpCon.setRequestMethod("PUT");
+		httpCon.setRequestProperty("Content-Type", "application/json");
+		httpCon.setRequestProperty("charset", "UTF-8");
+		httpCon.connect();
+		OutputStream out = httpCon.getOutputStream();
+
+		Gson gson = new Gson();
+		out.write(gson
+				.toJson(new PrinterModel(config.lenderId, config.localIP))
+				.getBytes("UTF-8"));
+		out.flush();
+		out.close();
+		httpCon.getResponseCode();
+		httpCon.disconnect();
+
+		System.out.println(gson.toJson(new PrinterModel(config.lenderId,
+				config.localIP)));
 	}
 
 	private static void unregisterPrinter() throws Throwable {
-		// TODO Nyomtató kiregisztrálása
+		URL url = new URL(config.announceUrl);
+		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+		httpCon.setDoOutput(true);
+		httpCon.setRequestMethod("DELETE");
+		OutputStreamWriter out = new OutputStreamWriter(
+				httpCon.getOutputStream());
+
+		Gson gson = new Gson();
+		out.write(gson.toJson(config.lenderId));
+		out.flush();
+		out.close();
 	}
 
 }

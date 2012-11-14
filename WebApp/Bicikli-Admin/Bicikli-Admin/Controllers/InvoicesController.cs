@@ -179,9 +179,12 @@ namespace Bicikli_Admin.Controllers
                 {
                     var lender = DataRepository.GetLender(lender_id);
 
-                    // TODO: nyomtatás
+                    if (PrintingSubscription.sendInvoice(session, lender))
+                    {
+                        return View("Print_Success");
+                    }
 
-                    return View("Print_Success");
+                    return View("Print_Failed");
                 }
                 catch
                 {

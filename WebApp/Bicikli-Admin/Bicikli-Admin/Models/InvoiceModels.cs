@@ -12,7 +12,7 @@ namespace Bicikli_Admin.CommonClasses
         public string bike_name;
         public string name;
         public string address;
-        public IEnumerable<InvoiceItemModel> items;
+        public List<InvoiceItemModel> items;
         public int total_balance;
     }
 
