@@ -184,7 +184,6 @@ public class BicikliPrinter {
 
 	private static void registerPrinter() throws Throwable {
 		URL url = new URL(config.announceUrl);
-		System.out.println(url.toString());
 		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 
 		httpCon.setDoOutput(true);
@@ -202,23 +201,25 @@ public class BicikliPrinter {
 		out.close();
 		httpCon.getResponseCode();
 		httpCon.disconnect();
-
-		System.out.println(gson.toJson(new PrinterModel(config.lenderId,
-				config.localIP)));
 	}
 
 	private static void unregisterPrinter() throws Throwable {
 		URL url = new URL(config.announceUrl);
 		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+
 		httpCon.setDoOutput(true);
 		httpCon.setRequestMethod("DELETE");
-		OutputStreamWriter out = new OutputStreamWriter(
-				httpCon.getOutputStream());
+		httpCon.setRequestProperty("Content-Type", "application/json");
+		httpCon.setRequestProperty("charset", "UTF-8");
+		httpCon.connect();
+		OutputStream out = httpCon.getOutputStream();
 
 		Gson gson = new Gson();
-		out.write(gson.toJson(config.lenderId));
+		out.write(gson.toJson(config.lenderId).getBytes("UTF-8"));
 		out.flush();
 		out.close();
+		httpCon.getResponseCode();
+		httpCon.disconnect();
 	}
 
 }
