@@ -115,7 +115,8 @@ HTTP PUT /api/PrintingSubscription
 KÉRÉS:
 {
 	"lender_id" : int,
-	"printer_ip" : string
+	"printer_ip" : string,
+	"printer_password" : string
 }
 
 Leiratkozás nyomtatásról:

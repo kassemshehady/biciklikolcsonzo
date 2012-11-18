@@ -35,6 +35,11 @@ namespace Bicikli_Admin.Models
         [Display(Name = "Nyomtató IP")]
         [RegularExpression(@"([0-9]{1,3}\.){3}[0-9]{1,3}", ErrorMessage = "A {0} mező nem tartalmaz érvényes IPv4 címet.")]
         public String printer_ip { get; set; }
+
+        [Display(Name = "Nyomtató Jelszó")]
+        [MinLength(3, ErrorMessage = "A {0} mezőben 0 vagy 3 - 30 karakternek kell szerepelnie.")]
+        [MaxLength(30, ErrorMessage = "A {0} mezőben 0 vagy 3 - 30 karakternek kell szerepelnie.")]
+        public String printer_password { get; set; }
     }
 
     public class LenderModelComparer : IEqualityComparer<LenderModel>

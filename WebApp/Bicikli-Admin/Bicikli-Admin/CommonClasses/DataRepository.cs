@@ -32,7 +32,8 @@ namespace Bicikli_Admin.CommonClasses
                        name = l.name,
                        address = l.address,
                        description = l.description,
-                       printer_ip = l.printer_ip
+                       printer_ip = l.printer_ip,
+                       printer_password = l.printer_password
                    };
         }
 
@@ -53,7 +54,8 @@ namespace Bicikli_Admin.CommonClasses
                        name = l.name,
                        address = l.address,
                        description = l.description,
-                       printer_ip = l.printer_ip
+                       printer_ip = l.printer_ip,
+                       printer_password = l.printer_password
                    };
         }
 
@@ -95,7 +97,8 @@ namespace Bicikli_Admin.CommonClasses
                        latitude = l.latitude,
                        longitude = l.longitude,
                        name = l.name,
-                       printer_ip = l.printer_ip
+                       printer_ip = l.printer_ip,
+                       printer_password = l.printer_password
                    };
         }
 
@@ -155,7 +158,8 @@ namespace Bicikli_Admin.CommonClasses
                         name = l.name,
                         address = l.address,
                         description = l.description,
-                        printer_ip = l.printer_ip
+                        printer_ip = l.printer_ip,
+                        printer_password = l.printer_password
                     }).Single();
         }
 
@@ -294,7 +298,11 @@ namespace Bicikli_Admin.CommonClasses
                                          longitude = s.longitude,
                                          name = s.name,
                                          normalTime = s.normal_time,
-                                         startTime = s.start_time
+                                         startTime = s.start_time,
+                                         normal_price = s.normal_price,
+                                         danger_price = s.danger_price,
+                                         normal_vat = s.normal_vat,
+                                         danger_vat = s.danger_vat
                                      }).ToList();
 
             #endregion
@@ -331,6 +339,10 @@ namespace Bicikli_Admin.CommonClasses
                                                name = s.name,
                                                normalTime = s.normal_time,
                                                paid = s.paid,
+                                               normal_price = s.normal_price,
+                                               danger_price = s.danger_price,
+                                               normal_vat = s.normal_vat,
+                                               danger_vat = s.danger_vat,
                                                startTime = s.start_time
                                            }
                                        }).FirstOrDefault();
@@ -358,7 +370,8 @@ namespace Bicikli_Admin.CommonClasses
                                        latitude = l.latitude,
                                        longitude = l.longitude,
                                        name = l.name,
-                                       printer_ip = l.printer_ip
+                                       printer_ip = l.printer_ip,
+                                       printer_password = l.printer_password
                                    }).SingleOrDefault();
                 }
             }
@@ -412,7 +425,11 @@ namespace Bicikli_Admin.CommonClasses
                                 longitude = s.longitude,
                                 name = s.name,
                                 normalTime = s.normal_time,
-                                startTime = s.start_time
+                                startTime = s.start_time,
+                                normal_price = s.normal_price,
+                                danger_price = s.danger_price,
+                                normal_vat = s.normal_vat,
+                                danger_vat = s.danger_vat
                             }).SingleOrDefault();
 
             #endregion
@@ -444,6 +461,10 @@ namespace Bicikli_Admin.CommonClasses
                                            name = s.name,
                                            normalTime = s.normal_time,
                                            paid = s.paid,
+                                           normal_price = s.normal_price,
+                                           danger_price = s.danger_price,
+                                           normal_vat = s.normal_vat,
+                                           danger_vat = s.danger_vat,
                                            startTime = s.start_time
                                        }
                                    }).FirstOrDefault();
@@ -471,7 +492,8 @@ namespace Bicikli_Admin.CommonClasses
                                    latitude = l.latitude,
                                    longitude = l.longitude,
                                    name = l.name,
-                                   printer_ip = l.printer_ip
+                                   printer_ip = l.printer_ip,
+                                   printer_password = l.printer_password
                                }).SingleOrDefault();
             }
 
@@ -503,6 +525,11 @@ namespace Bicikli_Admin.CommonClasses
                        name = s.name,
                        normalTime = s.normal_time,
                        startTime = s.start_time,
+                       paid = s.paid,
+                       normal_price = s.normal_price,
+                       danger_price = s.danger_price,
+                       normal_vat = s.normal_vat,
+                       danger_vat = s.danger_vat,
                        bikeModel = DataRepository.GetBike(s.bike_id)
                    };
         }
@@ -531,8 +558,61 @@ namespace Bicikli_Admin.CommonClasses
                         normalTime = s.normal_time,
                         startTime = s.start_time,
                         paid = s.paid,
+                        normal_price = s.normal_price,
+                        danger_price = s.danger_price,
+                        normal_vat = s.normal_vat,
+                        danger_vat = s.danger_vat,
                         bikeModel = DataRepository.GetBike(s.bike_id)
                     }).Single();
         }
+
+        /// <summary>
+        /// Returns the normal unit price from the database
+        /// </summary>
+        /// <returns></returns>
+        public static int GetNormalUnitPrice()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return int.Parse((from c in dc.Configurations
+                              where c.key == "normal_price"
+                              select c.value).Single());
+        }
+
+        /// <summary>
+        /// Returns the dangerous zone unit price from the database
+        /// </summary>
+        /// <returns></returns>
+        public static int GetDangerousUnitPrice()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return int.Parse((from c in dc.Configurations
+                              where c.key == "danger_price"
+                              select c.value).Single());
+        }
+
+        /// <summary>
+        /// Returns the normal VAT from the database
+        /// </summary>
+        /// <returns></returns>
+        public static float GetNormalVAT()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return float.Parse((from c in dc.Configurations
+                              where c.key == "normal_vat"
+                              select c.value).Single());
+        }
+
+        /// <summary>
+        /// Returns the dangerous VAT from the database
+        /// </summary>
+        /// <returns></returns>
+        public static float GetDangerousVAT()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return float.Parse((from c in dc.Configurations
+                                where c.key == "danger_vat"
+                                select c.value).Single());
+        }
+
     }
 }

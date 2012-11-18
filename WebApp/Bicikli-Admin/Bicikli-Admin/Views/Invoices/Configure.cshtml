@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Számlázási beállítások";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="message-info ui-state-highlight">
+    <span class="ui-icon ui-icon-info" style="display: inline-block;"></span>
+    @if (ViewBag.Message == null)
+    {
+        @Html.Raw("A módosítások csak a mentéstől számított új számlákra vonatkoznak!");
+    }
+    else
+    {
+        @Html.Raw(ViewBag.Message);
+    }
+</p>
+
+@using (Html.BeginForm())
+{
+    
+    @Html.ValidationSummary()
+    
+    <fieldset>
+        <legend>Regisztrációs űrlap</legend>
+
+        <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    <label>Normál zóna percdíja</label>
+                </td>
+                <td>
+                    <input type="text" name="normal_price" value="@ViewBag.NormalPrice" />
+                </td>
+                <td>
+                    <label>Ft/perc</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-col">
+                    <label>Veszélyes zóna percdíja</label>
+                </td>
+                <td>
+                    <input type="text" name="danger_price" value="@ViewBag.DangerousPrice" />
+                </td>
+                <td>
+                    <label>Ft/perc</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-col">
+                    <label>Normál zóna ÁFA</label>
+                </td>
+                <td>
+                    <input type="text" name="normal_vat" value="@ViewBag.NormalVAT" />
+                </td>
+                <td>
+                    <label>%</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-col">
+                    <label>Veszélyes zóna ÁFA</label>
+                </td>
+                <td>
+                    <input type="text" name="danger_vat" value="@ViewBag.DangerousVAT" />
+                </td>
+                <td>
+                    <label>%</label>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    
+    <div class="form-buttons">
+        <button type="submit">Mentés</button>
+    </div>
+}

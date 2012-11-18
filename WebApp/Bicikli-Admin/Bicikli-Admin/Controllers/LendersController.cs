@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -10,6 +11,7 @@ using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
 {
+    [Authorize]
     public class LendersController : Controller
     {
         //
@@ -55,7 +57,7 @@ namespace Bicikli_Admin.Controllers
 
                 var favouriteLender = Request.Cookies.Get("favourite_lender");
                 ViewBag.IsNotFavourite = ((favouriteLender == null) || (lenderToShow.id.ToString() != favouriteLender.Value));
-                
+
                 var myLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
                 try
                 {
@@ -79,6 +81,7 @@ namespace Bicikli_Admin.Controllers
         //
         // GET: /Lenders/Create
 
+        [Authorize(Roles = "SiteAdmin")]
         public ActionResult Create()
         {
             ViewBag.active_menu_item_id = "menu-btn-lenders";
@@ -91,6 +94,7 @@ namespace Bicikli_Admin.Controllers
         // POST: /Lenders/Create
 
         [HttpPost]
+        [Authorize(Roles = "SiteAdmin")]
         public ActionResult Create(LenderModel model, string[] users)
         {
             try
@@ -133,6 +137,16 @@ namespace Bicikli_Admin.Controllers
                 lenderToInsert.printer_ip = model.printer_ip;
                 lenderToInsert.latitude = model.latitude;
                 lenderToInsert.longitude = model.longitude;
+
+                if ((model.printer_password != null) && (model.printer_password != ""))
+                {
+                    lenderToInsert.printer_password = model.printer_password;
+                }
+                else
+                {
+                    lenderToInsert.printer_password = ((int)(new Random().NextDouble() * 899999) + 100000).ToString();
+                }
+
                 db.Lenders.InsertOnSubmit(lenderToInsert);
                 db.SubmitChanges();
 
@@ -168,6 +182,15 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(int id)
         {
+            try
+            {
+                DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             ViewBag.active_menu_item_id = "menu-btn-lenders";
             var users = DataRepository.GetUsers();
             ViewBag.Users = users;
@@ -202,6 +225,15 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
+                DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == model.id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            try
+            {
                 if (!ModelState.IsValid)
                 {
                     var dbUsers = DataRepository.GetUsers();
@@ -216,25 +248,7 @@ namespace Bicikli_Admin.Controllers
                 var db = new BicikliDataClassesDataContext();
                 var lenderToUpdate = db.Lenders.First(l => l.id == model.id);
 
-                // Step 1: Extract selected user guids
-                var guidsToInsert = new HashSet<Guid>();
-                if (users != null)
-                {
-                    foreach (string username in users)
-                    {
-                        var msUser = Membership.GetUser(username);
-                        if (msUser != null)
-                        {
-                            Guid msUserGuid = (Guid)msUser.ProviderUserKey;
-                            if (!guidsToInsert.Contains(msUserGuid))
-                            {
-                                guidsToInsert.Add(msUserGuid);
-                            }
-                        }
-                    }
-                }
-
-                // Step 2: Apply changes to lender data
+                // Step 1: Apply changes to lender data
                 lenderToUpdate.address = model.address;
                 lenderToUpdate.description = model.description;
                 lenderToUpdate.latitude = model.latitude;
@@ -242,31 +256,63 @@ namespace Bicikli_Admin.Controllers
                 lenderToUpdate.name = model.name;
                 lenderToUpdate.printer_ip = model.printer_ip;
 
-                // Step 3: Apply changes to assignments
-
-                // Insert new assignments
-                var lenderGuidAssignments = DataRepository.GetLenderAssignedGuids(lenderToUpdate.id);
-                foreach (Guid guid in guidsToInsert)
+                if ((model.printer_password != null) && (model.printer_password != ""))
                 {
-                    if (!lenderGuidAssignments.Contains(guid))
-                    {
-                        var luToInsert = new LenderUser();
-                        luToInsert.user_id = guid;
-                        luToInsert.lender_id = lenderToUpdate.id;
-                        db.LenderUsers.InsertOnSubmit(luToInsert);
-                    }
+                    lenderToUpdate.printer_password = model.printer_password;
+                }
+                else
+                {
+                    lenderToUpdate.printer_password = ((int)(new Random().NextDouble() * 899999) + 100000).ToString();
                 }
 
-                // Delete removed assignments
-                lenderGuidAssignments = DataRepository.GetLenderAssignedGuids(lenderToUpdate.id);
-                foreach (Guid guid in lenderGuidAssignments)
+                #region SiteAdmin only
+                if (Roles.IsUserInRole("SiteAdmin"))
                 {
-                    if (!guidsToInsert.Contains(guid))
+                    // Step 2: Extract selected user guids
+                    var guidsToInsert = new HashSet<Guid>();
+                    if (users != null)
                     {
-                        var luToDelete = db.LenderUsers.Where(lu => (lu.lender_id == lenderToUpdate.id) && (lu.user_id == guid)).First();
-                        db.LenderUsers.DeleteOnSubmit(luToDelete);
+                        foreach (string username in users)
+                        {
+                            var msUser = Membership.GetUser(username);
+                            if (msUser != null)
+                            {
+                                Guid msUserGuid = (Guid)msUser.ProviderUserKey;
+                                if (!guidsToInsert.Contains(msUserGuid))
+                                {
+                                    guidsToInsert.Add(msUserGuid);
+                                }
+                            }
+                        }
+                    }
+
+                    // Step 3: Apply changes to assignments
+
+                    // Insert new assignments
+                    var lenderGuidAssignments = DataRepository.GetLenderAssignedGuids(lenderToUpdate.id);
+                    foreach (Guid guid in guidsToInsert)
+                    {
+                        if (!lenderGuidAssignments.Contains(guid))
+                        {
+                            var luToInsert = new LenderUser();
+                            luToInsert.user_id = guid;
+                            luToInsert.lender_id = lenderToUpdate.id;
+                            db.LenderUsers.InsertOnSubmit(luToInsert);
+                        }
+                    }
+
+                    // Delete removed assignments
+                    lenderGuidAssignments = DataRepository.GetLenderAssignedGuids(lenderToUpdate.id);
+                    foreach (Guid guid in lenderGuidAssignments)
+                    {
+                        if (!guidsToInsert.Contains(guid))
+                        {
+                            var luToDelete = db.LenderUsers.Where(lu => (lu.lender_id == lenderToUpdate.id) && (lu.user_id == guid)).First();
+                            db.LenderUsers.DeleteOnSubmit(luToDelete);
+                        }
                     }
                 }
+                #endregion
 
                 // Step 4: Commit changes
                 db.SubmitChanges();
@@ -290,6 +336,7 @@ namespace Bicikli_Admin.Controllers
         //
         // GET: /Lenders/Delete/5
 
+        [Authorize(Roles = "SiteAdmin")]
         public ActionResult Delete(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-lenders";
@@ -320,11 +367,12 @@ namespace Bicikli_Admin.Controllers
         // POST: /Lenders/Delete/5
 
         [HttpPost]
+        [Authorize(Roles = "SiteAdmin")]
         public ActionResult Delete(LenderModel model)
         {
             try
             {
-                DataRepository.DeleteLender((int) model.id);
+                DataRepository.DeleteLender((int)model.id);
                 return RedirectToAction("Index");
             }
             catch

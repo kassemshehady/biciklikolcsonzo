@@ -84,6 +84,17 @@
                 </td>
             </tr>
 
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.printer_password)
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.printer_password)
+                </td>
+            </tr>
+
             @{
                 var isNotFavourite = (bool)ViewBag.IsNotFavourite;
                 var canBeFavourite = (bool)ViewBag.CanBeFavourite;
@@ -104,7 +115,10 @@
         </table>
     </fieldset>
 
-    @Html.Partial("_UsersList")
+    @if (User.IsInRole("SiteAdmin"))
+    {
+        @Html.Partial("_UsersList")
+    }
 
     <div class="form-buttons">
         @Html.ActionLink("Vissza a kölcsönzők listájához", "Index")

@@ -147,6 +147,7 @@
     <Compile Include="CommonClasses\CustomModelBinders.cs" />
     <Compile Include="CommonClasses\DataRepository.cs" />
     <Compile Include="Controllers\BikesController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\LendersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -471,6 +472,11 @@
     <Content Include="Views\Invoices\Print_NoPrinters.cshtml" />
     <Content Include="Views\Invoices\Print_Failed.cshtml" />
     <Content Include="Views\Invoices\Print_Success.cshtml" />
+    <Content Include="Views\Invoices\Configure.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\ValidationError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">

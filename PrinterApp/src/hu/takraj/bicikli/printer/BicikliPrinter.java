@@ -106,6 +106,7 @@ public class BicikliPrinter {
 		config.localIP = prop.getProperty("local.ip");
 		config.localPort = 6060; // nem akarom tulbonyolitani... :)
 		config.lenderId = Integer.parseInt(prop.getProperty("local.lender.id"));
+		config.printerPassword = prop.getProperty("remote.printer.password");
 	}
 
 	private static void listen() {
@@ -195,11 +196,13 @@ public class BicikliPrinter {
 
 		Gson gson = new Gson();
 		out.write(gson
-				.toJson(new PrinterModel(config.lenderId, config.localIP))
+				.toJson(new PrinterModel(config.lenderId, config.localIP, config.printerPassword))
 				.getBytes("UTF-8"));
 		out.flush();
 		out.close();
-		httpCon.getResponseCode();
+		if (httpCon.getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) {
+			log("Sikertelen bejelentes: Rossz jelszo.");
+		}
 		httpCon.disconnect();
 	}
 

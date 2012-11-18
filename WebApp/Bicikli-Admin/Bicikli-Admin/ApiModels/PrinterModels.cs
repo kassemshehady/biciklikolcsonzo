@@ -9,5 +9,6 @@ namespace Bicikli_Admin.ApiModels
     {
         public int lender_id;
         public string printer_ip;
+        public string printer_password;
     }
 }

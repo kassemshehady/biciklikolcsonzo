@@ -13,12 +13,12 @@ namespace Bicikli_Admin.ApiControllers
 {
     public class ReportController : ApiController
     {
-        public const int normalPricePerMinutes = 60;
-        public const int dangerPricePerMinites = 200;
-
         // POST api/Report
         public ReportResponseModel Post(ReportRequestModel requestModel)
         {
+            int normalPricePerMinutes = DataRepository.GetNormalUnitPrice();
+            int dangerPricePerMinites = DataRepository.GetDangerousUnitPrice();
+
             var dc = new BicikliDataClassesDataContext();
             var responseModel = new ReportResponseModel();
             var currentTime = DateTime.Now;

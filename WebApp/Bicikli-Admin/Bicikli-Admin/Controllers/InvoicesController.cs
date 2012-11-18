@@ -9,6 +9,7 @@ using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
 {
+    [Authorize]
     public class InvoicesController : Controller
     {
         //
@@ -88,7 +89,11 @@ namespace Bicikli_Admin.Controllers
                     longitude = null,
                     normal_time = 0,
                     paid = false,
-                    start_time = DateTime.Now
+                    start_time = DateTime.Now,
+                    normal_price = DataRepository.GetNormalUnitPrice(),
+                    normal_vat = DataRepository.GetNormalVAT(),
+                    danger_price = DataRepository.GetDangerousUnitPrice(),
+                    danger_vat = DataRepository.GetDangerousVAT()
                 };
                 db.Sessions.InsertOnSubmit(invoiceToInsert);
                 db.Bikes.Single(b => b.is_active && (b.id == m.bike_id)).current_lender_id = null;
@@ -163,6 +168,51 @@ namespace Bicikli_Admin.Controllers
                 ViewBag.active_menu_item_id = "menu-btn-invoices";
                 return View(DataRepository.GetSession((int)m.id));
             }
+        }
+
+        //
+        // GET: /Invoices/Configure
+
+        [Authorize(Roles = "SiteAdmin")]
+        public ActionResult Configure()
+        {
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+            ViewBag.NormalPrice = DataRepository.GetNormalUnitPrice();
+            ViewBag.NormalVAT = DataRepository.GetNormalVAT();
+            ViewBag.DangerousPrice = DataRepository.GetDangerousUnitPrice();
+            ViewBag.DangerousVAT = DataRepository.GetDangerousVAT();
+            return View();
+        }
+        
+        //
+        // POST: /Invoices/Configure
+
+        [HttpPost]
+        [Authorize(Roles = "SiteAdmin")]
+        public ActionResult Configure(int normal_price = 0, int danger_price = 0, float normal_vat = 0, float danger_vat = 0)
+        {
+            ViewBag.active_menu_item_id = "menu-btn-invoices";
+
+            if (normal_price > 0 && danger_price > 0 && normal_vat > 0 && danger_vat > 0)
+            {
+                var db = new BicikliDataClassesDataContext();
+                db.Configurations.Single(c => c.key == "normal_price").value = normal_price.ToString();
+                db.Configurations.Single(c => c.key == "danger_price").value = danger_price.ToString();
+                db.Configurations.Single(c => c.key == "normal_vat").value = normal_vat.ToString();
+                db.Configurations.Single(c => c.key == "danger_vat").value = danger_vat.ToString();
+                db.SubmitChanges();
+                ViewBag.Message = "Sikeres mentés.";
+            }
+            else
+            {
+                ModelState.AddModelError("", "HIBA: Rossz paraméterek!");
+            }
+
+            ViewBag.NormalPrice = DataRepository.GetNormalUnitPrice();
+            ViewBag.NormalVAT = DataRepository.GetNormalVAT();
+            ViewBag.DangerousPrice = DataRepository.GetDangerousUnitPrice();
+            ViewBag.DangerousVAT = DataRepository.GetDangerousVAT();
+            return View();
         }
 
         //

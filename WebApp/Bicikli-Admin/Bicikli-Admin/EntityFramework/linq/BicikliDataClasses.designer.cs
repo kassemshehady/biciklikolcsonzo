@@ -33,9 +33,6 @@ namespace Bicikli_Admin.EntityFramework.linq
     partial void InsertBike(Bike instance);
     partial void UpdateBike(Bike instance);
     partial void DeleteBike(Bike instance);
-    partial void InsertLender(Lender instance);
-    partial void UpdateLender(Lender instance);
-    partial void DeleteLender(Lender instance);
     partial void InsertLenderUser(LenderUser instance);
     partial void UpdateLenderUser(LenderUser instance);
     partial void DeleteLenderUser(LenderUser instance);
@@ -45,6 +42,12 @@ namespace Bicikli_Admin.EntityFramework.linq
     partial void InsertDangerousZone(DangerousZone instance);
     partial void UpdateDangerousZone(DangerousZone instance);
     partial void DeleteDangerousZone(DangerousZone instance);
+    partial void InsertLender(Lender instance);
+    partial void UpdateLender(Lender instance);
+    partial void DeleteLender(Lender instance);
+    partial void InsertConfiguration(Configuration instance);
+    partial void UpdateConfiguration(Configuration instance);
+    partial void DeleteConfiguration(Configuration instance);
     partial void InsertSession(Session instance);
     partial void UpdateSession(Session instance);
     partial void DeleteSession(Session instance);
@@ -88,14 +91,6 @@ namespace Bicikli_Admin.EntityFramework.linq
 			}
 		}
 		
-		public System.Data.Linq.Table<Lender> Lenders
-		{
-			get
-			{
-				return this.GetTable<Lender>();
-			}
-		}
-		
 		public System.Data.Linq.Table<LenderUser> LenderUsers
 		{
 			get
@@ -117,6 +112,22 @@ namespace Bicikli_Admin.EntityFramework.linq
 			get
 			{
 				return this.GetTable<DangerousZone>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Lender> Lenders
+		{
+			get
+			{
+				return this.GetTable<Lender>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Configuration> Configurations
+		{
+			get
+			{
+				return this.GetTable<Configuration>();
 			}
 		}
 		
@@ -421,268 +432,6 @@ namespace Bicikli_Admin.EntityFramework.linq
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Lender")]
-	public partial class Lender : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private double _latitude;
-		
-		private double _longitude;
-		
-		private string _name;
-		
-		private string _address;
-		
-		private string _description;
-		
-		private string _printer_ip;
-		
-		private EntitySet<Bike> _Bikes;
-		
-		private EntitySet<LenderUser> _LenderUsers;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnlatitudeChanging(double value);
-    partial void OnlatitudeChanged();
-    partial void OnlongitudeChanging(double value);
-    partial void OnlongitudeChanged();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void OnaddressChanging(string value);
-    partial void OnaddressChanged();
-    partial void OndescriptionChanging(string value);
-    partial void OndescriptionChanged();
-    partial void Onprinter_ipChanging(string value);
-    partial void Onprinter_ipChanged();
-    #endregion
-		
-		public Lender()
-		{
-			this._Bikes = new EntitySet<Bike>(new Action<Bike>(this.attach_Bikes), new Action<Bike>(this.detach_Bikes));
-			this._LenderUsers = new EntitySet<LenderUser>(new Action<LenderUser>(this.attach_LenderUsers), new Action<LenderUser>(this.detach_LenderUsers));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float NOT NULL")]
-		public double latitude
-		{
-			get
-			{
-				return this._latitude;
-			}
-			set
-			{
-				if ((this._latitude != value))
-				{
-					this.OnlatitudeChanging(value);
-					this.SendPropertyChanging();
-					this._latitude = value;
-					this.SendPropertyChanged("latitude");
-					this.OnlatitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longitude", DbType="Float NOT NULL")]
-		public double longitude
-		{
-			get
-			{
-				return this._longitude;
-			}
-			set
-			{
-				if ((this._longitude != value))
-				{
-					this.OnlongitudeChanging(value);
-					this.SendPropertyChanging();
-					this._longitude = value;
-					this.SendPropertyChanged("longitude");
-					this.OnlongitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				if ((this._name != value))
-				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string address
-		{
-			get
-			{
-				return this._address;
-			}
-			set
-			{
-				if ((this._address != value))
-				{
-					this.OnaddressChanging(value);
-					this.SendPropertyChanging();
-					this._address = value;
-					this.SendPropertyChanged("address");
-					this.OnaddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string description
-		{
-			get
-			{
-				return this._description;
-			}
-			set
-			{
-				if ((this._description != value))
-				{
-					this.OndescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._description = value;
-					this.SendPropertyChanged("description");
-					this.OndescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_printer_ip", DbType="NVarChar(MAX)")]
-		public string printer_ip
-		{
-			get
-			{
-				return this._printer_ip;
-			}
-			set
-			{
-				if ((this._printer_ip != value))
-				{
-					this.Onprinter_ipChanging(value);
-					this.SendPropertyChanging();
-					this._printer_ip = value;
-					this.SendPropertyChanged("printer_ip");
-					this.Onprinter_ipChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lender_Bike", Storage="_Bikes", ThisKey="id", OtherKey="current_lender_id")]
-		public EntitySet<Bike> Bikes
-		{
-			get
-			{
-				return this._Bikes;
-			}
-			set
-			{
-				this._Bikes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lender_LenderUser", Storage="_LenderUsers", ThisKey="id", OtherKey="lender_id")]
-		public EntitySet<LenderUser> LenderUsers
-		{
-			get
-			{
-				return this._LenderUsers;
-			}
-			set
-			{
-				this._LenderUsers.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Bikes(Bike entity)
-		{
-			this.SendPropertyChanging();
-			entity.Lender = this;
-		}
-		
-		private void detach_Bikes(Bike entity)
-		{
-			this.SendPropertyChanging();
-			entity.Lender = null;
-		}
-		
-		private void attach_LenderUsers(LenderUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Lender = this;
-		}
-		
-		private void detach_LenderUsers(LenderUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Lender = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LenderUser")]
 	public partial class LenderUser : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -693,9 +442,9 @@ namespace Bicikli_Admin.EntityFramework.linq
 		
 		private int _lender_id;
 		
-		private EntityRef<Lender> _Lender;
-		
 		private EntityRef<User> _User;
+		
+		private EntityRef<Lender> _Lender;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -709,8 +458,8 @@ namespace Bicikli_Admin.EntityFramework.linq
 		
 		public LenderUser()
 		{
-			this._Lender = default(EntityRef<Lender>);
 			this._User = default(EntityRef<User>);
+			this._Lender = default(EntityRef<Lender>);
 			OnCreated();
 		}
 		
@@ -762,40 +511,6 @@ namespace Bicikli_Admin.EntityFramework.linq
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lender_LenderUser", Storage="_Lender", ThisKey="lender_id", OtherKey="id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public Lender Lender
-		{
-			get
-			{
-				return this._Lender.Entity;
-			}
-			set
-			{
-				Lender previousValue = this._Lender.Entity;
-				if (((previousValue != value) 
-							|| (this._Lender.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Lender.Entity = null;
-						previousValue.LenderUsers.Remove(this);
-					}
-					this._Lender.Entity = value;
-					if ((value != null))
-					{
-						value.LenderUsers.Add(this);
-						this._lender_id = value.id;
-					}
-					else
-					{
-						this._lender_id = default(int);
-					}
-					this.SendPropertyChanged("Lender");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_LenderUser", Storage="_User", ThisKey="user_id", OtherKey="UserId", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public User User
 		{
@@ -826,6 +541,40 @@ namespace Bicikli_Admin.EntityFramework.linq
 						this._user_id = default(System.Guid);
 					}
 					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lender_LenderUser", Storage="_Lender", ThisKey="lender_id", OtherKey="id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Lender Lender
+		{
+			get
+			{
+				return this._Lender.Entity;
+			}
+			set
+			{
+				Lender previousValue = this._Lender.Entity;
+				if (((previousValue != value) 
+							|| (this._Lender.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Lender.Entity = null;
+						previousValue.LenderUsers.Remove(this);
+					}
+					this._Lender.Entity = value;
+					if ((value != null))
+					{
+						value.LenderUsers.Add(this);
+						this._lender_id = value.id;
+					}
+					else
+					{
+						this._lender_id = default(int);
+					}
+					this.SendPropertyChanged("Lender");
 				}
 			}
 		}
@@ -1247,6 +996,378 @@ namespace Bicikli_Admin.EntityFramework.linq
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Lender")]
+	public partial class Lender : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private double _latitude;
+		
+		private double _longitude;
+		
+		private string _name;
+		
+		private string _address;
+		
+		private string _description;
+		
+		private string _printer_ip;
+		
+		private string _printer_password;
+		
+		private EntitySet<Bike> _Bikes;
+		
+		private EntitySet<LenderUser> _LenderUsers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnlatitudeChanging(double value);
+    partial void OnlatitudeChanged();
+    partial void OnlongitudeChanging(double value);
+    partial void OnlongitudeChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void OnaddressChanging(string value);
+    partial void OnaddressChanged();
+    partial void OndescriptionChanging(string value);
+    partial void OndescriptionChanged();
+    partial void Onprinter_ipChanging(string value);
+    partial void Onprinter_ipChanged();
+    partial void Onprinter_passwordChanging(string value);
+    partial void Onprinter_passwordChanged();
+    #endregion
+		
+		public Lender()
+		{
+			this._Bikes = new EntitySet<Bike>(new Action<Bike>(this.attach_Bikes), new Action<Bike>(this.detach_Bikes));
+			this._LenderUsers = new EntitySet<LenderUser>(new Action<LenderUser>(this.attach_LenderUsers), new Action<LenderUser>(this.detach_LenderUsers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float NOT NULL")]
+		public double latitude
+		{
+			get
+			{
+				return this._latitude;
+			}
+			set
+			{
+				if ((this._latitude != value))
+				{
+					this.OnlatitudeChanging(value);
+					this.SendPropertyChanging();
+					this._latitude = value;
+					this.SendPropertyChanged("latitude");
+					this.OnlatitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longitude", DbType="Float NOT NULL")]
+		public double longitude
+		{
+			get
+			{
+				return this._longitude;
+			}
+			set
+			{
+				if ((this._longitude != value))
+				{
+					this.OnlongitudeChanging(value);
+					this.SendPropertyChanging();
+					this._longitude = value;
+					this.SendPropertyChanged("longitude");
+					this.OnlongitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string address
+		{
+			get
+			{
+				return this._address;
+			}
+			set
+			{
+				if ((this._address != value))
+				{
+					this.OnaddressChanging(value);
+					this.SendPropertyChanging();
+					this._address = value;
+					this.SendPropertyChanged("address");
+					this.OnaddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string description
+		{
+			get
+			{
+				return this._description;
+			}
+			set
+			{
+				if ((this._description != value))
+				{
+					this.OndescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._description = value;
+					this.SendPropertyChanged("description");
+					this.OndescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_printer_ip", DbType="NVarChar(MAX)")]
+		public string printer_ip
+		{
+			get
+			{
+				return this._printer_ip;
+			}
+			set
+			{
+				if ((this._printer_ip != value))
+				{
+					this.Onprinter_ipChanging(value);
+					this.SendPropertyChanging();
+					this._printer_ip = value;
+					this.SendPropertyChanged("printer_ip");
+					this.Onprinter_ipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_printer_password", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string printer_password
+		{
+			get
+			{
+				return this._printer_password;
+			}
+			set
+			{
+				if ((this._printer_password != value))
+				{
+					this.Onprinter_passwordChanging(value);
+					this.SendPropertyChanging();
+					this._printer_password = value;
+					this.SendPropertyChanged("printer_password");
+					this.Onprinter_passwordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lender_Bike", Storage="_Bikes", ThisKey="id", OtherKey="current_lender_id")]
+		public EntitySet<Bike> Bikes
+		{
+			get
+			{
+				return this._Bikes;
+			}
+			set
+			{
+				this._Bikes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lender_LenderUser", Storage="_LenderUsers", ThisKey="id", OtherKey="lender_id")]
+		public EntitySet<LenderUser> LenderUsers
+		{
+			get
+			{
+				return this._LenderUsers;
+			}
+			set
+			{
+				this._LenderUsers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Bikes(Bike entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lender = this;
+		}
+		
+		private void detach_Bikes(Bike entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lender = null;
+		}
+		
+		private void attach_LenderUsers(LenderUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lender = this;
+		}
+		
+		private void detach_LenderUsers(LenderUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Lender = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration")]
+	public partial class Configuration : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _key;
+		
+		private string _value;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnkeyChanging(string value);
+    partial void OnkeyChanged();
+    partial void OnvalueChanging(string value);
+    partial void OnvalueChanged();
+    #endregion
+		
+		public Configuration()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[key]", Storage="_key", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string key
+		{
+			get
+			{
+				return this._key;
+			}
+			set
+			{
+				if ((this._key != value))
+				{
+					this.OnkeyChanging(value);
+					this.SendPropertyChanging();
+					this._key = value;
+					this.SendPropertyChanged("key");
+					this.OnkeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_value", DbType="NVarChar(MAX)")]
+		public string value
+		{
+			get
+			{
+				return this._value;
+			}
+			set
+			{
+				if ((this._value != value))
+				{
+					this.OnvalueChanging(value);
+					this.SendPropertyChanging();
+					this._value = value;
+					this.SendPropertyChanged("value");
+					this.OnvalueChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Session")]
 	public partial class Session : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1278,6 +1399,14 @@ namespace Bicikli_Admin.EntityFramework.linq
 		private string _address;
 		
 		private bool _paid;
+		
+		private int _normal_price;
+		
+		private int _danger_price;
+		
+		private double _normal_vat;
+		
+		private double _danger_vat;
 		
 		private EntityRef<Bike> _Bike;
 		
@@ -1313,6 +1442,14 @@ namespace Bicikli_Admin.EntityFramework.linq
     partial void OnaddressChanged();
     partial void OnpaidChanging(bool value);
     partial void OnpaidChanged();
+    partial void Onnormal_priceChanging(int value);
+    partial void Onnormal_priceChanged();
+    partial void Ondanger_priceChanging(int value);
+    partial void Ondanger_priceChanged();
+    partial void Onnormal_vatChanging(double value);
+    partial void Onnormal_vatChanged();
+    partial void Ondanger_vatChanging(double value);
+    partial void Ondanger_vatChanged();
     #endregion
 		
 		public Session()
@@ -1586,6 +1723,86 @@ namespace Bicikli_Admin.EntityFramework.linq
 					this._paid = value;
 					this.SendPropertyChanged("paid");
 					this.OnpaidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_normal_price", DbType="Int NOT NULL")]
+		public int normal_price
+		{
+			get
+			{
+				return this._normal_price;
+			}
+			set
+			{
+				if ((this._normal_price != value))
+				{
+					this.Onnormal_priceChanging(value);
+					this.SendPropertyChanging();
+					this._normal_price = value;
+					this.SendPropertyChanged("normal_price");
+					this.Onnormal_priceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_danger_price", DbType="Int NOT NULL")]
+		public int danger_price
+		{
+			get
+			{
+				return this._danger_price;
+			}
+			set
+			{
+				if ((this._danger_price != value))
+				{
+					this.Ondanger_priceChanging(value);
+					this.SendPropertyChanging();
+					this._danger_price = value;
+					this.SendPropertyChanged("danger_price");
+					this.Ondanger_priceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_normal_vat", DbType="Float NOT NULL")]
+		public double normal_vat
+		{
+			get
+			{
+				return this._normal_vat;
+			}
+			set
+			{
+				if ((this._normal_vat != value))
+				{
+					this.Onnormal_vatChanging(value);
+					this.SendPropertyChanging();
+					this._normal_vat = value;
+					this.SendPropertyChanged("normal_vat");
+					this.Onnormal_vatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_danger_vat", DbType="Float NOT NULL")]
+		public double danger_vat
+		{
+			get
+			{
+				return this._danger_vat;
+			}
+			set
+			{
+				if ((this._danger_vat != value))
+				{
+					this.Ondanger_vatChanging(value);
+					this.SendPropertyChanging();
+					this._danger_vat = value;
+					this.SendPropertyChanged("danger_vat");
+					this.Ondanger_vatChanged();
 				}
 			}
 		}

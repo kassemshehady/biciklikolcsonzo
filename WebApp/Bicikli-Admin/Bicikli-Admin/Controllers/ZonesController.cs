@@ -9,6 +9,7 @@ using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
 {
+    [Authorize]
     public class ZonesController : Controller
     {
         //

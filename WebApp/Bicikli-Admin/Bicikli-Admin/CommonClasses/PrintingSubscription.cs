@@ -66,30 +66,32 @@ namespace Bicikli_Admin.CommonClasses
 
             var invoice = new InvoiceModel()
             {
-                address = session.address,
-                name = session.name,
-                lender_name = lender.name,
-                lender_address = lender.address,
-                total_balance = (int)Math.Round((double)session.totalBalance),
-                bike_name = session.bikeModel.name,
+                address = (session.address ?? "-"),
+                name = (session.name ?? "-"),
+                lender_name = (lender.name ?? "-"),
+                lender_address = (lender.address ?? "-"),
+                total_balance = (int)Math.Round((double)(session.totalBalance ?? 0)),
+                bike_name = (session.bikeModel.name ?? "-"),
                 items = new List<InvoiceItemModel>()
             };
 
             invoice.items.Add(new InvoiceItemModel()
             {
                 title = "Normál zónában töltött idő",
-                vat = 27,
-                base_unit_price = ReportController.normalPricePerMinutes,
-                amount = (int) Math.Round((double)session.normalTimeMinutes)
+                vat = (float)session.normal_vat,
+                base_unit_price = session.normal_price,
+                amount = (int) Math.Round((double)(session.normalTimeMinutes ?? 0))
             });
 
             invoice.items.Add(new InvoiceItemModel()
             {
                 title = "Veszélyes zónában töltött idő",
-                vat = 27,
-                base_unit_price = ReportController.dangerPricePerMinites,
-                amount = (int)Math.Round((double)session.dangerousZoneTimeMinutes)
+                vat = (float)session.danger_vat,
+                base_unit_price = session.danger_price,
+                amount = (int)Math.Round((double)(session.dangerousZoneTimeMinutes ?? 0))
             });
+
+            invoice.total_balance = invoice.items.Sum(i => (i.base_unit_price * i.amount));
 
             try
             {

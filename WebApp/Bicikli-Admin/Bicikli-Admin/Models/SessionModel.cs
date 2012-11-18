@@ -55,7 +55,7 @@ namespace Bicikli_Admin.Models
         {
             get
             {
-                return (normalTimeMinutes * ReportController.normalPricePerMinutes) + (dangerousZoneTimeMinutes * ReportController.dangerPricePerMinites);
+                return (normalTimeMinutes * normal_price) + (dangerousZoneTimeMinutes * danger_price);
             }
         }
 
@@ -76,5 +76,10 @@ namespace Bicikli_Admin.Models
 
         [Display(Name = "Fizetve?")]
         public bool paid { get; set; }
+
+        public int normal_price { get; set; }
+        public double normal_vat { get; set; }
+        public int danger_price { get; set; }
+        public double danger_vat { get; set; }
     }
 }

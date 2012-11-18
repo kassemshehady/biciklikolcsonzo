@@ -98,10 +98,25 @@
                     <label>@Html.ValidationMessageFor(model => model.printer_ip, "(!)")</label>
                 </td>
             </tr>
+
+            <tr>
+                <td class="label-col">
+                    @Html.LabelFor(model => model.printer_password)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.printer_password)
+                </td>
+                <td class="validation-col">
+                    <label>@Html.ValidationMessageFor(model => model.printer_password, "(!)")</label>
+                </td>
+            </tr>
         </table>
     </fieldset>
     
-    @Html.Partial("_UsersList")
+    if (User.IsInRole("SiteAdmin"))
+    {
+        @Html.Partial("_UsersList")
+    }
 
     <div class="form-buttons">
         <button type="submit">Mentés</button>

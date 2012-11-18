@@ -12,25 +12,12 @@
       <Association Name="Lender_Bike" Member="Lender" ThisKey="current_lender_id" OtherKey="id" Type="Lender" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Lender" Member="Lenders">
-    <Type Name="Lender">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="printer_ip" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Lender_Bike" Member="Bikes" ThisKey="id" OtherKey="current_lender_id" Type="Bike" />
-      <Association Name="Lender_LenderUser" Member="LenderUsers" ThisKey="id" OtherKey="lender_id" Type="LenderUser" />
-    </Type>
-  </Table>
   <Table Name="dbo.LenderUser" Member="LenderUsers">
     <Type Name="LenderUser">
       <Column Name="user_id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="lender_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Lender_LenderUser" Member="Lender" ThisKey="lender_id" OtherKey="id" Type="Lender" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="User_LenderUser" Member="User" ThisKey="user_id" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Lender_LenderUser" Member="Lender" ThisKey="lender_id" OtherKey="id" Type="Lender" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Users" Member="Users">
@@ -54,6 +41,26 @@
       <Association Name="DangerousZone_Session" Member="Sessions" ThisKey="id" OtherKey="dz_id" Type="Session" />
     </Type>
   </Table>
+  <Table Name="dbo.Lender" Member="Lenders">
+    <Type Name="Lender">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="printer_ip" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="printer_password" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Lender_Bike" Member="Bikes" ThisKey="id" OtherKey="current_lender_id" Type="Bike" />
+      <Association Name="Lender_LenderUser" Member="LenderUsers" ThisKey="id" OtherKey="lender_id" Type="LenderUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration" Member="Configurations">
+    <Type Name="Configuration">
+      <Column Name="[key]" Member="key" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="value" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Session" Member="Sessions">
     <Type Name="Session">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -69,6 +76,10 @@
       <Column Name="name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="address" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="paid" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="normal_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="danger_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="normal_vat" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="danger_vat" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="Bike_Session" Member="Bike" ThisKey="bike_id" OtherKey="id" Type="Bike" IsForeignKey="true" />
       <Association Name="DangerousZone_Session" Member="DangerousZone" ThisKey="dz_id" OtherKey="id" Type="DangerousZone" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>

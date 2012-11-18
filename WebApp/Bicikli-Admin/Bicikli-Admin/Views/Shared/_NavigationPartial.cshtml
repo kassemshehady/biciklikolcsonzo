@@ -43,11 +43,8 @@
             @Html.ActionLink("Foglalt kerékpárok listázása", "BusyList", "Bikes")
             @Html.ActionLink("Veszélyes zónában lévő kerékpárok listázása", "DangerousList", "Bikes")
             @Html.ActionLink("Foglalt kerékpárok mutatása térképen", "ShowMap", "Bikes")
-            @if (User.IsInRole("SiteAdmin"))
-            {
-                @Html.ActionLink("Használaton kívüli kerékpárok listázása", "UnusedList", "Bikes")
-                @Html.ActionLink("Új kerékpár felvétele", "Create", "Bikes")
-            }
+            @Html.ActionLink("Használaton kívüli kerékpárok listázása", "UnusedList", "Bikes")
+            @Html.ActionLink("Új kerékpár felvétele", "Create", "Bikes")
         </div>
     </div>
     <div class="dropdown-group">
@@ -56,6 +53,10 @@
             @Html.ActionLink("Számlák listázása", "Index", "Invoices")
             @Html.ActionLink("Lezáratlan számlák listázása", "ActiveSessions", "Invoices")
             @Html.ActionLink("Kifizetetlen, lezárt számlák listázása", "ClosedSessions", "Invoices")
+            @if (User.IsInRole("SiteAdmin"))
+            {
+                @Html.ActionLink("Számlázás beállításai", "Configure", "Invoices")
+            }
         </div>
     </div>
 </nav>
