@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -63,10 +64,19 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Details(string id)
         {
+            UserModel model;
+            try
+            {
+                model = DataRepository.GetUsersWithDetails().Single(u => u.username == id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
             try
             {
                 ViewBag.active_menu_item_id = "menu-btn-users";
-                var model = DataRepository.GetUsersWithDetails().Single(u => u.username == id);
                 ViewBag.SelectedLenders = DataRepository.GetLendersOfUser(model.guid);
                 return View(model);
             }
@@ -81,10 +91,19 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(string id)
         {
+            UserModel model;
+            try
+            {
+                model = DataRepository.GetUsersWithDetails().Single(u => u.username == id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
             try
             {
                 ViewBag.active_menu_item_id = "menu-btn-users";
-                var model = DataRepository.GetUsersWithDetails().Single(u => u.username == id);
                 ViewBag.SelectedLenders = DataRepository.GetLendersOfUser(model.guid);
                 ViewBag.Lenders = DataRepository.GetLenders();
                 return View(model);

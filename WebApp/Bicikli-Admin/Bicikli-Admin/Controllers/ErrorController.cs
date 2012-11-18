@@ -32,5 +32,10 @@ namespace Bicikli_Admin.Controllers
             return View();
         }
 
+        public ViewResult BadRequest()
+        {
+            return View();
+        }
+
     }
 }

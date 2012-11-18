@@ -5,73 +5,80 @@
 
 <h2>@ViewBag.Title</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th class="id">
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th class="name">
-                @Html.DisplayNameFor(model => model.name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.startTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.endTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.totalBalance)
-            </th>
-            <th class="edit-tools"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (Model.Count() > 0)
+{
+    <table>
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
-                <td class="name">
-                    @Html.ActionLink(item.name, "Details", new { id = item.id })
-                </td>
-                <td>
-                    @if (item.startTime == null)
-                    {
-                        @Html.Raw("-");
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.startTime)
-                    }
-                </td>
-                <td>
-                    @if (item.endTime == null)
-                    {
-                        @Html.Raw("-");
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.endTime)
-                    }
-                </td>
-                <td>
-                    @if (item.totalBalance != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.totalBalance)
-                        @Html.Raw(" Ft")
-                    }
-                    else
-                    {
-                        @Html.Raw("-")
-                    }
-                </td>
-                <td class="edit-tools">
-                    <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>
-                    <a title="Nyomtatás" href='@Url.Action("Print", new { id = item.id })'><span class='ui-icon ui-icon-print' style="display: inline-block;"></span></a>
-                </td>
+                <th class="id">
+                    @Html.DisplayNameFor(model => model.id)
+                </th>
+                <th class="name">
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.startTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.endTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.totalBalance)
+                </th>
+                <th class="edit-tools"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td class="name">
+                        @Html.ActionLink(item.name, "Details", new { id = item.id })
+                    </td>
+                    <td>
+                        @if (item.startTime == null)
+                        {
+                            @Html.Raw("-");
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.startTime)
+                        }
+                    </td>
+                    <td>
+                        @if (item.endTime == null)
+                        {
+                            @Html.Raw("-");
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.endTime)
+                        }
+                    </td>
+                    <td>
+                        @if (item.totalBalance != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.totalBalance)
+                            @Html.Raw(" Ft")
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </td>
+                    <td class="edit-tools">
+                        <a title="Szerkesztés" href='@Url.Action("Edit", new { id = item.id })'><span class='ui-icon ui-icon-pencil' style="display: inline-block;"></span></a>
+                        <a title="Nyomtatás" href='@Url.Action("Print", new { id = item.id })'><span class='ui-icon ui-icon-print' style="display: inline-block;"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Jelenleg nincs lezárt, de ki nem fizetett számla.</p>
+}

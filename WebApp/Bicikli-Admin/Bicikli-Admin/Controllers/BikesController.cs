@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Bicikli_Admin.CommonClasses;
 using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
@@ -19,6 +21,7 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.active_menu_item_id = "menu-btn-bikes";
+            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
             return View(DataRepository.GetBikes());
         }
 
@@ -32,6 +35,14 @@ namespace Bicikli_Admin.Controllers
             ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
             if (id != -1)
             {
+                try
+                {
+                    DataRepository.GetLender(id);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
                 ViewBag.SelectedLenderId = id;
                 return View(DataRepository.GetBikes().Where(b => b.isActive && (b.currentLenderId == id)));
             }
@@ -49,6 +60,14 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-bikes";
             if (id != -1)
             {
+                try
+                {
+                    DataRepository.GetLender(id);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
                 return View(DataRepository.GetBikes().Where(b => b.isActive && (b.session.dangerousZoneId == id)));
             }
 
@@ -78,12 +97,20 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Details(int id)
         {
+            BikeModel bike;
+            try
+            {
+                bike = DataRepository.GetBike(id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.active_menu_item_id = "menu-btn-bikes";
             ViewBag.CanILend = false;
 
             #region Determine if I can lend it?
 
-            var bike = DataRepository.GetBike(id);
             if ((bike.session == null) && bike.isActive && (bike.currentLenderId != null))
             {
                 var myLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
@@ -161,7 +188,16 @@ namespace Bicikli_Admin.Controllers
 
                 if (MyLenders > -1)
                 {
-                    bikeToInsert.current_lender_id = MyLenders;
+                    try
+                    {
+                        DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == MyLenders);
+                        bikeToInsert.current_lender_id = MyLenders;
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("", "A választott kölcsönző nincs Önhöz rendelve.");
+                        throw new Exception();
+                    }
                 }
 
                 db.Bikes.InsertOnSubmit(bikeToInsert);
@@ -218,8 +254,28 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(int id)
         {
+            BikeModel bike;
+            try
+            {
+                bike = DataRepository.GetBike(id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            var bike = DataRepository.GetBike(id);
+
+            if (bike.currentLenderId != null)
+            {
+                try
+                {
+                    DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == bike.currentLenderId);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+            }
 
             #region Create dropdown list for selectable lenders
 
@@ -252,6 +308,19 @@ namespace Bicikli_Admin.Controllers
         [HttpPost]
         public ActionResult Edit(BikeModel m, int MyLenders = -1, HttpPostedFileBase ImgFile = null)
         {
+            var bike = DataRepository.GetBike((int)m.id);
+            if (bike.currentLenderId != null)
+            {
+                try
+                {
+                    DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == bike.currentLenderId);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+            }
+
             try
             {
                 if (!ModelState.IsValid)
@@ -278,7 +347,16 @@ namespace Bicikli_Admin.Controllers
                     }
                     else if (bikeToUpdate.current_lender_id != MyLenders)
                     {
-                        bikeToUpdate.current_lender_id = MyLenders;
+                        try
+                        {
+                            DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == MyLenders);
+                            bikeToUpdate.current_lender_id = MyLenders;
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError("", "A választott kölcsönző nincs Önhöz rendelve.");
+                            throw new Exception();
+                        }
                     }
                 }
                 if (bikeToUpdate.is_active != m.isActive)
@@ -334,8 +412,29 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Delete(int id)
         {
+            BikeModel bike;
+            try
+            {
+                bike = DataRepository.GetBike(id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.active_menu_item_id = "menu-btn-bikes";
-            return View(DataRepository.GetBike(id));
+
+            if (bike.currentLenderId != null)
+            {
+                try
+                {
+                    DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == bike.currentLenderId);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+            }
+            return View(bike);
         }
 
         //
@@ -347,6 +446,19 @@ namespace Bicikli_Admin.Controllers
             try
             {
                 var bikeToDelete = DataRepository.GetBike((int)m.id);
+
+                if (bikeToDelete.currentLenderId != null)
+                {
+                    try
+                    {
+                        DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == bikeToDelete.currentLenderId);
+                    }
+                    catch
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                    }
+                }
+
                 if (bikeToDelete.lastLendingDate != null)
                 {
                     throw new Exception();

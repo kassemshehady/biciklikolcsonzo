@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Bicikli_Admin.CommonClasses;
 using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
@@ -44,10 +46,19 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Details(int id, bool created_now = false)
         {
+            SessionModel session;
+            try
+            {
+                session = DataRepository.GetSession(id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.active_menu_item_id = "menu-btn-invoices";
             ViewBag.Printers = DataRepository.GetLenders().Where(l => l.printer_ip != null);
             ViewBag.IsCreatedNow = created_now;
-            return View(DataRepository.GetSession(id));
+            return View(session);
         }
 
         //
@@ -57,6 +68,16 @@ namespace Bicikli_Admin.Controllers
         {
             ViewBag.active_menu_item_id = "menu-btn-invoices";
             var bikeData = DataRepository.GetBike(id);
+
+            try
+            {
+                DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == bikeData.currentLenderId);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             ViewBag.BikeData = bikeData;
             ViewBag.LenderData = DataRepository.GetLender((int) bikeData.currentLenderId);
             return View(new SessionModel() { bike_id = id });
@@ -68,6 +89,20 @@ namespace Bicikli_Admin.Controllers
         [HttpPost]
         public ActionResult Create(SessionModel m)
         {
+            {
+                var bike = DataRepository.GetBike(m.bike_id);
+
+                try
+                {
+                    DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == bike.currentLenderId);
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Ezt a kerékpárt Ön nem adhatja ki: " + bike.name);
+                    throw new Exception();
+                }
+            }
+
             try
             {
                 if (!ModelState.IsValid)
@@ -113,9 +148,18 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Edit(int id)
         {
+            SessionModel session;
+            try
+            {
+                session = DataRepository.GetSession(id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.active_menu_item_id = "menu-btn-invoices";
             ViewBag.Printers = DataRepository.GetLenders().Where(l => l.printer_ip != null);
-            return View(DataRepository.GetSession(id));
+            return View(session);
         }
 
         //
@@ -220,37 +264,53 @@ namespace Bicikli_Admin.Controllers
 
         public ActionResult Print(int id, int lender_id = -1)
         {
+            SessionModel session;
+            try
+            {
+                session = DataRepository.GetSession(id);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.active_menu_item_id = "menu-btn-invoices";
-            var session = DataRepository.GetSession(id);
 
             if (lender_id > -1)
             {
+                LenderModel lender = null;
                 try
                 {
-                    var lender = DataRepository.GetLender(lender_id);
-
-                    if (PrintingSubscription.sendInvoice(session, lender))
-                    {
-                        return View("Print_Success");
-                    }
-
-                    return View("Print_Failed");
+                    lender = DataRepository.GetLender(lender_id);
                 }
-                catch
+                catch { }
+
+                if (lender != null)
                 {
                     try
                     {
-                        var db = new BicikliDataClassesDataContext();
-                        var lenderWithPrinter = db.Lenders.Single(l => l.id == id);
-                        lenderWithPrinter.printer_ip = null;
-                        db.SubmitChanges();
+                        if (PrintingSubscription.sendInvoice(session, lender))
+                        {
+                            return View("Print_Success");
+                        }
+
+                        return View("Print_Failed");
                     }
                     catch
                     {
-                        // dummy
-                    }
+                        try
+                        {
+                            var db = new BicikliDataClassesDataContext();
+                            var lenderWithPrinter = db.Lenders.Single(l => l.id == id);
+                            lenderWithPrinter.printer_ip = null;
+                            db.SubmitChanges();
+                        }
+                        catch
+                        {
+                            // dummy
+                        }
 
-                    return View("Print_Failed");
+                        return View("Print_Failed");
+                    }
                 }
             }
 

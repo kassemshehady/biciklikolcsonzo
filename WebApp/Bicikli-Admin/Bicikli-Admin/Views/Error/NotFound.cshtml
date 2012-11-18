@@ -1,5 +1,7 @@
 ﻿@{
-    ViewBag.Title = "NotFound";
+    ViewBag.Title = "Az oldal nem található";
 }
 
-<h2>NotFound</h2>
+<h2>@ViewBag.Title</h2>
+<p>A kérés nem teljesíthető, mert a keresett oldal nem található a szerveren.</p>
+<p><strong>Hibakód:</strong>&nbsp;@((int)HttpStatusCode.NotFound)</p>

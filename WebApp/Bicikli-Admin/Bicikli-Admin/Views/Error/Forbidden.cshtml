@@ -1,5 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Forbidden";
+    ViewBag.Title = "Nem hozzáférhető";
 }
 
-<h2>Forbidden</h2>
+<h2>@ViewBag.Title</h2>
+<p>A kérés nem teljesíthető, mert Ön nem rendelkezik a szükséges jogosultságokkal.</p>
+<p><strong>Hibakód:</strong>&nbsp;@((int)HttpStatusCode.Forbidden)</p>

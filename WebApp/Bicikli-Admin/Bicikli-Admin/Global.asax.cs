@@ -50,8 +50,7 @@ namespace Bicikli_Admin
             if (exception is HttpRequestValidationException)
             {
                 Response.ClearContent();
-                var controller = getErrorController("ValidationError");
-                controller.ValidationError().ExecuteResult(controller.ControllerContext);
+                Response.RedirectToRoute(new { controller = "Error", action = "ValidationError" });
                 Response.End();
             }
             else if (exception is HttpException)
@@ -86,6 +85,12 @@ namespace Bicikli_Admin
                         Response.ClearContent();
                         controller = getErrorController("NotFound");
                         controller.NotFound().ExecuteResult(controller.ControllerContext);
+                        Response.End();
+                        break;
+                    case HttpStatusCode.BadRequest:
+                        Response.ClearContent();
+                        controller = getErrorController("BadRequest");
+                        controller.BadRequest().ExecuteResult(controller.ControllerContext);
                         Response.End();
                         break;
                 }

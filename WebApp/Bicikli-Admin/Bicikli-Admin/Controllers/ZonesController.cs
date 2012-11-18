@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bicikli_Admin.CommonClasses;
@@ -27,7 +28,14 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Details(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-zones";
-            return View(DataRepository.GetDangerousZone(id));
+            try
+            {
+                return View(DataRepository.GetDangerousZone(id));
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
         }
 
         //
@@ -82,7 +90,14 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-zones";
-            return View(DataRepository.GetDangerousZone(id));
+            try
+            {
+                return View(DataRepository.GetDangerousZone(id));
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
         }
 
         //
@@ -143,7 +158,14 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Delete(int id)
         {
             ViewBag.active_menu_item_id = "menu-btn-zones";
-            return View(DataRepository.GetDangerousZone(id));
+            try
+            {
+                return View(DataRepository.GetDangerousZone(id));
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
         }
 
         //

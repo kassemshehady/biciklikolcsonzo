@@ -20,6 +20,7 @@ namespace Bicikli_Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.active_menu_item_id = "menu-btn-lenders";
+            ViewBag.MyLenders = DataRepository.GetAssignedLenders(User.Identity.Name);
             return View(DataRepository.GetLenders());
         }
 
@@ -40,7 +41,16 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-lenders";
             try
             {
-                var lenderToShow = DataRepository.GetLender(id);
+                LenderModel lenderToShow;
+
+                try
+                {
+                    lenderToShow = DataRepository.GetLender(id);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
 
                 #region Get selected users from db
 
@@ -184,11 +194,23 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
-                DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == id);
+                DataRepository.GetLender(id);
             }
             catch
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
+            if (!User.IsInRole("SiteAdmin"))
+            {
+                try
+                {
+                    DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == id);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
             }
 
             ViewBag.active_menu_item_id = "menu-btn-lenders";
@@ -223,13 +245,16 @@ namespace Bicikli_Admin.Controllers
         [HttpPost]
         public ActionResult Edit(LenderModel model, string[] users)
         {
-            try
+            if (!User.IsInRole("SiteAdmin"))
             {
-                DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == model.id);
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                try
+                {
+                    DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == model.id);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
             }
 
             try
@@ -342,7 +367,16 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-lenders";
             try
             {
-                var lenderToShow = DataRepository.GetLender(id);
+                LenderModel lenderToShow;
+
+                try
+                {
+                    lenderToShow = DataRepository.GetLender(id);
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
 
                 #region Get selected users from db
 

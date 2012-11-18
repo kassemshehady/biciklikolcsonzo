@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "Érvénytelen paraméter";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>A kérés nem teljesíthető, mert érvénytelen paramétert tartalmazott.</p>
+<p><strong>Hibakód:</strong>&nbsp;@((int)HttpStatusCode.BadRequest)</p>

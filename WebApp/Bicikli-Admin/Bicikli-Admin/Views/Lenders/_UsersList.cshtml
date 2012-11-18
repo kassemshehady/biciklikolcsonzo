@@ -4,13 +4,15 @@
         IEnumerable<Bicikli_Admin.Models.UserModel> users = ViewBag.Users;
         if (users != null)
         {
-            foreach (Bicikli_Admin.Models.UserModel u in users)
+            if (users.Count() > 0)
             {
+                foreach (Bicikli_Admin.Models.UserModel u in users)
+                {
         <ul class="boxed-enumeration">
             @{
-                IEnumerable<string> selectedUsers = ViewBag.SelectedUsers;
-                if (selectedUsers != null && selectedUsers.Contains(u.username))
-                {
+                    IEnumerable<string> selectedUsers = ViewBag.SelectedUsers;
+                    if (selectedUsers != null && selectedUsers.Contains(u.username))
+                    {
                 <li>
                     <input type="checkbox" name="users" value="@u.username" checked="checked" />
                     @Html.ActionLink(
@@ -20,9 +22,9 @@
                         routeValues: new { id = u.username },
                         htmlAttributes: null)
                 </li>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                 <li>
                     <input type="checkbox" name="users" value="@u.username" />
                     @Html.ActionLink(
@@ -32,9 +34,14 @@
                         routeValues: new { id = u.username },
                         htmlAttributes: null)
                 </li>
-                }
+                    }
             }
         </ul>
+                }
+            }
+            else
+            {
+                <p>Nincs kiválasztható felhasználó.</p>
             }
         }
         else
@@ -55,6 +62,10 @@
                 </li>
             }
         </ul>
+            }
+            else
+            {
+        <p>Nincs kiválasztott felhasználó.</p>
             }
         }
     }

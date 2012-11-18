@@ -1,5 +1,9 @@
 ﻿@{
-    ViewBag.Title = "ValidationError";
+    ViewBag.Title = "Érvénytelen űrlap";
 }
 
-<h2>ValidationError</h2>
+<h2>@ViewBag.Title</h2>
+<p>A kérés nem teljesíthető, mert Ön által küldött űrlap érvénytelen (pl. XSS) adatokat tartalmazott.</p>
+
+<h2>Példák érvénytelen adatra:</h2>
+<p>@("<script>, </script>, <p>, </p>, <b>, </b>, <br>, stb...")</p>
