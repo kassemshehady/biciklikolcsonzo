@@ -348,10 +348,10 @@ namespace Bicikli_Admin.CommonClasses
         {
             var db = new BicikliDataClassesDataContext();
             return (from dz in db.GetDangerousZonesByDistance(latitude, longitude)
-             select new ZoneModel()
-             {
-                 id = dz.id
-             }).FirstOrDefault();
+                    select new ZoneModel()
+                    {
+                        id = dz.id
+                    }).FirstOrDefault();
         }
 
         #endregion
@@ -622,6 +622,38 @@ namespace Bicikli_Admin.CommonClasses
             db.SubmitChanges();
         }
 
+        /// <summary>
+        /// Inserts a bike into the database
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static int InsertBike(BikeModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var bike = new Bike()
+                {
+                    description = m.description,
+                    is_active = m.isActive,
+                    name = m.name,
+                    current_lender_id = m.currentLenderId
+                };
+            db.Bikes.InsertOnSubmit(bike);
+            db.SubmitChanges();
+
+            return bike.id;
+        }
+
+        /// <summary>
+        /// Deletes a bike
+        /// </summary>
+        /// <param name="id"></param>
+        public static void DeleteBike(int id)
+        {
+            var db = new BicikliDataClassesDataContext();
+            db.Bikes.DeleteOnSubmit(db.Bikes.Single(b => b.id == id));
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #region Session data
@@ -718,6 +750,39 @@ namespace Bicikli_Admin.CommonClasses
             db.SubmitChanges();
         }
 
+        /// <summary>
+        /// Creates a new session
+        /// </summary>
+        /// <param name="m"></param>
+        public static int CreateSession(SessionModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var invoiceToInsert = new Session()
+            {
+                bike_id = m.bike_id,
+                name = m.name,              // user data (name)
+                address = m.address,        // user data (address)
+                dz_id = null,
+                dz_time = 0,
+                end_time = null,
+                last_report = null,
+                latitude = null,
+                longitude = null,
+                normal_time = 0,
+                paid = false,
+                start_time = DateTime.Now,
+                normal_price = DataRepository.GetNormalUnitPrice(),
+                normal_vat = DataRepository.GetNormalVAT(),
+                danger_price = DataRepository.GetDangerousUnitPrice(),
+                danger_vat = DataRepository.GetDangerousVAT()
+            };
+            db.Sessions.InsertOnSubmit(invoiceToInsert);
+            db.Bikes.Single(b => b.is_active && (b.id == m.bike_id)).current_lender_id = null;
+            db.SubmitChanges();
+
+            return invoiceToInsert.id;
+        }
+
         #endregion
 
         #region Configuration data
@@ -768,6 +833,23 @@ namespace Bicikli_Admin.CommonClasses
             return float.Parse((from c in dc.Configurations
                                 where c.key == "danger_vat"
                                 select c.value).Single());
+        }
+
+        /// <summary>
+        /// Updates the Invoice configuration
+        /// </summary>
+        /// <param name="normal_price"></param>
+        /// <param name="danger_price"></param>
+        /// <param name="normal_vat"></param>
+        /// <param name="danger_vat"></param>
+        public static void UpdateInvoiceConfig(int normal_price, int danger_price, float normal_vat, float danger_vat)
+        {
+            var db = new BicikliDataClassesDataContext();
+            db.Configurations.Single(c => c.key == "normal_price").value = normal_price.ToString();
+            db.Configurations.Single(c => c.key == "danger_price").value = danger_price.ToString();
+            db.Configurations.Single(c => c.key == "normal_vat").value = normal_vat.ToString();
+            db.Configurations.Single(c => c.key == "danger_vat").value = danger_vat.ToString();
+            db.SubmitChanges();
         }
 
         #endregion

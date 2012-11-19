@@ -8,6 +8,23 @@ namespace Bicikli_Admin.Models
 {
     public class BikeModel
     {
+        public BikeModel() { }
+
+        public BikeModel(BikeModel m)
+        {
+            id = m.id;
+            name = m.name;
+            description = m.description;
+            imageUrl = m.imageUrl;
+            currentLenderId = m.currentLenderId;
+            isActive = m.isActive;
+            isInDangerousZone = m.isInDangerousZone;
+            lastLendingDate = m.lastLendingDate;
+            session = m.session;
+            lastSession = m.lastSession;
+            lender = m.lender;
+        }
+
         [Display(Name = "#")]
         public int? id { get; set; }
 

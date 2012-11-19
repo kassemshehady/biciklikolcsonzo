@@ -140,28 +140,14 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-bikes";
             var favouriteLender = Request.Cookies.Get("favourite_lender");
 
-            #region Create dropdown list for selectable lenders
-
-            var myLenders = new List<SelectListItem>();
-            myLenders.Add(new SelectListItem()
+            try
             {
-                Text = "-- Használaton kívül --",
-                Value = "-1",
-                Selected = ((favouriteLender == null) || (favouriteLender.Value == "-1"))
-            });
-            foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
-            {
-                myLenders.Add(new SelectListItem()
-                {
-                    Text = item.name,
-                    Value = item.id.ToString(),
-                    Selected = ((favouriteLender != null) && (favouriteLender.Value == item.id.ToString()))
-                });
+                CreateSelectableLenders(int.Parse(favouriteLender.Value));
             }
-
-            ViewBag.MyLenders = myLenders;
-
-            #endregion
+            catch
+            {
+                CreateSelectableLenders(null);
+            }
 
             return View(new BikeModel() { isActive = true });
         }
@@ -179,19 +165,14 @@ namespace Bicikli_Admin.Controllers
                     throw new Exception();
                 }
 
-                var db = new BicikliDataClassesDataContext();
-                var bikeToInsert = new Bike();
-
-                bikeToInsert.description = m.description;
-                bikeToInsert.is_active = m.isActive;
-                bikeToInsert.name = m.name;
+                var bikeModelToInsert = new BikeModel(m);
 
                 if (MyLenders > -1)
                 {
                     try
                     {
                         DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == MyLenders);
-                        bikeToInsert.current_lender_id = MyLenders;
+                        bikeModelToInsert.currentLenderId = MyLenders;
                     }
                     catch
                     {
@@ -200,20 +181,9 @@ namespace Bicikli_Admin.Controllers
                     }
                 }
 
-                db.Bikes.InsertOnSubmit(bikeToInsert);
-                db.SubmitChanges();
-
-                if (ImgFile != null)
-                {
-                    if (ImgFile != null && ImgFile.ContentLength > 0)
-                    {
-                        var fileName = DateTime.Now.Ticks.ToString() + "---" + bikeToInsert.id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
-                        ImgFile.SaveAs(path);
-                        bikeToInsert.image_url = fileName;
-                    }
-                }
-                db.SubmitChanges();
+                bikeModelToInsert = DataRepository.GetBike(DataRepository.InsertBike(bikeModelToInsert));
+                bikeModelToInsert.imageUrl = UploadImage(ImgFile, (int)bikeModelToInsert.id);
+                DataRepository.UpdateBike(bikeModelToInsert);
 
                 return RedirectToAction("Index");
             }
@@ -222,28 +192,14 @@ namespace Bicikli_Admin.Controllers
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
                 var favouriteLender = Request.Cookies.Get("favourite_lender");
 
-                #region Create dropdown list for selectable lenders
-
-                var myLenders = new List<SelectListItem>();
-                myLenders.Add(new SelectListItem()
+                try
                 {
-                    Text = "-- Használaton kívül --",
-                    Value = "-1",
-                    Selected = ((favouriteLender == null) || (favouriteLender.Value == "-1"))
-                });
-                foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
-                {
-                    myLenders.Add(new SelectListItem()
-                    {
-                        Text = item.name,
-                        Value = item.id.ToString(),
-                        Selected = ((favouriteLender != null) && (favouriteLender.Value == item.id.ToString()))
-                    });
+                    CreateSelectableLenders(int.Parse(favouriteLender.Value));
                 }
-
-                ViewBag.MyLenders = myLenders;
-
-                #endregion
+                catch
+                {
+                    CreateSelectableLenders(null);
+                }
 
                 return View(m);
             }
@@ -277,28 +233,7 @@ namespace Bicikli_Admin.Controllers
                 }
             }
 
-            #region Create dropdown list for selectable lenders
-
-            var myLenders = new List<SelectListItem>();
-            myLenders.Add(new SelectListItem()
-            {
-                Text = "-- Használaton kívül --",
-                Value = "-1",
-                Selected = (bike.currentLenderId == null)
-            });
-            foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
-            {
-                myLenders.Add(new SelectListItem()
-                {
-                    Text = item.name,
-                    Value = item.id.ToString(),
-                    Selected = (bike.currentLenderId == item.id)
-                });
-            }
-            ViewBag.MyLenders = myLenders;
-
-            #endregion
-
+            CreateSelectableLenders(bike.currentLenderId);
             return View(bike);
         }
 
@@ -328,29 +263,23 @@ namespace Bicikli_Admin.Controllers
                     throw new Exception();
                 }
 
-                var db = new BicikliDataClassesDataContext();
-                var bikeToUpdate = db.Bikes.Single(b => b.id == m.id);
+                var bikeModelToUpdate = DataRepository.GetBike((int)m.id);
+                bikeModelToUpdate.name = m.name;
+                bikeModelToUpdate.description = m.description;
+                bikeModelToUpdate.isActive = m.isActive;
 
-                if (bikeToUpdate.name != m.name)
-                {
-                    bikeToUpdate.name = m.name;
-                }
-                if (bikeToUpdate.description != m.description)
-                {
-                    bikeToUpdate.description = m.description;
-                }
-                if (DataRepository.GetBike((int)m.id).session == null)
+                if (bikeModelToUpdate.session == null)
                 {
                     if (MyLenders < 0)
                     {
-                        bikeToUpdate.current_lender_id = null;
+                        bikeModelToUpdate.currentLenderId = null;
                     }
-                    else if (bikeToUpdate.current_lender_id != MyLenders)
+                    else if (bikeModelToUpdate.currentLenderId != MyLenders)
                     {
                         try
                         {
                             DataRepository.GetLendersOfUser((Guid)Membership.GetUser().ProviderUserKey).Single(l => l.id == MyLenders);
-                            bikeToUpdate.current_lender_id = MyLenders;
+                            bikeModelToUpdate.currentLenderId = MyLenders;
                         }
                         catch
                         {
@@ -359,50 +288,15 @@ namespace Bicikli_Admin.Controllers
                         }
                     }
                 }
-                if (bikeToUpdate.is_active != m.isActive)
-                {
-                    bikeToUpdate.is_active = m.isActive;
-                }
-                if (ImgFile != null)
-                {
-                    if (ImgFile != null && ImgFile.ContentLength > 0)
-                    {
-                        var fileName = DateTime.Now.Ticks.ToString() + "---" + m.id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
-                        ImgFile.SaveAs(path);
-                        bikeToUpdate.image_url = fileName;
-                    }
-                }
-                db.SubmitChanges();
+                bikeModelToUpdate.imageUrl = UploadImage(ImgFile, (int)m.id);
 
+                DataRepository.UpdateBike(bikeModelToUpdate);
                 return RedirectToAction("Index");
             }
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
-
-                #region Create dropdown list for selectable lenders
-
-                var myLenders = new List<SelectListItem>();
-                myLenders.Add(new SelectListItem()
-                {
-                    Text = "-- Használaton kívül --",
-                    Value = "-1",
-                    Selected = (m.currentLenderId == null)
-                });
-                foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
-                {
-                    myLenders.Add(new SelectListItem()
-                    {
-                        Text = item.name,
-                        Value = item.id.ToString(),
-                        Selected = (m.currentLenderId == item.id)
-                    });
-                }
-                ViewBag.MyLenders = myLenders;
-
-                #endregion
-
+                CreateSelectableLenders(m.currentLenderId);
                 return View(m);
             }
         }
@@ -464,9 +358,7 @@ namespace Bicikli_Admin.Controllers
                     throw new Exception();
                 }
 
-                var db = new BicikliDataClassesDataContext();
-                db.Bikes.DeleteOnSubmit(db.Bikes.Single(b => b.id == m.id));
-                db.SubmitChanges();
+                DataRepository.DeleteBike((int)m.id);
 
                 return RedirectToAction("Index");
             }
@@ -485,6 +377,52 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-bikes";
             ViewBag.DangerousZones = DataRepository.GetDangerousZones();
             return View(DataRepository.GetBikes().Where(b => (b.currentLenderId == null) && (b.session != null) && (b.session.latitude != null) && (b.session.longitude != null)));
+        }
+
+        /// <summary>
+        /// Creates a DDL for selectable lenders
+        /// </summary>
+        private void CreateSelectableLenders(int? selectedId)
+        {
+            var myLenders = new List<SelectListItem>();
+            myLenders.Add(new SelectListItem()
+            {
+                Text = "-- Használaton kívül --",
+                Value = "-1",
+                Selected = (selectedId == null)
+            });
+            foreach (var item in DataRepository.GetAssignedLenders(User.Identity.Name))
+            {
+                myLenders.Add(new SelectListItem()
+                {
+                    Text = item.name,
+                    Value = item.id.ToString(),
+                    Selected = (selectedId == item.id)
+                });
+            }
+            ViewBag.MyLenders = myLenders;
+        }
+
+        /// <summary>
+        /// Uploads an image
+        /// </summary>
+        /// <param name="ImgFile"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private String UploadImage(HttpPostedFileBase ImgFile, int id)
+        {
+            if (ImgFile != null)
+            {
+                if (ImgFile != null && ImgFile.ContentLength > 0)
+                {
+                    var fileName = DateTime.Now.Ticks.ToString() + "---" + id.ToString() + "---" + Path.GetFileName(ImgFile.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
+                    ImgFile.SaveAs(path);
+                    return fileName;
+                }
+            }
+
+            return null;
         }
     }
 }

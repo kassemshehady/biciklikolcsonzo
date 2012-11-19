@@ -201,7 +201,7 @@ namespace Bicikli_Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            if (!User.IsInRole("SiteAdmin"))
+            if (!AppUtilities.IsSiteAdmin())
             {
                 try
                 {
@@ -261,11 +261,7 @@ namespace Bicikli_Admin.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    var dbUsers = DataRepository.GetUsers();
-                    ViewBag.Users = dbUsers;
-                    ViewBag.SelectedUsers = users;
-                    ViewBag.active_menu_item_id = "menu-btn-lenders";
-                    return View(model);
+                    throw new Exception();
                 }
 
                 #region Update Logic

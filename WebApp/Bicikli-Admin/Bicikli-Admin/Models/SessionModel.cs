@@ -9,6 +9,30 @@ namespace Bicikli_Admin.Models
 {
     public class SessionModel
     {
+        public SessionModel() { }
+
+        public SessionModel(SessionModel m)
+        {
+            id = m.id;
+            startTime = m.startTime;
+            endTime = m.endTime;
+            bike_id = m.bike_id;
+            bikeModel = m.bikeModel;
+            lastReport = m.lastReport;
+            dangerousZoneId = m.dangerousZoneId;
+            dangerousZoneTime = m.dangerousZoneTime;
+            normalTime = m.normalTime;
+            latitude = m.latitude;
+            longitude = m.longitude;
+            name = m.name;
+            address = m.address;
+            paid = m.paid;
+            normal_price = m.normal_price;
+            normal_vat = m.normal_vat;
+            danger_price = m.danger_price;
+            danger_vat = m.danger_vat;
+        }
+
         [Display(Name = "#")]
         public int? id { get; set; }
 

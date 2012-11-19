@@ -110,31 +110,9 @@ namespace Bicikli_Admin.Controllers
                     throw new Exception();
                 }
 
-                var db = new BicikliDataClassesDataContext();
-                var invoiceToInsert = new Session()
-                {
-                    bike_id = m.bike_id,
-                    name = m.name,              // user data (name)
-                    address = m.address,        // user data (address)
-                    dz_id = null,
-                    dz_time = 0,
-                    end_time = null,
-                    last_report = null,
-                    latitude = null,
-                    longitude = null,
-                    normal_time = 0,
-                    paid = false,
-                    start_time = DateTime.Now,
-                    normal_price = DataRepository.GetNormalUnitPrice(),
-                    normal_vat = DataRepository.GetNormalVAT(),
-                    danger_price = DataRepository.GetDangerousUnitPrice(),
-                    danger_vat = DataRepository.GetDangerousVAT()
-                };
-                db.Sessions.InsertOnSubmit(invoiceToInsert);
-                db.Bikes.Single(b => b.is_active && (b.id == m.bike_id)).current_lender_id = null;
-                db.SubmitChanges();
+                var invoiceId = DataRepository.CreateSession(m);
 
-                return RedirectToAction("Details", new { id = invoiceToInsert.id, created_now = true });
+                return RedirectToAction("Details", new { id = invoiceId, created_now = true });
             }
             catch
             {
@@ -175,35 +153,30 @@ namespace Bicikli_Admin.Controllers
                     throw new Exception();
                 }
 
-                var db = new BicikliDataClassesDataContext();
-                var invoiceToUpdate = db.Sessions.Single(s => s.id == m.id);
+                var invoiceModelToUpdate = DataRepository.GetSession((int)m.id);
 
-                if (invoiceToUpdate.paid)
+                if (invoiceModelToUpdate.paid)
                 {
                     ModelState.AddModelError("", "A számla nem módosítható, ha már ki van fizetve!");
 
                     ViewBag.active_menu_item_id = "menu-btn-invoices";
                     ViewBag.Printers = DataRepository.GetLenders().Where(l => l.printer_ip != null);
-                    return View(DataRepository.GetSession((int)m.id));
+                    return View(invoiceModelToUpdate);
                 }
 
-                if (invoiceToUpdate.name != m.name)
+                invoiceModelToUpdate.name = m.name;
+                invoiceModelToUpdate.address = m.address;
+
+                if ((submitButton == "ForceEndSession") && ((invoiceModelToUpdate.endTime == null) || (invoiceModelToUpdate.endTime == new DateTime())))
                 {
-                    invoiceToUpdate.address = m.name;
+                    invoiceModelToUpdate.endTime = DateTime.Now;
                 }
-                if (invoiceToUpdate.address != m.address)
+                else if ((submitButton == "PaySession") && (!invoiceModelToUpdate.paid))
                 {
-                    invoiceToUpdate.address = m.address;
+                    invoiceModelToUpdate.paid = true;
                 }
-                if ((submitButton == "ForceEndSession") && ((invoiceToUpdate.end_time == null) || (invoiceToUpdate.end_time == new DateTime())))
-                {
-                    invoiceToUpdate.end_time = DateTime.Now;
-                }
-                else if ((submitButton == "PaySession") && (!invoiceToUpdate.paid))
-                {
-                    invoiceToUpdate.paid = true;
-                }
-                db.SubmitChanges();
+
+                DataRepository.UpdateSession(invoiceModelToUpdate);
 
                 return RedirectToAction("Index");
             }
@@ -239,12 +212,7 @@ namespace Bicikli_Admin.Controllers
 
             if (normal_price > 0 && danger_price > 0 && normal_vat > 0 && danger_vat > 0)
             {
-                var db = new BicikliDataClassesDataContext();
-                db.Configurations.Single(c => c.key == "normal_price").value = normal_price.ToString();
-                db.Configurations.Single(c => c.key == "danger_price").value = danger_price.ToString();
-                db.Configurations.Single(c => c.key == "normal_vat").value = normal_vat.ToString();
-                db.Configurations.Single(c => c.key == "danger_vat").value = danger_vat.ToString();
-                db.SubmitChanges();
+                DataRepository.UpdateInvoiceConfig(normal_price, danger_price, normal_vat, danger_vat);
                 ViewBag.Message = "Sikeres mentés.";
             }
             else
@@ -252,11 +220,7 @@ namespace Bicikli_Admin.Controllers
                 ModelState.AddModelError("", "HIBA: Rossz paraméterek!");
             }
 
-            ViewBag.NormalPrice = DataRepository.GetNormalUnitPrice();
-            ViewBag.NormalVAT = DataRepository.GetNormalVAT();
-            ViewBag.DangerousPrice = DataRepository.GetDangerousUnitPrice();
-            ViewBag.DangerousVAT = DataRepository.GetDangerousVAT();
-            return View();
+            return Configure();
         }
 
         //
