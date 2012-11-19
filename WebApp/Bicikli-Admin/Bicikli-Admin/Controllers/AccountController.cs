@@ -204,34 +204,34 @@ namespace Bicikli_Admin.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+                    return "Ez a felhasználónév már foglalt. Válasszon másikat!";
 
                 case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+                    return "Ez az e-mail cím már regisztrálva van.";
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return "A beírt jelszó nem megfelelő.";
 
                 case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
+                    return "A beírt e-mail cím nem megfelelő.";
 
                 case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+                    return "A biztonsági válasz nem megfelelő.";
 
                 case MembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+                    return "A biztonsági kérdés nem megfelelő.";
 
                 case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+                    return "A felhasználónév nem megfelelő.";
 
                 case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Az autentikációs folyamat során hiba történt. Kérjük próbálja újra később vagy vegye fel a kapcsolatot az üzemeltetővel!";
 
                 case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "A felhasználó nem hozható létre. Kérjük próbálja újra később vagy vegye fel a kapcsolatot az üzemeltetővel!";
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Meghatározhatatlan hiba történt. Kérjük próbálja újra később vagy vegye fel a kapcsolatot az üzemeltetővel!";
             }
         }
         #endregion

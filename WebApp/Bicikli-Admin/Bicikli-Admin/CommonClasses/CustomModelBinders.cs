@@ -7,10 +7,11 @@ using System.Web.Mvc;
 
 namespace Bicikli_Admin.CommonClasses
 {
-    class DoubleModelBinder : IModelBinder
+    /// <summary>
+    /// Model binder for Doubles
+    /// </summary>
+    public class DoubleModelBinder : IModelBinder
     {
-        #region IModelBinder Members
-
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var valueResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
@@ -28,14 +29,13 @@ namespace Bicikli_Admin.CommonClasses
             bindingContext.ModelState.Add(bindingContext.ModelName, modelState);
             return actualValue;
         }
-
-        #endregion
     }
 
-    class DecimalModelBinder : IModelBinder
+    /// <summary>
+    /// Model binder for Decimals
+    /// </summary>
+    public class DecimalModelBinder : IModelBinder
     {
-        #region IModelBinder Members
-
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var valueResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
@@ -53,10 +53,11 @@ namespace Bicikli_Admin.CommonClasses
             bindingContext.ModelState.Add(bindingContext.ModelName, modelState);
             return actualValue;
         }
-
-        #endregion
     }
 
+    /// <summary>
+    /// Universal Double model binder from StackOverflow.com
+    /// </summary>
     public class CustomModelBinder : DefaultModelBinder
     {
         public CustomModelBinder()
@@ -67,15 +68,7 @@ namespace Bicikli_Admin.CommonClasses
         public override object BindModel(ControllerContext controllerContext,
           ModelBindingContext bindingContext)
         {
-
             object result = null;
-
-            // Don't do this here!
-            // It might do bindingContext.ModelState.AddModelError
-            // and there is no RemoveModelError!
-            // 
-            // result = base.BindModel(controllerContext, bindingContext);
-
             if (bindingContext.ModelType == typeof(double))
             {
 

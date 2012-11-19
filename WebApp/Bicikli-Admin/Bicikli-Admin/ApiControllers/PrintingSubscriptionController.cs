@@ -19,7 +19,7 @@ namespace Bicikli_Admin.ApiControllers
             // check password
             try
             {
-                new BicikliDataClassesDataContext().Lenders.Single(l => ((l.id == printerModel.lender_id) && (l.printer_password == printerModel.printer_password)));
+                PrintingSubscription.checkPassword(printerModel.lender_id, printerModel.printer_password);
             }
             catch
             {

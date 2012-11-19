@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "A szolgáltatás nem elérhető";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>A kérés nem teljesíthető, mert a szerver valószínűeg túlterhelt.</p>
+<p><strong>Hibakód:</strong>&nbsp;@((int)HttpStatusCode.ServiceUnavailable)</p>

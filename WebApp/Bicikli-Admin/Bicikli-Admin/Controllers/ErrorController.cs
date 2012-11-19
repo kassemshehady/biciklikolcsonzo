@@ -17,25 +17,44 @@ namespace Bicikli_Admin.Controllers
             return View();
         }
 
+        //
+        // GET: /Error/NotFound
+
         public ViewResult NotFound()
         {
             return View();
         }
+
+        //
+        // GET: /Error/Forbidden
 
         public ViewResult Forbidden()
         {
             return View();
         }
 
+        //
+        // GET: /Error/ValidationError
+
         public ViewResult ValidationError()
         {
             return View();
         }
+
+        //
+        // GET: /Error/BadRequest
 
         public ViewResult BadRequest()
         {
             return View();
         }
 
+        //
+        // GET: /Error/ServiceUnavailable
+
+        public ViewResult ServiceUnavailable()
+        {
+            return View();
+        }
     }
 }

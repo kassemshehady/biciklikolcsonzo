@@ -132,6 +132,7 @@
     <Compile Include="ApiControllers\LendersController.cs" />
     <Compile Include="ApiControllers\PrintingSubscriptionController.cs" />
     <Compile Include="ApiControllers\ReportController.cs" />
+    <Compile Include="ApiModels\LenderModels.cs" />
     <Compile Include="ApiModels\PrinterModels.cs" />
     <Compile Include="ApiModels\ReportModels.cs" />
     <Compile Include="App_GlobalResources\Resources.Designer.cs">
@@ -478,6 +479,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\ValidationError.cshtml" />
     <Content Include="Views\Error\BadRequest.cshtml" />
+    <Content Include="Views\Error\ServiceUnavailable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">

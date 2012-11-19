@@ -11,6 +11,34 @@ namespace Bicikli_Admin.CommonClasses
 {
     public class DataRepository
     {
+        #region User data
+
+        /// <summary>
+        /// Returns all lenders assigned to a certain user
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        public static IEnumerable<LenderModel> GetLendersOfUser(Guid guid)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from lu in dc.LenderUsers
+                   join l in dc.Lenders
+                   on lu.lender_id equals l.id
+                   where (lu.user_id == guid)
+                   orderby l.name ascending
+                   select new LenderModel
+                   {
+                       id = l.id,
+                       address = l.address,
+                       description = l.description,
+                       latitude = l.latitude,
+                       longitude = l.longitude,
+                       name = l.name,
+                       printer_ip = l.printer_ip,
+                       printer_password = l.printer_password
+                   };
+        }
+
         /// <summary>
         /// Returns all assigned lenders by username
         /// </summary>
@@ -23,28 +51,6 @@ namespace Bicikli_Admin.CommonClasses
                    join lu in dc.LenderUsers
                    on l equals lu.Lender
                    where (lu.User.UserId == (Guid)Membership.GetUser(username).ProviderUserKey)
-                   orderby l.name ascending
-                   select new LenderModel
-                   {
-                       id = l.id,
-                       latitude = l.latitude,
-                       longitude = l.longitude,
-                       name = l.name,
-                       address = l.address,
-                       description = l.description,
-                       printer_ip = l.printer_ip,
-                       printer_password = l.printer_password
-                   };
-        }
-
-        /// <summary>
-        /// Returns all lenders
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<LenderModel> GetLenders()
-        {
-            var dc = new BicikliDataClassesDataContext();
-            return from l in dc.Lenders
                    orderby l.name ascending
                    select new LenderModel
                    {
@@ -77,33 +83,7 @@ namespace Bicikli_Admin.CommonClasses
         }
 
         /// <summary>
-        /// Returns all lenders assigned to a certain user
-        /// </summary>
-        /// <param name="guid"></param>
-        /// <returns></returns>
-        public static IEnumerable<LenderModel> GetLendersOfUser(Guid guid)
-        {
-            var dc = new BicikliDataClassesDataContext();
-            return from lu in dc.LenderUsers
-                   join l in dc.Lenders
-                   on lu.lender_id equals l.id
-                   where (lu.user_id == guid)
-                   orderby l.name ascending
-                   select new LenderModel
-                   {
-                       id = l.id,
-                       address = l.address,
-                       description = l.description,
-                       latitude = l.latitude,
-                       longitude = l.longitude,
-                       name = l.name,
-                       printer_ip = l.printer_ip,
-                       printer_password = l.printer_password
-                   };
-        }
-
-        /// <summary>
-        /// Returns all users from the database with every collected detail
+        /// Returns all users from the database with every collectable detail
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<UserModel> GetUsersWithDetails()
@@ -137,6 +117,69 @@ namespace Bicikli_Admin.CommonClasses
             #endregion
 
             return result;
+        }
+
+        #endregion
+
+        #region Lender data
+
+        /// <summary>
+        /// Returns all lenders
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<LenderModel> GetLenders()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from l in dc.Lenders
+                   orderby l.name ascending
+                   select new LenderModel
+                   {
+                       id = l.id,
+                       latitude = l.latitude,
+                       longitude = l.longitude,
+                       name = l.name,
+                       address = l.address,
+                       description = l.description,
+                       printer_ip = l.printer_ip,
+                       printer_password = l.printer_password
+                   };
+        }
+
+        /// <summary>
+        /// Returns all lenders for API
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<ApiModels.LenderListItemModel> GetLendersForApi()
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return from li in dc.GetLendersList()
+                   select new ApiModels.LenderListItemModel()
+                   {
+                       id = li.id,
+                       latitude = li.latitude,
+                       longitude = li.longitude,
+                       name = li.name,
+                       address = li.address
+                   };
+        }
+
+        /// <summary>
+        /// Returns a lender for API
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static ApiModels.LenderModel GetLenderForApi(int id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return (from l in dc.GetLenderDetails(id)
+                    select new ApiModels.LenderModel()
+                    {
+                        name = l.name,
+                        address = l.address,
+                        description = l.description,
+                        latitude = l.latitude,
+                        longitude = l.longitude
+                    }).SingleOrDefault();
         }
 
         /// <summary>
@@ -215,6 +258,27 @@ namespace Bicikli_Admin.CommonClasses
         }
 
         /// <summary>
+        /// Returns the nearest lender within a specified radius
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        public static LenderModel GetNearestLenderInRadius(double latitude, double longitude, double radius)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            return (from l in dc.GetLendersByDistance(latitude, longitude, radius)
+                    select new LenderModel()
+                    {
+                        id = l.id
+                    }).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Zone data
+
+        /// <summary>
         /// Returns ALL dangerous zones
         /// </summary>
         /// <returns></returns>
@@ -253,6 +317,83 @@ namespace Bicikli_Admin.CommonClasses
                         longitude = z.longitude,
                         radius = z.radius
                     }).Single();
+        }
+
+        /// <summary>
+        /// Deletes a dangerous zone
+        /// </summary>
+        /// <param name="id"></param>
+        public static void DeleteZone(int id)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var zoneToRemove = db.DangerousZones.Single(z => z.id == id);
+            if (zoneToRemove.Sessions.Count() > 0)
+            {
+                foreach (Session s in zoneToRemove.Sessions)
+                {
+                    s.dz_id = null;
+                }
+            }
+            db.DangerousZones.DeleteOnSubmit(zoneToRemove);
+            db.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Returns the nearest dangerous zone to the specified coordinates
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
+        public static ZoneModel GetNearestDangerousZone(double latitude, double longitude)
+        {
+            var db = new BicikliDataClassesDataContext();
+            return (from dz in db.GetDangerousZonesByDistance(latitude, longitude)
+             select new ZoneModel()
+             {
+                 id = dz.id
+             }).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Bike data
+
+        /// <summary>
+        /// Returns the last lending data of a bike
+        /// </summary>
+        /// <param name="bike_id"></param>
+        /// <returns></returns>
+        public static LastLendingOfBike GetLastLendingOf(int bike_id)
+        {
+            var dc = new BicikliDataClassesDataContext();
+
+            return (from s in dc.Sessions
+                    where s.bike_id == bike_id
+                    orderby s.start_time descending
+                    select new LastLendingOfBike()
+                    {
+                        lastLendingDate = s.start_time,
+                        lastSession = new SessionModel()
+                        {
+                            address = s.address,
+                            bike_id = s.bike_id,
+                            dangerousZoneId = s.dz_id,
+                            dangerousZoneTime = s.dz_time,
+                            endTime = s.end_time,
+                            id = s.id,
+                            lastReport = s.last_report,
+                            latitude = s.latitude,
+                            longitude = s.longitude,
+                            name = s.name,
+                            normalTime = s.normal_time,
+                            paid = s.paid,
+                            normal_price = s.normal_price,
+                            danger_price = s.danger_price,
+                            normal_vat = s.normal_vat,
+                            danger_vat = s.danger_vat,
+                            startTime = s.start_time
+                        }
+                    }).FirstOrDefault();
         }
 
         /// <summary>
@@ -319,33 +460,7 @@ namespace Bicikli_Admin.CommonClasses
                     bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
                 }
 
-                var lastLendingData = (from s in dc.Sessions
-                                       where s.bike_id == bike.id
-                                       orderby s.start_time descending
-                                       select new LastLendingOfBike()
-                                       {
-                                           lastLendingDate = s.start_time,
-                                           lastSession = new SessionModel()
-                                           {
-                                               address = s.address,
-                                               bike_id = s.bike_id,
-                                               dangerousZoneId = s.dz_id,
-                                               dangerousZoneTime = s.dz_time,
-                                               endTime = s.end_time,
-                                               id = s.id,
-                                               lastReport = s.last_report,
-                                               latitude = s.latitude,
-                                               longitude = s.longitude,
-                                               name = s.name,
-                                               normalTime = s.normal_time,
-                                               paid = s.paid,
-                                               normal_price = s.normal_price,
-                                               danger_price = s.danger_price,
-                                               normal_vat = s.normal_vat,
-                                               danger_vat = s.danger_vat,
-                                               startTime = s.start_time
-                                           }
-                                       }).FirstOrDefault();
+                var lastLendingData = GetLastLendingOf((int)bike.id);
 
                 if (lastLendingData != null)
                 {
@@ -441,33 +556,7 @@ namespace Bicikli_Admin.CommonClasses
                 bike.isInDangerousZone = (bike.session.dangerousZoneId != null);
             }
 
-            var lastLendingData = (from s in dc.Sessions
-                                   where s.bike_id == bike.id
-                                   orderby s.start_time descending
-                                   select new LastLendingOfBike()
-                                   {
-                                       lastLendingDate = s.start_time,
-                                       lastSession = new SessionModel()
-                                       {
-                                           address = s.address,
-                                           bike_id = s.bike_id,
-                                           dangerousZoneId = s.dz_id,
-                                           dangerousZoneTime = s.dz_time,
-                                           endTime = s.end_time,
-                                           id = s.id,
-                                           lastReport = s.last_report,
-                                           latitude = s.latitude,
-                                           longitude = s.longitude,
-                                           name = s.name,
-                                           normalTime = s.normal_time,
-                                           paid = s.paid,
-                                           normal_price = s.normal_price,
-                                           danger_price = s.danger_price,
-                                           normal_vat = s.normal_vat,
-                                           danger_vat = s.danger_vat,
-                                           startTime = s.start_time
-                                       }
-                                   }).FirstOrDefault();
+            var lastLendingData = GetLastLendingOf((int)bike.id);
 
             if (lastLendingData != null)
             {
@@ -501,6 +590,41 @@ namespace Bicikli_Admin.CommonClasses
 
             return bike;
         }
+
+        /// <summary>
+        /// Updates a bike in the database
+        /// </summary>
+        /// <param name="m"></param>
+        public static void UpdateBike(BikeModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var bikeToUpdate = db.Bikes.Single(b => b.id == m.id);
+            if (bikeToUpdate.name != m.name)
+            {
+                bikeToUpdate.name = m.name;
+            }
+            if (bikeToUpdate.description != m.description)
+            {
+                bikeToUpdate.description = m.description;
+            }
+            if (bikeToUpdate.is_active != m.isActive)
+            {
+                bikeToUpdate.is_active = m.isActive;
+            }
+            if (bikeToUpdate.current_lender_id != m.currentLenderId)
+            {
+                bikeToUpdate.current_lender_id = m.currentLenderId;
+            }
+            if (bikeToUpdate.image_url != m.imageUrl)
+            {
+                bikeToUpdate.image_url = m.imageUrl;
+            }
+            db.SubmitChanges();
+        }
+
+        #endregion
+
+        #region Session data
 
         /// <summary>
         /// Returns all sessions (invoices) from the database
@@ -567,6 +691,38 @@ namespace Bicikli_Admin.CommonClasses
         }
 
         /// <summary>
+        /// Updates a Session in the database
+        /// </summary>
+        /// <param name="m"></param>
+        public static void UpdateSession(SessionModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var invoiceToUpdate = db.Sessions.Single(s => s.id == m.id);
+
+            if (invoiceToUpdate.name != m.name)
+            {
+                invoiceToUpdate.address = m.name;
+            }
+            if (invoiceToUpdate.address != m.address)
+            {
+                invoiceToUpdate.address = m.address;
+            }
+            if (invoiceToUpdate.end_time != m.endTime)
+            {
+                invoiceToUpdate.end_time = m.endTime;
+            }
+            if (invoiceToUpdate.paid != m.paid)
+            {
+                invoiceToUpdate.paid = true;
+            }
+            db.SubmitChanges();
+        }
+
+        #endregion
+
+        #region Configuration data
+
+        /// <summary>
         /// Returns the normal unit price from the database
         /// </summary>
         /// <returns></returns>
@@ -598,8 +754,8 @@ namespace Bicikli_Admin.CommonClasses
         {
             var dc = new BicikliDataClassesDataContext();
             return float.Parse((from c in dc.Configurations
-                              where c.key == "normal_vat"
-                              select c.value).Single());
+                                where c.key == "normal_vat"
+                                select c.value).Single());
         }
 
         /// <summary>
@@ -614,5 +770,6 @@ namespace Bicikli_Admin.CommonClasses
                                 select c.value).Single());
         }
 
+        #endregion
     }
 }

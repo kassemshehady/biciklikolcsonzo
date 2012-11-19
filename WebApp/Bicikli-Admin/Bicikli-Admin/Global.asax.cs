@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
@@ -23,6 +24,9 @@ namespace Bicikli_Admin
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Initializes Application
+        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -43,6 +47,11 @@ namespace Bicikli_Admin
             jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
         }
 
+        /// <summary>
+        /// Handles Application Exceptions
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Application_Error(Object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
@@ -57,6 +66,10 @@ namespace Bicikli_Admin
             {
                 Response.StatusCode = (exception as HttpException).GetHttpCode();
             }
+            else if (exception is DataException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+            }
             else
             {
                 Response.ClearContent();
@@ -68,6 +81,11 @@ namespace Bicikli_Admin
             }
         }
 
+        /// <summary>
+        /// Rewrites the response on certain Status Codes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Application_EndRequest(object sender, EventArgs e)
         {
             if (((string) Request.RequestContext.RouteData.Values["controller"]) != "Error")
@@ -91,6 +109,12 @@ namespace Bicikli_Admin
                         Response.ClearContent();
                         controller = getErrorController("BadRequest");
                         controller.BadRequest().ExecuteResult(controller.ControllerContext);
+                        Response.End();
+                        break;
+                    case HttpStatusCode.ServiceUnavailable:
+                        Response.ClearContent();
+                        controller = getErrorController("ServiceUnavailable");
+                        controller.ServiceUnavailable().ExecuteResult(controller.ControllerContext);
                         Response.End();
                         break;
                 }

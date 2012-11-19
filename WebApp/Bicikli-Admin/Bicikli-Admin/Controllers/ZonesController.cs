@@ -176,22 +176,7 @@ namespace Bicikli_Admin.Controllers
         {
             try
             {
-                #region Deletion Logic
-
-                var db = new BicikliDataClassesDataContext();
-                var zoneToRemove = db.DangerousZones.Single(z => z.id == m.id);
-                if (zoneToRemove.Sessions.Count() > 0)
-                {
-                    foreach (Session s in zoneToRemove.Sessions)
-                    {
-                        s.dz_id = null;
-                    }
-                }
-                db.DangerousZones.DeleteOnSubmit(zoneToRemove);
-                db.SubmitChanges();
-
-                #endregion
-
+                DataRepository.DeleteZone((int)m.id);
                 return RedirectToAction("Index");
             }
             catch

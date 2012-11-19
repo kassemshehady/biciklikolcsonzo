@@ -11,15 +11,16 @@ using Bicikli_Admin.ApiControllers;
 using Bicikli_Admin.ApiModels;
 using Bicikli_Admin.EntityFramework;
 using Bicikli_Admin.EntityFramework.linq;
-using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.CommonClasses
 {
     public class PrintingSubscription
     {
-        /*
-         * Sets or Updates a printer subscription.
-         */
+        /// <summary>
+        /// Sets or Updates a printer subscription.
+        /// </summary>
+        /// <param name="printerModel"></param>
+        /// <returns></returns>
         public static bool setPrinter(PrinterModel printerModel)
         {
             var dc = new BicikliDataClassesDataContext();
@@ -35,9 +36,11 @@ namespace Bicikli_Admin.CommonClasses
             }
         }
 
-        /*
-         * Removes the printer subscription from a lender.
-         */
+        /// <summary>
+        /// Removes the printer subscription from a lender.
+        /// </summary>
+        /// <param name="lender_id"></param>
+        /// <returns></returns>
         public static bool removePrinter(int lender_id)
         {
             var printerModel = new PrinterModel();
@@ -46,9 +49,24 @@ namespace Bicikli_Admin.CommonClasses
             return setPrinter(printerModel);
         }
 
-        /*
-         * Sends an Invoice to a remote printer.
-         */
+        /// <summary>
+        /// This method throws an exception if the provided printer password
+        /// does not match for the provided lender.
+        /// </summary>
+        /// <param name="lender_id"></param>
+        /// <param name="printer_password"></param>
+        public static void checkPassword(int lender_id, string printer_password)
+        {
+            var dc = new BicikliDataClassesDataContext();
+            dc.Lenders.Single(l => ((l.id == lender_id) && (l.printer_password == printer_password)));
+        }
+
+        /// <summary>
+        /// Sends an Invoice to a remote printer.
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="lender"></param>
+        /// <returns></returns>
         public static bool sendInvoice(Session session, Lender lender)
         {
             var s = DataRepository.GetSession(session.id);
@@ -57,7 +75,13 @@ namespace Bicikli_Admin.CommonClasses
             return sendInvoice(s, l);
         }
 
-        public static bool sendInvoice(SessionModel session, LenderModel lender)
+        /// <summary>
+        /// Sends an Invoice to a remote printer.
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="lender"></param>
+        /// <returns></returns>
+        public static bool sendInvoice(Models.SessionModel session, Models.LenderModel lender)
         {
             if ((session.endTime == null) && (lender.printer_ip != null))
             {
