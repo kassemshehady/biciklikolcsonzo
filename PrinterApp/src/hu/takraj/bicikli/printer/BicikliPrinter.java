@@ -20,6 +20,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.Timer;
@@ -122,7 +124,7 @@ public class BicikliPrinter {
 		try {
 			ServerSocket socket = new ServerSocket(config.localPort);
 			System.out
-					.println("--- Nyomtató szerver elinditva a kovetkezo porton: "
+					.println("--- Nyomtato szerver elinditva a kovetkezo porton: "
 							+ socket.getLocalPort() + " ---");
 			while (true) {
 				final Socket connection = socket.accept();
@@ -176,7 +178,7 @@ public class BicikliPrinter {
 				PrinterJob job = PrinterJob.getPrinterJob();
 				job.setPrintable(new InvoicePrinter(invoice));
 				job.print();
-				log("INFO: Nyomtatási feladat sikeresen elkuldve.");
+				log("INFO: Nyomtatasi feladat sikeresen elkuldve.");
 			} catch (Throwable t) {
 				log("HIBA: A nyomtatas sikertelen. -> "
 						+ t.getClass().getCanonicalName());
@@ -199,7 +201,9 @@ public class BicikliPrinter {
 	 * @param msg
 	 */
 	private static void log(String msg) {
-		System.out.println(Calendar.getInstance().getTime() + " | " + msg);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = dateFormat.format(Calendar.getInstance().getTime());
+		System.out.println(dateString + " | " + msg);
 	}
 
 	/**
@@ -219,9 +223,9 @@ public class BicikliPrinter {
 		OutputStream out = httpCon.getOutputStream();
 
 		Gson gson = new Gson();
-		out.write(gson
-				.toJson(new PrinterModel(config.lenderId, config.localIP, config.printerPassword))
-				.getBytes("UTF-8"));
+		out.write(gson.toJson(
+				new PrinterModel(config.lenderId, config.localIP,
+						config.printerPassword)).getBytes("UTF-8"));
 		out.flush();
 		out.close();
 		if (httpCon.getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) {
@@ -236,21 +240,13 @@ public class BicikliPrinter {
 	 * @throws Throwable
 	 */
 	private static void unregisterPrinter() throws Throwable {
-		URL url = new URL(config.announceUrl);
+		URL url = new URL(config.announceUrl + "/" + config.lenderId);
 		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 
-		httpCon.setDoOutput(true);
 		httpCon.setRequestMethod("DELETE");
-		httpCon.setRequestProperty("Content-Type", "application/json");
-		httpCon.setRequestProperty("charset", "UTF-8");
 		httpCon.connect();
-		OutputStream out = httpCon.getOutputStream();
-
-		Gson gson = new Gson();
-		out.write(gson.toJson(config.lenderId).getBytes("UTF-8"));
-		out.flush();
-		out.close();
-		httpCon.getResponseCode();
+		log("VALASZKOD: " + httpCon.getResponseCode() + " " + "("
+				+ httpCon.getResponseMessage() + ")");
 		httpCon.disconnect();
 	}
 

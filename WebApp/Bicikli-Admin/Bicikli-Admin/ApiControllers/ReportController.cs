@@ -11,6 +11,9 @@ namespace Bicikli_Admin.ApiControllers
 {
     public class ReportController : ApiController
     {
+        const int minRentalInMinutes = 5;
+        const int minDistanceFromLenderMetres = 10;
+
         //
         // POST api/Report
 
@@ -107,9 +110,9 @@ namespace Bicikli_Admin.ApiControllers
 
                 #region STEP 5: Check if the Report was created in a Lender after a while -> end of session
 
-                var nearestLender = DataRepository.GetNearestLenderInRadius(requestModel.latitude, requestModel.longitude, 10);
+                var nearestLender = DataRepository.GetNearestLenderInRadius(requestModel.latitude, requestModel.longitude, minDistanceFromLenderMetres);
 
-                if (((currentTime - (DateTime)session.startTime).TotalMinutes > 10) && (nearestLender != null))
+                if (((currentTime - (DateTime)session.startTime).TotalMinutes > minRentalInMinutes) && (nearestLender != null))
                 {
                     session.endTime = currentTime;
                     session.bikeModel.currentLenderId = nearestLender.id;

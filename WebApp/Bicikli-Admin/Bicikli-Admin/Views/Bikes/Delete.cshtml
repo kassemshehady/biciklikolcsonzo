@@ -11,12 +11,42 @@
     Figyelem! A művelet nem vonható vissza!
 </p>
 
+@Html.ValidationSummary(false)
+
 @using (Html.BeginForm())
 {
     <fieldset>
         <legend>Kerékpár adatai</legend>
 
         <table class="invisible">
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.name)
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.name)
+                    @Html.HiddenFor(model => model.id)
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td class="label-col">
+                    <span class="labellike">
+                        @Html.DisplayNameFor(model => model.description)
+                    </span>
+                </td>
+                <td>
+                    @{
+    string dstr = Html.Encode(Model.description ?? "-");
+                        @Html.Raw(dstr.Replace(Html.Encode(Environment.NewLine), "<br />"))
+                    }
+                </td>
+            </tr>
+
             <tr>
                 <td class="label-col">
                     <span class="labellike">
@@ -77,7 +107,6 @@
         <button type="submit">Kerékpár törlése</button>
     </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/Content/clearbox")
 }

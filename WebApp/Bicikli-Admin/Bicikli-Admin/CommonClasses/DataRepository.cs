@@ -133,6 +133,9 @@ namespace Bicikli_Admin.CommonClasses
             {
                 mUser.IsApproved = model.isApproved;
             }
+
+            Membership.UpdateUser(mUser);
+
             if (mUser.IsLockedOut != model.isLockedOut)
             {
                 if (model.isLockedOut)

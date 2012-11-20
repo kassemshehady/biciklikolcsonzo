@@ -61,13 +61,13 @@ namespace Bicikli_Admin.Controllers
             {
                 try
                 {
-                    DataRepository.GetLender(id);
+                    ViewBag.Message = "Szűrés: " + DataRepository.GetDangerousZone(id).name;
+                    return View(DataRepository.GetBikes().Where(b => b.isActive && b.isInDangerousZone && (b.session.dangerousZoneId == id)));
                 }
                 catch
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                 }
-                return View(DataRepository.GetBikes().Where(b => b.isActive && (b.session.dangerousZoneId == id)));
             }
 
             return View(DataRepository.GetBikes().Where(b => b.isActive && b.isInDangerousZone));
@@ -336,9 +336,10 @@ namespace Bicikli_Admin.Controllers
         [HttpPost]
         public ActionResult Delete(BikeModel m)
         {
+            BikeModel bikeToDelete = null;
             try
             {
-                var bikeToDelete = DataRepository.GetBike((int)m.id);
+                bikeToDelete = DataRepository.GetBike((int)m.id);
 
                 if (bikeToDelete.currentLenderId != null)
                 {
@@ -354,6 +355,8 @@ namespace Bicikli_Admin.Controllers
 
                 if (bikeToDelete.lastLendingDate != null)
                 {
+                    ModelState.Clear();
+                    ModelState.AddModelError("", "Nem törölhető olyan kerékpár, amely már ki volt kölcsönözve.");
                     throw new Exception();
                 }
 
@@ -364,7 +367,7 @@ namespace Bicikli_Admin.Controllers
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-bikes";
-                return View(m);
+                return View(bikeToDelete ?? m);
             }
         }
 

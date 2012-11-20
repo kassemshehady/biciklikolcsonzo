@@ -363,6 +363,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Code\AppHelpers.cshtml" />
+    <None Include="Properties\PublishProfiles\ASP MVC Bicikli.net.pubxml" />
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js">
