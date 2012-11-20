@@ -97,23 +97,25 @@ public class InvoicePrinter implements Printable {
 			drawRightAlignedString(item.base_unit_price + " Ft", 210, 10,
 					g.create());
 			drawRightAlignedString(item.amount + " perc", 265, 10, g.create());
-			drawRightAlignedString(
-					(item.amount * item.base_unit_price) + " Ft", 325, 10,
-					g.create());
+			
+			double netto = Math.round(item.amount * item.base_unit_price);
+			
+			drawRightAlignedString((int)netto + " Ft", 325, 10, g.create());
 			drawRightAlignedString(item.vat + " %", 370, 10, g.create());
-			drawRightAlignedString((item.amount * item.base_unit_price)
-					* ((item.vat / 100) + 1) + " Ft", 445, 10, g.create());
+			
+			double brutto = Math.round(netto * ((item.vat / 100) + 1));
+			
+			drawRightAlignedString((int)brutto + " Ft", 445, 10, g.create());
 
-			sum_brutto += (item.amount * item.base_unit_price)
-					* ((item.vat / 100) + 1);
+			sum_brutto += brutto;
 		}
 
 		// összesítés, kelt, aláírás
 		g.translate(0, 40);
-		drawRightAlignedString("Összesen nettó: " + invoice.total_balance
+		drawRightAlignedString("Összesen nettó: " + (int)invoice.total_balance
 				+ " Ft", 445, 10, g.create());
 		g.translate(0, 20);
-		drawRightAlignedString("Összesen bruttó: " + sum_brutto + " Ft", 445,
+		drawRightAlignedString("Összesen bruttó: " + (int)sum_brutto + " Ft", 445,
 				10, g.create());
 
 		g.translate(0, 40);

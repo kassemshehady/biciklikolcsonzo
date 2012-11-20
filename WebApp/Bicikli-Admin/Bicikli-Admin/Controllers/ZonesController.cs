@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using Bicikli_Admin.CommonClasses;
 using Bicikli_Admin.Models;
+using System.Linq;
 
 namespace Bicikli_Admin.Controllers
 {
@@ -26,6 +27,7 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-zones";
             try
             {
+                ViewBag.Sessions = DataRepository.GetSessions().Where(s => (s.endTime == null) && (s.dangerousZoneId == id)).ToList();
                 return View(DataRepository.GetDangerousZone(id));
             }
             catch
@@ -75,6 +77,7 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-zones";
             try
             {
+                ViewBag.Sessions = DataRepository.GetSessions().Where(s => (s.endTime == null) && (s.dangerousZoneId == id)).ToList();
                 return View(DataRepository.GetDangerousZone(id));
             }
             catch
@@ -103,6 +106,7 @@ namespace Bicikli_Admin.Controllers
             catch
             {
                 ViewBag.active_menu_item_id = "menu-btn-zones";
+                ViewBag.Sessions = DataRepository.GetSessions().Where(s => (s.endTime == null) && (s.dangerousZoneId == m.id)).ToList();
                 return View(m);
             }
         }
@@ -115,6 +119,7 @@ namespace Bicikli_Admin.Controllers
             ViewBag.active_menu_item_id = "menu-btn-zones";
             try
             {
+                ViewBag.Sessions = DataRepository.GetSessions().Where(s => (s.endTime == null) && (s.dangerousZoneId == id)).ToList();
                 return View(DataRepository.GetDangerousZone(id));
             }
             catch

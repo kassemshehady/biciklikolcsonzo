@@ -533,7 +533,10 @@ namespace Bicikli_Admin.CommonClasses
                        description = z.description,
                        latitude = z.latitude,
                        longitude = z.longitude,
-                       radius = z.radius
+                       radius = z.radius,
+                       bikesInThisZone = (from s in dc.Sessions
+                                          where ((s.end_time == null) && (s.dz_id == z.id))
+                                          select s.dz_id).Count()
                    };
         }
 
@@ -554,7 +557,10 @@ namespace Bicikli_Admin.CommonClasses
                         description = z.description,
                         latitude = z.latitude,
                         longitude = z.longitude,
-                        radius = z.radius
+                        radius = z.radius,
+                        bikesInThisZone = (from s in dc.Sessions
+                                           where ((s.end_time == null) && (s.dz_id == z.id))
+                                           select s.dz_id).Count()
                     }).Single();
         }
 

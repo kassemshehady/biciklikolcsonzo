@@ -480,6 +480,7 @@
     <Content Include="Views\Error\ValidationError.cshtml" />
     <Content Include="Views\Error\BadRequest.cshtml" />
     <Content Include="Views\Error\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Zones\_SessionsInZone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.resx">

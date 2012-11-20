@@ -91,7 +91,7 @@ namespace Bicikli_Admin.CommonClasses
                 name = (session.name ?? "-"),
                 lender_name = (lender.name ?? "-"),
                 lender_address = (lender.address ?? "-"),
-                total_balance = (int)Math.Round((double)(session.totalBalance ?? 0)),
+                total_balance = (int)(session.totalBalance),
                 bike_name = (session.bikeModel.name ?? "-"),
                 items = new List<InvoiceItemModel>()
             };
@@ -111,8 +111,6 @@ namespace Bicikli_Admin.CommonClasses
                 base_unit_price = session.danger_price,
                 amount = (int)Math.Round((double)(session.dangerousZoneTimeMinutes ?? 0))
             });
-
-            invoice.total_balance = invoice.items.Sum(i => (i.base_unit_price * i.amount));
 
             try
             {

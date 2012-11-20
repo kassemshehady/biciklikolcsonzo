@@ -1,0 +1,25 @@
+﻿@if (ViewBag.Sessions != null)
+{
+    var sessions = (IEnumerable<Bicikli_Admin.Models.SessionModel>)ViewBag.Sessions;
+
+    if (sessions.Count() > 0)
+    {
+    <fieldset>
+        <legend>A zónában tartózkodó bérlők</legend>
+
+        <ul>
+            @foreach (var item in sessions)
+            {
+                <li>
+                    @Html.ActionLink(
+                        Html.Encode(item.name),
+                        actionName: "Details",
+                        controllerName: "Invoices",
+                        routeValues: new { id = item.id },
+                        htmlAttributes: null)
+                </li>
+            }
+        </ul>
+    </fieldset>
+    }
+}

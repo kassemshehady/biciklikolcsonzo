@@ -60,6 +60,9 @@ public class BicikliPrinter {
 		}
 	}
 
+	/**
+	 * Schedules the announcer timer
+	 */
 	private static void announce() {
 
 		final Timer timer = new Timer(true);
@@ -96,6 +99,9 @@ public class BicikliPrinter {
 		}, 30, config.announceInterval);
 	}
 
+	/**
+	 * Loads properties from the properties file
+	 */
 	private static void loadProperties() throws Throwable {
 		Properties prop = new Properties();
 		prop.load(new FileInputStream(propertiesFileName));
@@ -109,6 +115,9 @@ public class BicikliPrinter {
 		config.printerPassword = prop.getProperty("remote.printer.password");
 	}
 
+	/**
+	 * Creates a network listening hook
+	 */
 	private static void listen() {
 		try {
 			ServerSocket socket = new ServerSocket(config.localPort);
@@ -142,6 +151,11 @@ public class BicikliPrinter {
 		}
 	}
 
+	/**
+	 * Creates a printing job
+	 * 
+	 * @param inputStream
+	 */
 	private static void handlePrinting(InputStream inputStream) {
 		try {
 			StringBuilder jsonData = new StringBuilder();
@@ -179,10 +193,20 @@ public class BicikliPrinter {
 		}
 	}
 
+	/**
+	 * Posts a log message to the console
+	 * 
+	 * @param msg
+	 */
 	private static void log(String msg) {
 		System.out.println(Calendar.getInstance().getTime() + " | " + msg);
 	}
 
+	/**
+	 * Registers a printer
+	 * 
+	 * @throws Throwable
+	 */
 	private static void registerPrinter() throws Throwable {
 		URL url = new URL(config.announceUrl);
 		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
@@ -206,6 +230,11 @@ public class BicikliPrinter {
 		httpCon.disconnect();
 	}
 
+	/**
+	 * Unregisters the printer from lender
+	 * 
+	 * @throws Throwable
+	 */
 	private static void unregisterPrinter() throws Throwable {
 		URL url = new URL(config.announceUrl);
 		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();

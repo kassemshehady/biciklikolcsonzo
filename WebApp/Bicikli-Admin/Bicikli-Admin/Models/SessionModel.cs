@@ -75,11 +75,12 @@ namespace Bicikli_Admin.Models
 
         [DisplayFormat(DataFormatString = "{0:0}")]
         [Display(Name = "Egyenleg")]
-        public double? totalBalance
+        public double totalBalance
         {
             get
             {
-                return (normalTimeMinutes * normal_price) + (dangerousZoneTimeMinutes * danger_price);
+                return (Math.Round((double)(normalTimeMinutes ?? 0)) * normal_price)
+                    + (Math.Round((double)(dangerousZoneTimeMinutes ?? 0)) * danger_price);
             }
         }
 

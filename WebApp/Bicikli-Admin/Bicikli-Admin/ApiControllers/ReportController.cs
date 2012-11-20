@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -132,6 +133,10 @@ namespace Bicikli_Admin.ApiControllers
                 return responseModel;
             }
             catch (HttpResponseException e)
+            {
+                throw e;
+            }
+            catch (DataException e)
             {
                 throw e;
             }
