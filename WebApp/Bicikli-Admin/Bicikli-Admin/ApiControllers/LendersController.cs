@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Bicikli_Admin.CommonClasses;
-using Bicikli_Admin.EntityFramework;
-using Bicikli_Admin.EntityFramework.linq;
 
 namespace Bicikli_Admin.ApiControllers
 {

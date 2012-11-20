@@ -2,7 +2,7 @@
     <legend>Hozzárendelt kölcsönzők</legend>
     @{
         IEnumerable<Bicikli_Admin.Models.LenderModel> lenders = ViewBag.Lenders;
-        if (lenders != null)
+        if (lenders != null && (lenders.Count() > 0))
         {
             foreach (Bicikli_Admin.Models.LenderModel l in lenders)
             {
@@ -37,6 +37,10 @@
         </ul>
             }
         }
+        else if (lenders != null)
+        {
+            <p>Nincs hozzárendelhető kölcsönző.</p>
+        }
         else
         {
             IEnumerable<Bicikli_Admin.Models.LenderModel> selectedLenders = ViewBag.SelectedLenders;
@@ -55,6 +59,10 @@
                 </li>
             }
         </ul>
+            }
+            else
+            {
+                <p>Nincs kölcsönző hozzárendelve.</p>
             }
         }
     }

@@ -22,7 +22,7 @@
                     </td>
                     <td>
                         @Html.Raw(Model.session.latitude.ToString() ?? "-")
-                        @Html.HiddenFor(model => model.session.latitude)
+                        @Html.HiddenFor(model => model.session.latitude, htmlAttributes: new { id = "latitude" })
                     </td>
                 </tr>
 
@@ -34,7 +34,7 @@
                     </td>
                     <td>
                         @Html.Raw(Model.session.longitude.ToString() ?? "-")
-                        @Html.HiddenFor(model => model.session.longitude)
+                        @Html.HiddenFor(model => model.session.longitude, htmlAttributes: new { id = "longitude" })
                     </td>
                 </tr>
                 

@@ -6,10 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Web;
-using Bicikli_Admin.ApiControllers;
 using Bicikli_Admin.ApiModels;
-using Bicikli_Admin.EntityFramework;
 using Bicikli_Admin.EntityFramework.linq;
 
 namespace Bicikli_Admin.CommonClasses

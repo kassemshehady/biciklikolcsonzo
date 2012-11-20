@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bicikli_Admin.CommonClasses;
-using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
@@ -263,10 +260,7 @@ namespace Bicikli_Admin.Controllers
                     {
                         try
                         {
-                            var db = new BicikliDataClassesDataContext();
-                            var lenderWithPrinter = db.Lenders.Single(l => l.id == id);
-                            lenderWithPrinter.printer_ip = null;
-                            db.SubmitChanges();
+                            DataRepository.RemovePrinter(lender_id);
                         }
                         catch
                         {

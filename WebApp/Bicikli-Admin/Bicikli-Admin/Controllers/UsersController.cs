@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using Bicikli_Admin.CommonClasses;
-using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
@@ -127,105 +124,16 @@ namespace Bicikli_Admin.Controllers
                     throw new Exception();
                 }
 
-                #region Update user profile
-
-                var mUser = Membership.GetUser(model.username);
-                if (mUser == null)
+                try
                 {
-                    return RedirectToAction("Index");
+                    DataRepository.UpdateUser(model);
                 }
-
-                if (mUser.Email != model.email)
+                catch
                 {
-                    mUser.Email = model.email;
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                 }
-                if (mUser.IsApproved != model.isApproved)
-                {
-                    mUser.IsApproved = model.isApproved;
-                }
-                if (mUser.IsLockedOut != model.isLockedOut)
-                {
-                    if (model.isLockedOut)
-                    {
-                        try
-                        {
-                            for (int i = 0; i < Membership.MaxInvalidPasswordAttempts; i++)
-                            {
-                                Membership.ValidateUser(mUser.UserName, "98zfd8vbd9fvbdfv9d8vz9b8dz9a8z89z9d8z9da8za98fdzd");
-                            }
-                        }
-                        catch
-                        {
-                            //dummy
-                        }
-                    }
-                    else
-                    {
-                        mUser.UnlockUser();
-                    }
-                }
-                if (Roles.IsUserInRole(mUser.UserName, "SiteAdmin") != model.isSiteAdmin)
-                {
-                    if (model.isSiteAdmin)
-                    {
-                        Roles.AddUserToRole(mUser.UserName, "SiteAdmin");
-                    }
-                    else
-                    {
-                        Roles.RemoveUserFromRole(mUser.UserName, "SiteAdmin");
-                    }
-                }
-                Membership.UpdateUser(mUser);
-
-                #endregion
-
-                #region Update assigned lenders
-
-                if (lenders != null)
-                {
-                    var lendersToInsert = new List<int>();
-                    foreach (int l in lenders)
-                    {
-                        if (!lendersToInsert.Contains(l))
-                        {
-                            lendersToInsert.Add(l);
-                        }
-                    }
-                    var assignedLenders = DataRepository.GetLendersOfUser((Guid)mUser.ProviderUserKey);
-                    var lendersToRemove = new List<int>();
-                    foreach (LenderModel lm in assignedLenders)
-                    {
-                        if (lendersToInsert.Contains((int)lm.id))
-                        {
-                            lendersToInsert.Remove((int)lm.id);
-                        }
-                        else
-                        {
-                            lendersToRemove.Add((int)lm.id);
-                        }
-                    }
-
-                    var db = new BicikliDataClassesDataContext();
-                    foreach (int l in lendersToRemove)
-                    {
-                        db.LenderUsers.DeleteOnSubmit(db.LenderUsers.First(s => ((s.lender_id == l) && (s.user_id == (Guid)mUser.ProviderUserKey))));
-                    }
-                    foreach (int l in lendersToInsert)
-                    {
-                        db.LenderUsers.InsertOnSubmit(new LenderUser() { lender_id = l, user_id = (Guid)mUser.ProviderUserKey });
-                    }
-                    db.SubmitChanges();
-
-                #endregion
-
-                }
-                else
-                {
-                    var db = new BicikliDataClassesDataContext();
-                    db.LenderUsers.DeleteAllOnSubmit(db.LenderUsers.Where(s => (s.user_id == (Guid)mUser.ProviderUserKey)));
-                    db.SubmitChanges();
-                }
-
+                DataRepository.UpdateUserAssignments(model.username, lenders);
+                
                 return RedirectToAction("Index");
             }
             catch

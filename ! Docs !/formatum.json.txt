@@ -19,7 +19,7 @@ Példa URL-ek:
 -------------
 
 * http://192.168.0.1:1234/api/Lenders
-* http://192.168.0.1:1234/api/Report/54
+* http://192.168.0.1:1234/api/Report
 
 Példa HTTP fejlécek:
 --------------------

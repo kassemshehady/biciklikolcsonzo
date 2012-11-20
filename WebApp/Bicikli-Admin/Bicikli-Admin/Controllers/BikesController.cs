@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bicikli_Admin.CommonClasses;
-using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.Controllers
@@ -288,7 +287,7 @@ namespace Bicikli_Admin.Controllers
                         }
                     }
                 }
-                bikeModelToUpdate.imageUrl = UploadImage(ImgFile, (int)m.id);
+                bikeModelToUpdate.imageUrl = UploadImage(ImgFile, (int)m.id) ?? bikeModelToUpdate.imageUrl;
 
                 DataRepository.UpdateBike(bikeModelToUpdate);
                 return RedirectToAction("Index");

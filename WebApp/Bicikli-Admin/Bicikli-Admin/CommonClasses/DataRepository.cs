@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Security;
-using Bicikli_Admin.EntityFramework;
 using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
@@ -117,6 +115,109 @@ namespace Bicikli_Admin.CommonClasses
             #endregion
 
             return result;
+        }
+
+        /// <summary>
+        /// Updates a user profile
+        /// </summary>
+        /// <param name="model"></param>
+        public static void UpdateUser(UserModel model)
+        {
+            var mUser = Membership.GetUser(model.username);
+
+            if (mUser.Email != model.email)
+            {
+                mUser.Email = model.email;
+            }
+            if (mUser.IsApproved != model.isApproved)
+            {
+                mUser.IsApproved = model.isApproved;
+            }
+            if (mUser.IsLockedOut != model.isLockedOut)
+            {
+                if (model.isLockedOut)
+                {
+                    try
+                    {
+                        for (int i = 0; i < Membership.MaxInvalidPasswordAttempts; i++)
+                        {
+                            Membership.ValidateUser(mUser.UserName, "98zfd8vbd9fvbdfv9d8vz9b8dz9a8z89z9d8z9da8za98fdzd");
+                        }
+                    }
+                    catch
+                    {
+                        //dummy
+                    }
+                }
+                else
+                {
+                    mUser.UnlockUser();
+                }
+            }
+            if (Roles.IsUserInRole(mUser.UserName, "SiteAdmin") != model.isSiteAdmin)
+            {
+                if (model.isSiteAdmin)
+                {
+                    Roles.AddUserToRole(mUser.UserName, "SiteAdmin");
+                }
+                else
+                {
+                    Roles.RemoveUserFromRole(mUser.UserName, "SiteAdmin");
+                }
+            }
+            Membership.UpdateUser(mUser);
+        }
+
+        /// <summary>
+        /// Updates user assignments
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="lenders"></param>
+        public static void UpdateUserAssignments(string username, int[] lenders)
+        {
+            Guid guid = (Guid)Membership.GetUser(username).ProviderUserKey;
+
+            if (lenders != null)
+            {
+                var lendersToInsert = new List<int>();
+                foreach (int l in lenders)
+                {
+                    if (!lendersToInsert.Contains(l))
+                    {
+                        lendersToInsert.Add(l);
+                    }
+                }
+                var assignedLenders = DataRepository.GetLendersOfUser(guid);
+                var lendersToRemove = new List<int>();
+                foreach (LenderModel lm in assignedLenders)
+                {
+                    if (lendersToInsert.Contains((int)lm.id))
+                    {
+                        lendersToInsert.Remove((int)lm.id);
+                    }
+                    else
+                    {
+                        lendersToRemove.Add((int)lm.id);
+                    }
+                }
+
+                var db = new BicikliDataClassesDataContext();
+                foreach (int l in lendersToRemove)
+                {
+                    db.LenderUsers.DeleteOnSubmit(db.LenderUsers.First(s => ((s.lender_id == l) && (s.user_id == guid))));
+                }
+                foreach (int l in lendersToInsert)
+                {
+                    db.LenderUsers.InsertOnSubmit(new LenderUser() { lender_id = l, user_id = guid });
+                }
+                db.SubmitChanges();
+            }
+            else
+            {
+                var db = new BicikliDataClassesDataContext();
+                db.LenderUsers.DeleteAllOnSubmit(db.LenderUsers.Where(s => (s.user_id == guid)));
+                db.SubmitChanges();
+            }
         }
 
         #endregion
@@ -274,6 +375,144 @@ namespace Bicikli_Admin.CommonClasses
                     }).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Inserts a Lender, then returns the generated primary key
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int InsertLender(LenderModel model)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var lenderToInsert = new Lender();
+            lenderToInsert.name = model.name;
+            lenderToInsert.address = model.address;
+            lenderToInsert.description = model.description;
+            lenderToInsert.printer_ip = model.printer_ip;
+            lenderToInsert.latitude = model.latitude;
+            lenderToInsert.longitude = model.longitude;
+
+            if ((model.printer_password != null) && (model.printer_password != ""))
+            {
+                lenderToInsert.printer_password = model.printer_password;
+            }
+            else
+            {
+                lenderToInsert.printer_password = ((int)(new Random().NextDouble() * 899999) + 100000).ToString();
+            }
+
+            db.Lenders.InsertOnSubmit(lenderToInsert);
+            db.SubmitChanges();
+
+            return lenderToInsert.id;
+        }
+
+        /// <summary>
+        /// Updates a Lender
+        /// </summary>
+        /// <param name="model"></param>
+        public static void UpdateLender(LenderModel model)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var lenderToUpdate = db.Lenders.First(l => l.id == model.id);
+
+            lenderToUpdate.address = model.address;
+            lenderToUpdate.description = model.description;
+            lenderToUpdate.latitude = model.latitude;
+            lenderToUpdate.longitude = model.longitude;
+            lenderToUpdate.name = model.name;
+            lenderToUpdate.printer_ip = model.printer_ip;
+
+            if ((model.printer_password != null) && (model.printer_password != ""))
+            {
+                lenderToUpdate.printer_password = model.printer_password;
+            }
+            else
+            {
+                lenderToUpdate.printer_password = ((int)(new Random().NextDouble() * 899999) + 100000).ToString();
+            }
+
+            db.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Updates Lender-User assignments
+        /// </summary>
+        /// <param name="lender_id">Lender ID</param>
+        /// <param name="users">username list</param>
+        public static void UpdateAssignments(int lender_id, string[] users)
+        {
+            var db = new BicikliDataClassesDataContext();
+
+            #region Step 1: Extract selected user guids
+
+            var guidsToInsert = new HashSet<Guid>();
+            if (users != null)
+            {
+                foreach (string username in users)
+                {
+                    var msUser = Membership.GetUser(username);
+                    if (msUser != null)
+                    {
+                        Guid msUserGuid = (Guid)msUser.ProviderUserKey;
+                        if (!guidsToInsert.Contains(msUserGuid))
+                        {
+                            guidsToInsert.Add(msUserGuid);
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Step 2: Apply changes to assignments
+
+            #region Insert new assignments
+
+            var lenderGuidAssignments = DataRepository.GetLenderAssignedGuids(lender_id);
+            foreach (Guid guid in guidsToInsert)
+            {
+                if (!lenderGuidAssignments.Contains(guid))
+                {
+                    var luToInsert = new LenderUser();
+                    luToInsert.user_id = guid;
+                    luToInsert.lender_id = lender_id;
+                    db.LenderUsers.InsertOnSubmit(luToInsert);
+                }
+            }
+
+            #endregion
+
+            #region Delete removed assignments
+
+            lenderGuidAssignments = DataRepository.GetLenderAssignedGuids(lender_id);
+            foreach (Guid guid in lenderGuidAssignments)
+            {
+                if (!guidsToInsert.Contains(guid))
+                {
+                    var luToDelete = db.LenderUsers.Where(lu => (lu.lender_id == lender_id) && (lu.user_id == guid)).First();
+                    db.LenderUsers.DeleteOnSubmit(luToDelete);
+                }
+            }
+
+            #endregion
+            
+            db.SubmitChanges();
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Removes a printer from a lender
+        /// </summary>
+        /// <param name="lender_id"></param>
+        public static void RemovePrinter(int lender_id)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var lenderWithPrinter = db.Lenders.Single(l => l.id == lender_id);
+            lenderWithPrinter.printer_ip = null;
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #region Zone data
@@ -352,6 +591,61 @@ namespace Bicikli_Admin.CommonClasses
                     {
                         id = dz.id
                     }).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Inserts a new Zone into the database
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static int InsertZone(ZoneModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var zoneToInsert = new DangerousZone()
+            {
+                description = m.description,
+                latitude = m.latitude,
+                longitude = m.longitude,
+                name = m.name,
+                radius = m.radius
+            };
+            db.DangerousZones.InsertOnSubmit(zoneToInsert);
+            db.SubmitChanges();
+
+            return zoneToInsert.id;
+        }
+
+        /// <summary>
+        /// Updates a dangerous zone
+        /// </summary>
+        /// <param name="m"></param>
+        public static void UpdateZone(ZoneModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var zoneToUpdate = db.DangerousZones.Single(z => z.id == m.id);
+
+            if (zoneToUpdate.description != m.description)
+            {
+                zoneToUpdate.description = m.description;
+            }
+            if (zoneToUpdate.latitude != m.latitude)
+            {
+                zoneToUpdate.latitude = m.latitude;
+            }
+            if (zoneToUpdate.longitude != m.longitude)
+            {
+                zoneToUpdate.longitude = m.longitude;
+            }
+            if (zoneToUpdate.name != m.name)
+            {
+                zoneToUpdate.name = m.name;
+            }
+            if (zoneToUpdate.radius != m.radius)
+            {
+                zoneToUpdate.radius = m.radius;
+            }
+
+            db.SubmitChanges();
         }
 
         #endregion
@@ -745,8 +1039,32 @@ namespace Bicikli_Admin.CommonClasses
             }
             if (invoiceToUpdate.paid != m.paid)
             {
-                invoiceToUpdate.paid = true;
+                invoiceToUpdate.paid = m.paid;
             }
+            db.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Reports a session
+        /// </summary>
+        /// <param name="m"></param>
+        public static void ReportSession(SessionModel m)
+        {
+            var db = new BicikliDataClassesDataContext();
+            var report = db.Sessions.Single(s => s.id == m.id);
+
+            report.dz_id = m.dangerousZoneId;
+            report.dz_time = m.dangerousZoneTime;
+            report.normal_time = m.normalTime;
+            report.last_report = m.lastReport;
+            report.latitude = m.latitude;
+            report.longitude = m.longitude;
+
+            if (report.end_time != m.endTime)
+            {
+                report.end_time = m.endTime;
+            }
+
             db.SubmitChanges();
         }
 

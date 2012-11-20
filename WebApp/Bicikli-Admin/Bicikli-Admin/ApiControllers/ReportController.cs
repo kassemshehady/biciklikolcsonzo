@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Bicikli_Admin.ApiModels;
 using Bicikli_Admin.CommonClasses;
-using Bicikli_Admin.EntityFramework;
-using Bicikli_Admin.EntityFramework.linq;
 using Bicikli_Admin.Models;
 
 namespace Bicikli_Admin.ApiControllers
@@ -81,10 +77,6 @@ namespace Bicikli_Admin.ApiControllers
                     responseModel.normal_time += elapsedSeconds;
                 }
 
-                // Calculate total balance
-                responseModel.total_balance = (int)Math.Round(responseModel.normal_time * (session.normal_price / 60.0));
-                responseModel.total_balance += (int)Math.Round(responseModel.danger_time * (session.danger_price / 60.0));
-
                 #endregion
 
                 #region STEP 4: Update Session with Report data
@@ -107,6 +99,9 @@ namespace Bicikli_Admin.ApiControllers
                     session.dangerousZoneId = null;
                 }
 
+                // Calculate total balance
+                responseModel.total_balance = (int)session.totalBalance;
+
                 #endregion
 
                 #region STEP 5: Check if the Report was created in a Lender after a while -> end of session
@@ -118,16 +113,17 @@ namespace Bicikli_Admin.ApiControllers
                     session.endTime = currentTime;
                     session.bikeModel.currentLenderId = nearestLender.id;
                     responseModel.status = ReportResponseStatus.END_OF_SESSION;
-                    DataRepository.UpdateSession(session);
+                    DataRepository.ReportSession(session);
                     DataRepository.UpdateBike(session.bikeModel);
 
                     // Send Invoice
                     var lender = DataRepository.GetLender((int)nearestLender.id);
+                    session = DataRepository.GetSession((int)session.id);
                     PrintingSubscription.sendInvoice(session, lender);
                 }
                 else
                 {
-                    DataRepository.UpdateSession(session);
+                    DataRepository.ReportSession(session);
                 }
 
                 #endregion

@@ -8,6 +8,20 @@ namespace Bicikli_Admin.Models
 {
     public class LenderModel
     {
+        public LenderModel() { }
+
+        public LenderModel(LenderModel m)
+        {
+            id = m.id;
+            latitude = m.latitude;
+            longitude = m.longitude;
+            name = m.name;
+            address = m.address;
+            description = m.description;
+            printer_ip = m.printer_ip;
+            printer_password = m.printer_password;
+        }
+
         [Display(Name = "#")]
         public int? id { get; set; }
 
